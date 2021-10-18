@@ -4,7 +4,7 @@ import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTa
 
 (function () {
 
-    window["Tables"] = [];
+    window["ajaxTables"] = [];
 
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -15,7 +15,7 @@ import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTa
                     functions: {}
                 }
             }
-			window["Tables"][key] = new ajaxTable(element, key, object);
+			window["ajaxTables"][key] = new ajaxTable(element, key, object);
 		})
 
     });

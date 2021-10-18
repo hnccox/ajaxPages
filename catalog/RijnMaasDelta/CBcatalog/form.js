@@ -13,7 +13,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 		});
 	}
 
-	window["Forms"] = [];
+	window["ajaxForms"] = [];
 
 	document.addEventListener('DOMContentLoaded', () => {
 
@@ -32,7 +32,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 				}
 			}
 
-			window["Forms"][key] = new ajaxForm(element, key, object);
+			window["ajaxForms"][key] = new ajaxForm(element, key, object);
 
 		})
 

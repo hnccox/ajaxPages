@@ -1,12 +1,12 @@
 'use strict'
 
-import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
-import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
+import { default as ajaxTable } from "../../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
+import { default as ajaxTemplate } from "../../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
 
 (function () {
 
-    window["ajaxTables"] = [];
-    window["ajaxTemplates"] = [];
+    window["Tables"] = [];
+    window["Templates"] = [];
 
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -17,7 +17,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/aja
                     functions: {}
                 }
             }
-			window["ajaxTemplates"][key] = new ajaxTemplate(element, key, object);
+			window["Templates"][key] = new ajaxTemplate(element, key, object);
 		})
         
         const tables = document.querySelectorAll('table[data-ajax]');
@@ -27,7 +27,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/aja
                     functions: {}
                 }
             }
-			window["ajaxTables"][key] = new ajaxTable(element, key, object);
+			window["Tables"][key] = new ajaxTable(element, key, object);
 		})
         
     });

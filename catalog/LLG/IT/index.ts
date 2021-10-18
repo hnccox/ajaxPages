@@ -1,10 +1,10 @@
 'use strict'
 
-import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/js/ajaxTables.js";
+import { default as ajaxTable } from "../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
 
 (function () {
 
-    window["ajaxTables"] = [];
+    window["Tables"] = [];
 
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -15,7 +15,7 @@ import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/js/ajaxTables.
                     functions: {}
                 }
             }
-			window["ajaxTables"][key] = new ajaxTable(element, key, object);
+			window["Tables"][key] = new ajaxTable(element, key, object);
 		})
 
     });

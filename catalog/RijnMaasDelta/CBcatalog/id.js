@@ -54,7 +54,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 		});
 	}
 
-	window["Templates"] = [];
+	window["ajaxTemplates"] = [];
 
 	document.addEventListener('DOMContentLoaded', () => {
 		const templates = document.querySelectorAll('div[data-ajax="template"]');
@@ -73,7 +73,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 				}
 			};
 
-			window["Templates"][key] = new ajaxTemplate(element, key, object);
+			window["ajaxTemplates"][key] = new ajaxTemplate(element, key, object);
 		})
 
 	});
