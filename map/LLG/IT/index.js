@@ -1,8 +1,8 @@
 'use strict'
 
-import { default as ajaxMap } from "/e107_plugins/ajaxTemplates/js/ajaxMaps.js";
-import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/js/ajaxTables.js";
-import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/js/ajaxTemplates.js";
+import { default as ajaxMap } from "/e107_plugins/ajaxTemplates/beta/js/ajaxMaps.js";
+import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
+import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
 
 (function() {
 

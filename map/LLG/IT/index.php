@@ -53,7 +53,7 @@ $page = '
                 data-lat="45.58398"
                 data-lng="12.829406"
                 data-zoom="8"
-                data-url="//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/ajaxDBQuery.php"
+                data-url="//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/API.php"
                 data-db="llg"
                 data-table="llg_it_geom"
                 data-columns="llg_it_geom.borehole,llg_it_geom.longitude,llg_it_geom.latitude,llg_it_geom.xy,llg_it_geom.geom,xco,yco,drilldepth"
@@ -75,7 +75,7 @@ $page = '
 // Need to be bound to a layer
 // sqlParams['table'] must match at least one of the data-table of the maplayers
 $sqlParams = [];
-$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/ajaxDBQuery.php";
+$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/API.php";
 $sqlParams['db'] = "llg";
 $sqlParams['table'] = "llg_it_boreholeheader";
 $sqlParams['columns'] = "borehole,xco,yco,drilldepth";
@@ -88,7 +88,7 @@ $sqlParams['offset'] = null;
 $tableParams = [];
 $tableParams['caption'] = "";
 $tableParams['slave'] = true;
-$tableParams['master'] = "Maps[0]";
+$tableParams['master'] = "ajaxMaps[0]";
 $tableParams['columnNames'] = "borehole,xco,yco,drilldepth";
 $tableParams['columnSortable'] = false;
 $tableParams['href'] = false;
@@ -142,7 +142,7 @@ $page .='
 // ------------------------------------------------
 // DETAILS TEMPLATE
 $sqlParams = [];
-$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/ajaxDBQuery.php";
+$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/API.php";
 $sqlParams['db'] = "llg";
 $sqlParams['table'] = "llg_it_boreholeheader";
 $sqlParams['columns'] = "borehole,name,drilldate,xco,yco,coordzone,elevation,drilldepth,geom,geol,soil,veget,groundwaterstep,extraremarks";

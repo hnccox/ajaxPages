@@ -22,48 +22,72 @@ e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet
 
 e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js');
 
-require_once(HEADERF);
+// --- [ SQL ] ------------------------------------
+$url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
+$db = "llg";
+$table = "llg_nl_geom";
+$columns = "llg_nl_geom.borehole,llg_nl_geom.longitude,llg_nl_geom.latitude,llg_nl_geom.xy,llg_nl_geom.geom,xco,yco,drilldepth";
+$inner_join_0_identifier = "llg_nl_boreholeheader ON llg_nl_geom.borehole = llg_nl_boreholeheader.borehole";
+$where_0_identifier = "llg_nl_geom.longitude BETWEEN :xmin AND :xmax AND llg_nl_geom.latitude BETWEEN :ymin AND :ymax";
+$where_0_value = $_GET[$where_0_identifier];
+$order_by_0_identifier = "llg_nl_geom.geom <-> SRID=4326;POINT(:lng :lat)::geometry, llg_nl_geom.borehole";
+$order_by_0_direction = "DESC";
+// $limit = $_GET['limit'] ?? 20;
+// $offset = $_GET['offset'] ?? 0;
+// $page = $_GET['page'] ?? 1;
+// $offset = $_GET['offset'] ?? (($page - 1) * $_GET['limit']);
+$mapquery = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "inner_join": { "identifier" } }, "1": { "where": { "0": { "identifier": "'.$where_0_identifier.'", "value": "'.$where_0_value.'" } } }, "2": { "order_by": { "0": { "identifier": "'.$order_by_0_identifier.'", "direction": "'.$order_by_0_direction.'" } } } }';
 
-// ------------------------------------------------
+// --- [ JSON ] -----------------------------------
+if($_GET['format'] === 'json') {
+    
+    $included = true;
+
+    header('Content-Type: application/json');
+    
+    $_GET['db'] = json_encode($db);
+    $_GET['query'] = $mapquery;
+    require($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/beta/API.php");
+    $jsonArray[] = $query->response;
+
+    echo json_encode($jsonArray, true);
+    exit;
+}
+// --- [ JS ] -------------------------------------
 $script = '
 <script src="./index.js" type="module" defer>
 </script>
 
 <script src="/e107_plugins/proj4js-2.7.2/dist/proj4.js">
 </script>
-
-<script type="text/javascript">
-function boreholeURL(event) {
-    if(event.target.textContent !== "borehole") {
-        window.open("/LLG/NL/borehole.php?borehole="+event.target.textContent, "_blank");
-    }
-}
-</script>
 ';
 // ------------------------------------------------
+
+require_once(HEADERF);
+
+// ------------------------------------------------
+
 $page = '
 <br>
 <div class="row">
 	<div class="col-md-4">
         <div class="square">
             <div class="leaflet map content"
+                data-type="parent"
                 data-ajax="map"
-                data-master="true"
+                data-url=\''.$url.'\'
+                data-db=\''.$db.'\'
+                data-table=\''.$table.'\'
+                data-columns=\''.$columns.'\'
+                data-query=\''.$mapquery.'\'
+                data-options=\'{ "lat": 52.05, "lng": 5.45, "zoom": 7 }\'
                 data-lat="52.05"
                 data-lng="5.45"
                 data-zoom="7"
-                data-url="//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/ajaxDBQuery.php"
-                data-db="llg"
-                data-table="llg_nl_geom"
-                data-columns="llg_nl_geom.borehole,llg_nl_geom.longitude,llg_nl_geom.latitude,llg_nl_geom.xy,llg_nl_geom.geom,xco,yco,drilldepth"
-                data-inner_join="llg_nl_boreholeheader ON llg_nl_geom.borehole = llg_nl_boreholeheader.borehole"
-                data-where="llg_nl_geom.longitude BETWEEN :xmin AND :xmax AND llg_nl_geom.latitude BETWEEN :ymin AND :ymax"
-                data-order_by="llg_nl_geom.geom <-> \'SRID=4326;POINT(:lng :lat)\'::geometry, drilldepth"
-                data-direction=""
-                data-overlaymaps=\'{"Boreholes": "boreholes"}\'
+                data-overlaymaps=\'{ "Boreholes": "boreholes" }\'
                 data-limit="1000"
-                data-offset="0"
-                data-zoomlevel="13">
+                data-offset=""
+                data-zoomlevel="12">
             </div>
         </div>
 ';
@@ -73,7 +97,7 @@ $page = '
 // Need to be bound to a layer
 // sqlParams['table'] must match at least one of the data-table of the maplayers
 $sqlParams = [];
-$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/ajaxDBQuery.php";
+$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
 $sqlParams['db'] = "llg";
 $sqlParams['table'] = "llg_nl_boreholeheader";
 $sqlParams['columns'] = "borehole,xco,yco,drilldepth";
@@ -140,7 +164,7 @@ $page .='
 // ------------------------------------------------
 // DETAILS TEMPLATE
 $sqlParams = [];
-$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/ajaxDBQuery.php";
+$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
 $sqlParams['db'] = "llg";
 $sqlParams['table'] = "llg_nl_boreholeheader";
 $sqlParams['columns'] = "borehole,name,drilldate,xco,yco,coordzone,elevation,drilldepth,geom,geol,soil,veget,groundwaterstep,extraremarks";
@@ -352,7 +376,7 @@ $page .= '
 ';
 $text = $script.$page;
 // ------------------------------------------------
-$mode = "Map";
+$mode = "ajaxMap";
 $return = false;
 $ns = e107::getRender();
 $ns->tablerender($caption, $text, $mode, $return);

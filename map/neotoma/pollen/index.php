@@ -23,12 +23,12 @@ e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet
 // --- [ SQL ] ------------------------------------
 $url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
 $db = "llg";
-$table = "llg_it_geom";
-$columns = "llg_it_geom.borehole,llg_it_geom.longitude,llg_it_geom.latitude,llg_it_geom.xy,llg_it_geom.geom,xco,yco,drilldepth";
-$inner_join_0_identifier = "llg_it_boreholeheader ON llg_it_geom.borehole = llg_it_boreholeheader.borehole";
-$where_0_identifier = "llg_it_geom.longitude BETWEEN :xmin AND :xmax AND llg_it_geom.latitude BETWEEN :ymin AND :ymax";
+$table = "llg_nl_geom";
+$columns = "llg_nl_geom.borehole,llg_it_geom.longitude,llg_it_geom.latitude,llg_it_geom.xy,llg_it_geom.geom,xco,yco,drilldepth";
+$inner_join_0_identifier = "llg_nl_boreholeheader ON llg_nl_geom.borehole = llg_nl_boreholeheader.borehole";
+$where_0_identifier = "llg_nl_geom.longitude BETWEEN :xmin AND :xmax AND llg_nl_geom.latitude BETWEEN :ymin AND :ymax";
 $where_0_value = $_GET[$where_0_identifier];
-$order_by_0_identifier = "llg_it_geom.geom <-> \'SRID=4326;POINT(:lng :lat)\'::geometry, llg_it_geom.borehole";
+$order_by_0_identifier = "llg_nl_geom.geom <-> \'SRID=4326;POINT(:lng :lat)\'::geometry, llg_nl_geom.borehole";
 $order_by_0_direction = "DESC";
 // $limit = $_GET['limit'] ?? 20;
 // $offset = $_GET['offset'] ?? 0;
@@ -51,12 +51,7 @@ if($_GET['format'] === 'json') {
     echo json_encode($jsonArray, true);
     exit;
 }
-
-// ------------------------------------------------
-
-require_once(HEADERF);
-
-// ------------------------------------------------
+// --- [ JS ] -------------------------------------
 $script = '
 <script src="./index.js" type="module" defer>
 </script>
@@ -65,28 +60,24 @@ $script = '
 </script>
 ';
 // ------------------------------------------------
+
+require_once(HEADERF);
+
+// ------------------------------------------------
 $map = '
 <div class="fullscreen">
     <div class="leaflet map content"
+        data-type="parent"
         data-ajax="map"
         data-url=\''.$url.'\'
         data-db=\''.$db.'\'
         data-table=\''.$table.'\'
         data-columns=\''.$columns.'\'
         data-query=\''.$mapquery.'\'
-        data-type="parent"
+        data-options=\'{ "lat": 52.05, "lng": 5.45, "zoom": 7 }\'
         data-lat="52.05"
         data-lng="5.45"
         data-zoom="7"
-        data-db="llg"
-        data-query=""
-        data-table=""
-        data-columns=""
-        data-inner_join=""
-        data-where=""
-        data-order_by=""
-        data-direction=""
-        data-overlaymaps=\'{"Pollen": "pollen"}\'
         data-limit="1000"
         data-offset=""
         data-zoomlevel="12">
@@ -100,7 +91,7 @@ $map = '
 $page = '<br>'.$map;
 $text = $script.$page;
 // ------------------------------------------------
-$mode = "Map";
+$mode = "ajaxMap";
 $return = false;
 $ns = e107::getRender();
 $ns->tablerender($caption, $text, $mode, $return);
