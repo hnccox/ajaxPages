@@ -12,34 +12,34 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/aja
 
 	document.addEventListener('DOMContentLoaded', () => {
 		
-		const maps = document.querySelectorAll('.map[data-ajax="map"]');
+		const maps = document.querySelectorAll('div[data-ajax="map"]');
         maps.forEach((element, key) => {
-			var object = {
+			var mapOptions = {
 				_mapCallback: {
 					functions: {}
 				}
 			}
-            window["ajaxMaps"][key] = new ajaxMap(element, key, object);
+            window["ajaxMaps"][key] = new ajaxMap(element, key, mapOptions);
         })
 
 		const tables = document.querySelectorAll('table[data-ajax]');
 		tables.forEach((element, key) => {
-			var object = {
+			var tableOptions = {
 				_tableCallback: {
 					functions: {}
 				}
 			}
-			window["ajaxTables"][key] = new ajaxTable(element, key, object);
+			window["ajaxTables"][key] = new ajaxTable(element, key, tableOptions);
 		})
 
 		const templates = document.querySelectorAll('div[data-ajax="template"]');
 		templates.forEach((element, key) => {
-			var object = {
+			var templateOptions = {
 				_templateCallback: {
 					functions: {}
 				}
 			}
-			window["ajaxTemplates"][key] = new ajaxTemplate(element, key, object);
+			window["ajaxTemplates"][key] = new ajaxTemplate(element, key, templateOptions);
 		})
 		
 	});

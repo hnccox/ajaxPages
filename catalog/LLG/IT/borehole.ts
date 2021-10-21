@@ -1,7 +1,7 @@
 'use strict'
 
-import { default as ajaxTable } from "../../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
-import { default as ajaxTemplate } from "../../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
+import { default as ajaxTable } from "../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
+import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
 
 (function () {
 

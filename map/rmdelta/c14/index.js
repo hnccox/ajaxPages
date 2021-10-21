@@ -1,40 +1,40 @@
 'use strict'
 
-import { default as ajaxMap } from "/e107_plugins/ajaxTemplates/js/ajaxMaps.js";
-import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/js/ajaxTables.js";
-import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/js/ajaxTemplates.js";
+import { default as ajaxMap } from "/e107_plugins/ajaxTemplates/beta/js/ajaxMaps.js";
+import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
+import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
 
 (function() {
 
-	window.Maps = [];
-	window.Tables = [];
-	window.Templates = [];
+	window["ajaxMaps"] = [];
+	window["ajaxTables"] = [];
+	window["ajaxTemplates"] = [];
 
 	document.addEventListener('DOMContentLoaded', () => {
 		
-		const maps = document.querySelectorAll('.map[data-ajax="map"]');
+		const maps = document.querySelectorAll('div[data-ajax="map"]');
         maps.forEach((element, key) => {
-            Maps[key] = new ajaxMap(element, key);
+            window["ajaxMaps"][key] = new ajaxMap(element, key, mapOptions);
         })
 
 		const tables = document.querySelectorAll('table[data-ajax]');
 		tables.forEach((element, key) => {
-			var object = {
+			var tableOptions = {
 				_tableCallback: {
 					functions: {}
 				}
 			}
-			Tables[key] = new ajaxTable(element, key, object);
+			window["ajaxTables"][key] = new ajaxTable(element, key, tableOptions);
 		})
 
 		const templates = document.querySelectorAll('div[data-ajax="template"]');
 		templates.forEach((element, key) => {
-			var object = {
+			var templateOptions = {
 				_templateCallback: {
 					functions: {}
 				}
 			}
-			Templates[key] = new ajaxTemplate(element, key, object);
+			window["ajaxTemplates"][key] = new ajaxTemplate(element, key, templateOptions);
 		})
 		
 	});

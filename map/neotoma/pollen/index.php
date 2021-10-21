@@ -20,6 +20,40 @@ e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet
 e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js');
 //e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js');
 
+// --- [ SQL ] ------------------------------------
+$url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
+$db = "llg";
+$table = "llg_it_geom";
+$columns = "llg_it_geom.borehole,llg_it_geom.longitude,llg_it_geom.latitude,llg_it_geom.xy,llg_it_geom.geom,xco,yco,drilldepth";
+$inner_join_0_identifier = "llg_it_boreholeheader ON llg_it_geom.borehole = llg_it_boreholeheader.borehole";
+$where_0_identifier = "llg_it_geom.longitude BETWEEN :xmin AND :xmax AND llg_it_geom.latitude BETWEEN :ymin AND :ymax";
+$where_0_value = $_GET[$where_0_identifier];
+$order_by_0_identifier = "llg_it_geom.geom <-> \'SRID=4326;POINT(:lng :lat)\'::geometry, llg_it_geom.borehole";
+$order_by_0_direction = "DESC";
+// $limit = $_GET['limit'] ?? 20;
+// $offset = $_GET['offset'] ?? 0;
+// $page = $_GET['page'] ?? 1;
+// $offset = $_GET['offset'] ?? (($page - 1) * $_GET['limit']);
+$mapquery = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "inner_join": { "identifier" } }, "1": { "where": { "0": { "identifier": "'.$where_0_identifier.'", "value": "'.$where_0_value.'" } } }, "2": { "order_by": { "0": { "identifier": "'.$order_by_0_identifier.'", "direction": "'.$order_by_0_direction.'" } } } }';
+
+// --- [ JSON ] -----------------------------------
+if($_GET['format'] === 'json') {
+    
+    $included = true;
+
+    header('Content-Type: application/json');
+    
+    $_GET['db'] = json_encode($db);
+    $_GET['query'] = $mapquery;
+    require($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/beta/API.php");
+    $jsonArray[] = $query->response;
+
+    echo json_encode($jsonArray, true);
+    exit;
+}
+
+// ------------------------------------------------
+
 require_once(HEADERF);
 
 // ------------------------------------------------
@@ -35,19 +69,24 @@ $map = '
 <div class="fullscreen">
     <div class="leaflet map content"
         data-ajax="map"
-        data-master="true"
-        data-lat="45.58398"
-        data-lng="12.829406"
-        data-zoom="8"
-        data-url="//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/ajaxDBQuery.php"
+        data-url=\''.$url.'\'
+        data-db=\''.$db.'\'
+        data-table=\''.$table.'\'
+        data-columns=\''.$columns.'\'
+        data-query=\''.$mapquery.'\'
+        data-type="parent"
+        data-lat="52.05"
+        data-lng="5.45"
+        data-zoom="7"
         data-db="llg"
-        data-table="llg_it_geom"
-        data-columns="llg_it_geom.borehole,llg_it_geom.longitude,llg_it_geom.latitude,llg_it_geom.xy,llg_it_geom.geom,xco,yco,drilldepth"
-        data-inner_join="llg_it_boreholeheader ON llg_it_geom.borehole = llg_it_boreholeheader.borehole"
-        data-where="llg_it_geom.longitude BETWEEN :xmin AND :xmax AND llg_it_geom.latitude BETWEEN :ymin AND :ymax"
-        data-order_by="llg_it_geom.geom <-> \'SRID=4326;POINT(:lng :lat)\'::geometry, llg_it_geom.borehole"
+        data-query=""
+        data-table=""
+        data-columns=""
+        data-inner_join=""
+        data-where=""
+        data-order_by=""
         data-direction=""
-        data-overlaymaps=\'{"Boreholes": "boreholes"}\'
+        data-overlaymaps=\'{"Pollen": "pollen"}\'
         data-limit="1000"
         data-offset=""
         data-zoomlevel="12">
@@ -55,6 +94,8 @@ $map = '
 </div>
 ';
 
+// data-overlaymaps=\'{"AHN3": { "layerType": "WMS", "url": "", "layerOptions": { "" } } }\'
+        
 // ------------------------------------------------
 $page = '<br>'.$map;
 $text = $script.$page;

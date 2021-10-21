@@ -1,32 +1,47 @@
 'use strict'
 
-import { default as ajaxMap } from "/e107_plugins/ajaxTemplates/beta/js/ajaxMaps.js";
-import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
-import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
+import { default as ajaxMap } from "../../../../e107_plugins/ajaxTemplates/beta/js/ajaxMaps.js";
+import { default as ajaxTable } from "../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
+import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
 
-(function() {
+(function () {
 
-	window["Maps"] = [];
-	window["Tables"] = [];
-	window["Templates"] = [];
+    window["ajaxMaps"] = [];
+    window["ajaxTables"] = [];
+    window["ajaxTemplates"] = [];
 
-	document.addEventListener('DOMContentLoaded', () => {
-		
-		const maps = document.querySelectorAll('.map[data-ajax="map"]');
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const maps = document.querySelectorAll('div[data-ajax="map"]');
         maps.forEach((element, key) => {
-            Maps[key] = new ajaxMap(element, key);
+            var mapOptions = {
+                _mapCallback: {
+                    functions: {}
+                }
+            }
+            window["ajaxMaps"][key] = new ajaxMap(element, key, mapOptions);
         })
 
 		const tables = document.querySelectorAll('table[data-ajax]');
 		tables.forEach((element, key) => {
-			Tables[key] = new ajaxTable(element, key);
+			var tableOptions = {
+				_tableCallback: {
+					functions: {}
+				}
+			}
+			window["ajaxTables"][key] = new ajaxTable(element, key, tableOptions);
 		})
 
 		const templates = document.querySelectorAll('div[data-ajax="template"]');
 		templates.forEach((element, key) => {
-			Templates[key] = new ajaxTemplate(element, key);
+			var templateOptions = {
+				_templateCallback: {
+					functions: {}
+				}
+			}
+			window["ajaxTemplates"][key] = new ajaxTemplate(element, key, templateOptions);
 		})
-		
-	});
-	
+
+    });
+
 })();
