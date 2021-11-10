@@ -28,13 +28,13 @@ $columns = "llg_nl_geom.borehole,llg_it_geom.longitude,llg_it_geom.latitude,llg_
 $inner_join_0_identifier = "llg_nl_boreholeheader ON llg_nl_geom.borehole = llg_nl_boreholeheader.borehole";
 $where_0_identifier = "llg_nl_geom.longitude BETWEEN :xmin AND :xmax AND llg_nl_geom.latitude BETWEEN :ymin AND :ymax";
 $where_0_value = $_GET[$where_0_identifier];
-$order_by_0_identifier = "llg_nl_geom.geom <-> \'SRID=4326;POINT(:lng :lat)\'::geometry, llg_nl_geom.borehole";
+$order_by_0_identifier = "llg_nl_geom.geom <-> SRID=4326;POINT(:lng :lat)::geometry, llg_nl_geom.borehole";
 $order_by_0_direction = "DESC";
 // $limit = $_GET['limit'] ?? 20;
 // $offset = $_GET['offset'] ?? 0;
 // $page = $_GET['page'] ?? 1;
 // $offset = $_GET['offset'] ?? (($page - 1) * $_GET['limit']);
-$mapquery = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "inner_join": { "identifier" } }, "1": { "where": { "0": { "identifier": "'.$where_0_identifier.'", "value": "'.$where_0_value.'" } } }, "2": { "order_by": { "0": { "identifier": "'.$order_by_0_identifier.'", "direction": "'.$order_by_0_direction.'" } } } }';
+$mapquery = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "inner_join": { "table": "llg_nl_boreholeheader", "as": "", "on": "" } }, "2": { "where": { "0": { "identifier": "'.$where_0_identifier.'", "value": "'.$where_0_value.'" } } }, "3": { "order_by": { "0": { "identifier": "'.$order_by_0_identifier.'", "direction": "'.$order_by_0_direction.'" } } } }';
 
 // --- [ JSON ] -----------------------------------
 if($_GET['format'] === 'json') {
@@ -69,26 +69,88 @@ $map = '
     <div class="leaflet map content"
         data-type="parent"
         data-ajax="map"
-        data-url=\''.$url.'\'
-        data-db=\''.$db.'\'
-        data-table=\''.$table.'\'
-        data-columns=\''.$columns.'\'
-        data-query=\''.$mapquery.'\'
-        data-options=\'{ "lat": 52.05, "lng": 5.45, "zoom": 7 }\'
         data-lat="52.05"
         data-lng="5.45"
         data-zoom="7"
-        data-limit="1000"
-        data-offset=""
-        data-zoomlevel="12">
+        data-min-zoom="7"
+        data-max-zoom="12"
+        data-zoomlevel="13"
+        data-limit="500">
     </div>
 </div>
-';
-
-// data-overlaymaps=\'{"AHN3": { "layerType": "WMS", "url": "", "layerOptions": { "" } } }\'
-        
+';     
 // ------------------------------------------------
-$page = '<br>'.$map;
+$template = '
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" 
+    data-ajax="template" 
+    data-master="ajaxMaps[0]" 
+    data-url="https://api.neotomadb.org/v2.0/data/sites/:uid">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" data-variable="sitename">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="document.getElementById(\'ajaxTemplates[0]\').classList.remove(\'show\'); document.getElementById(\'ajaxTemplates[0]\').style.display = \'none\';"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-4">
+                <span><b>SiteID:</b></span>
+            </div>
+            <div class="col-md-8">
+                <span data-variable="siteid"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <span><b>Sitename:</b></span>
+            </div>
+            <div class="col-md-8">
+                <span data-variable="sitename"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <span><b>Description:</b></span>
+            </div>
+            <div class="col-md-8">
+                <span data-variable="sitedescription"></span>
+            </div>
+        </div>     
+        <div class="row">
+            <div class="col-md-4">
+                <span><b>Altitude:</b></span>
+            </div>
+            <div class="col-md-8">
+                <span data-variable="altitude"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <span><b>URL:</b></span>
+            </div>
+            <div class="col-md-8">
+                <a href="#" data-variable="url" target="_blank">More information</a>
+            </div>
+        </div>
+        <!--
+        <div class="row">
+            <span data-variable="geography"></span>
+        </div>
+        <div class="row">
+            <span data-variable="collectionunits"></span>
+        </div>
+        -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="document.getElementById(\'ajaxTemplates[0]\').classList.remove(\'show\'); document.getElementById(\'ajaxTemplates[0]\').style.display = \'none\';">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+';
+$page = $map.$template;
 $text = $script.$page;
 // ------------------------------------------------
 $mode = "ajaxMap";
@@ -97,6 +159,6 @@ $ns = e107::getRender();
 $ns->tablerender($caption, $text, $mode, $return);
 // ------------------------------------------------
 
-//require_once(FOOTERF);
+require_once(FOOTERF);
 
 ?>

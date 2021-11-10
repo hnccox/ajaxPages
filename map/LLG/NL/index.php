@@ -36,7 +36,7 @@ $order_by_0_direction = "DESC";
 // $offset = $_GET['offset'] ?? 0;
 // $page = $_GET['page'] ?? 1;
 // $offset = $_GET['offset'] ?? (($page - 1) * $_GET['limit']);
-$mapquery = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "inner_join": { "identifier" } }, "1": { "where": { "0": { "identifier": "'.$where_0_identifier.'", "value": "'.$where_0_value.'" } } }, "2": { "order_by": { "0": { "identifier": "'.$order_by_0_identifier.'", "direction": "'.$order_by_0_direction.'" } } } }';
+$mapquery = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "inner_join": { "identifier" } }, "1": { "where": { "0": { "identifier": "'.$where_0_identifier.'", "value": "'.$where_0_value.'" } } }, "2": { "order_by": { "0": { "identifier": "'.$order_by_0_identifier.'", "direction": "'.$order_by_0_direction.'" } } } } }';
 
 // --- [ JSON ] -----------------------------------
 if($_GET['format'] === 'json') {
