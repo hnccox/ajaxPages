@@ -64,6 +64,7 @@ $table = '
     data-table=\''.$table.'\'
     data-columns=\''.$columns.'\'
     data-query=\''.$query.'\'
+    data-caption=\''.$tableParams['caption'].'\'
     data-columnnames="'.$tableParams['columnNames'].'" 
     data-columnsortable="'.$tableParams['columnSortable'].'"
     data-preview="'.$tableParams['preview'].'" 
@@ -73,7 +74,6 @@ $table = '
     data-offset="'.$offset.'" 
     data-add="'.$add.'"
     '.$tableParams['expanded'].'>
-    <caption>'.$tableParams['caption'].'</caption>
 </table>';
 // ------------------------------------------------
 $caption = '<h1>CB Catalog</h1>';

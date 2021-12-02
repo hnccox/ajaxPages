@@ -12,22 +12,38 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/aja
 
         const templates = document.querySelectorAll('div[data-ajax="template"]');
 		templates.forEach((element, key) => {
-            var object = {
+            var templateOptions = {
+                parseResponse: function (response) {
+					const type = response.type;
+					const data = response.data;
+					const dataset = response.data.dataset;
+					const records = data.records;
+					const totalrecords = data.totalrecords;
+					return { type, data, dataset, records, totalrecords };
+				},
                 _templateCallback: {
                     functions: {}
                 }
             }
-			window["ajaxTemplates"][key] = new ajaxTemplate(element, key, object);
+			window["ajaxTemplates"][key] = new ajaxTemplate(element, key, templateOptions);
 		})
 
         const tables = document.querySelectorAll('table[data-ajax]');
 		tables.forEach((element, key) => {
-            var object = {
+            var tableOptions = {
+                parseResponse: function (response) {
+					const type = response.type;
+					const data = response.data;
+					const dataset = response.data.dataset;
+					const records = data.records;
+					const totalrecords = data.totalrecords;
+					return { type, data, dataset, records, totalrecords };
+				},
                 _tableCallback: {
                     functions: {}
                 }
             }
-			window["ajaxTables"][key] = new ajaxTable(element, key, object);
+			window["ajaxTables"][key] = new ajaxTable(element, key, tableOptions);
 		})
         
     });

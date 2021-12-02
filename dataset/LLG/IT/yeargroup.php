@@ -63,7 +63,7 @@ $table = '
 ';
 // ------------------------------------------------
 $caption = "";
-$text = '<div class="row">
+$text = '<div class="row justify-content-md-center">
             <!-- <p>Click <a href="index.php">here</a> to return to index</p> -->
             <div class="col-md-10 col-md-offset-1">
                 '.$table.'

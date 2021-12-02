@@ -16,9 +16,15 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 		document.head.append(style);
 	}
 
-	addStyle(`.marker-cluster-c14 { background-color: #36454F; }`);
-	addStyle(`.marker-cluster-llg_nl { background-color: #C4A484; }`);
-	addStyle(`.marker-cluster-llg_it { background-color: #C4A484; }`);
+	if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+		var layer = "dark";
+	} else {
+		var layer = "light";
+	}
+
+	addStyle(`.marker-cluster.marker-cluster-c14 { background-color: rgba(54, 69, 79, 0.6); }`);
+	addStyle(`.marker-cluster.marker-cluster-llg_nl { background-color: rgba(196, 164, 132, 0.6); }`);
+	addStyle(`.marker-cluster.marker-cluster-llg_it { background-color: rgba(196, 164, 132, 0.6); }`);
 
 	function layerOpacity(layer) {
 		console.log("layerOpacity");
@@ -44,7 +50,7 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 					// maxZoom: parseInt(element.dataset.maxZoom, 10)
 				},
 				_baseMaps: {
-					layers: "dark"
+					layers: layer
 				},
 				_overlayMaps: {
 					AHN3: {
@@ -66,6 +72,40 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							maxZoom: null
 						}
 					},
+					"EMODnet Bathymetry WMS": {
+						layerType: "tileLayer.WMS",
+						layerOptions: {
+							layers: "mean_atlas_land",
+							format: "image/png",
+							version: "1.3.0",
+							request: "GetMap",
+							transparent: true,
+							opacity: 0.6,
+							crs: L.CRS.EPSG4326,
+							attribution: "EMODnet data &copy; <a href=\"https://ows.emodnet-bathymetry.eu/\">CC BY EMODnet</a>"
+						},
+						layerParams: {
+							addToMap: false,
+							url: "https://ows.emodnet-bathymetry.eu/wms?"
+						}
+					},
+					"IS BK50 Bodenkarte von NRWS": {
+						layerType: "tileLayer.WMS",
+						layerOptions: {
+							layers: "bodentyp",
+							format: "image/png",
+							version: "1.3.0",
+							request: "GetMap",
+							transparent: true,
+							opacity: 0.6,
+							crs: L.CRS.EPSG4326,
+							attribution: "NRWS data &copy; <a href=\"https://www.wms.nrw.de/\">CC BY NRWS</a>"
+						},
+						layerParams: {
+							addToMap: false,
+							url: "https://www.wms.nrw.de/gd/bk050?"
+						}
+					},	
 					"BRO Bodemkaart": {
 						layerType: "tileLayer.WMS",
 						layerOptions: {
@@ -108,6 +148,7 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 						layerParams: {
 							//url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/sites",
 							url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/sites?limit=500&offset=0",
+							columns: "siteid,sitename,longitude,latitude",
 							addToMap: false,
 							cacheReturn: true,
 							limit: 1000,
@@ -115,8 +156,21 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							maxClusterRadius: 40
 						},
 						parseResponse: function (response) {
-							const obj = response.data[0].sites;
-							return obj;
+							const type = response.type;
+							const data = response.data[0];
+							const dataset = response.data[0].sites;
+							let uid = 0;
+							let coords = {};
+							Object.keys(dataset).forEach((key) => {
+								uid = this.getUID(dataset[key]);
+								coords = this.getLatLng(dataset[key]);
+								dataset[key].uid = uid;
+								dataset[key].longitude = coords.lng;
+								dataset[key].latitude = coords.lat;
+							})
+							const records = response.data[0].sites.length;
+							const totalrecords = response.data[0].sites.length;
+							return { type, data, dataset, records, totalrecords };
 						},
 						getUID: function (value) {
 							return Object.entries(value)[0][1];
@@ -165,18 +219,18 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							attribution: "Borehole data &copy; <a href=\"https://www.uu.nl/\">CC BY Geowetenschappen</a>"
 						},
 						layerParams: {
-							addToMap: false,
+							addToMap: true,
 							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
 							db: "llg",
 							table: "llg_nl_geom",
-							columns: "llg_nl_geom.borehole,llg_nl_geom.longitude,llg_nl_geom.latitude,llg_nl_geom.xy,llg_nl_geom.geom,xco,yco,drilldepth",
+							columns: "borehole,longitude,latitude,xco,yco,drilldepth,active",
 							offset: 0,
-							limit: 1000,
+							limit: 500,
 							query: {
 								0: {
 									"select": {
 										"columns": {
-											0: "llg_nl_geom.borehole,llg_nl_geom.longitude,llg_nl_geom.latitude,llg_nl_geom.xy,llg_nl_geom.geom,xco,yco,drilldepth"
+											0: "llg_nl_geom.borehole,llg_nl_geom.longitude,llg_nl_geom.latitude,llg_nl_geom.xy,llg_nl_geom.geom,xco,yco,drilldepth,active"
 										},
 										"from": {
 											"table": "llg_nl_geom"
@@ -208,6 +262,10 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 												0: ":ymin",
 												1: ":ymax"
 											}
+										},
+										2: {
+											"identifier": "llg_nl_boreholeheader.active",
+											"value": "t"
 										}
 									}
 								},
@@ -220,7 +278,7 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 									}
 								},
 								4: {
-									"limit": 1000
+									"limit": 500
 								},
 								5: {
 									"offset": 0
@@ -229,13 +287,12 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							disableClusteringAtZoom: 14
 						},
 						parseResponse: function (response) {
+							const type = response.type;
 							const data = response.data;
-							const obj = response.data.dataset;
-							const records = data["records"];
-							const totalrecords = data["totalrecords"];
-							delete data.records;
-							delete data.totalrecords;
-							return obj;
+							const dataset = response.data.dataset;
+							const records = data.records;
+							const totalrecords = data.totalrecords;
+							return { type, data, dataset, records, totalrecords };
 						},
 						getUID: function (value) {
 							return Object.entries(value)[0][1];
@@ -274,7 +331,7 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							table: "llg_it_geom",
 							columns: "llg_it_geom.borehole,llg_it_geom.longitude,llg_it_geom.latitude,llg_it_geom.xy,llg_it_geom.geom,xco,yco,drilldepth",
 							offset: 0,
-							limit: 1000,
+							limit: 500,
 							query: {
 								0: {
 									"select": {
@@ -323,7 +380,7 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 									}
 								},
 								4: {
-									"limit": 1000
+									"limit": 500
 								},
 								5: {
 									"offset": 0
@@ -332,13 +389,12 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							disableClusteringAtZoom: 13
 						},
 						parseResponse: function (response) {
+							const type = response.type;
 							const data = response.data;
-							const obj = response.data.dataset;
-							const records = data["records"];
-							const totalrecords = data["totalrecords"];
-							delete data.records;
-							delete data.totalrecords;
-							return obj;
+							const dataset = response.data.dataset;
+							const records = data.records;
+							const totalrecords = data.totalrecords;
+							return { type, data, dataset, records, totalrecords };
 						},
 						getUID: function (value) {
 							return Object.entries(value)[0][1];
@@ -375,14 +431,14 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
 							db: "rmdelta",
 							table: "c14_geom",
-							columns: "c14_geom.borehole,c14_geom.longitude,c14_geom.latitude,c14_geom.xy,c14_geom.geom,xco,yco",
+							columns: "labidnr,samplename,c14age,c14err,xco,yco,latitude,longitude",
 							offset: 0,
 							limit: 1000,
 							query: {
 								0: {
 									"select": {
 										"columns": {
-											0: "c14_geom.labidnr,c14_geom.longitude,c14_geom.latitude,c14_geom.xy,c14_geom.geom,xco,yco"
+											0: "c14_geom.labidnr,c14_geom.longitude,c14_geom.latitude,c14_geom.xy,c14_geom.geom,xco,yco,c14_cat.samplename,c14_cat.c14age,c14_cat.c14err"
 										},
 										"from": {
 											"table": "c14_geom"
@@ -435,13 +491,12 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							disableClusteringAtZoom: 10
 						},
 						parseResponse: function (response) {
+							const type = response.type;
 							const data = response.data;
-							const obj = response.data.dataset;
-							const records = data["records"];
-							const totalrecords = data["totalrecords"];
-							delete data.records;
-							delete data.totalrecords;
-							return obj;
+							const dataset = response.data.dataset;
+							const records = data.records;
+							const totalrecords = data.totalrecords;
+							return { type, data, dataset, records, totalrecords };
 						},
 						getUID: function (value) {
 							return Object.entries(value)[0][1];
@@ -478,9 +533,16 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 			window["ajaxMaps"][key] = new ajaxMap(element, key, mapOptions);
 		})
 
-		const tables = document.querySelectorAll('table[data-ajax]');
+		const tables = document.querySelectorAll('table[data-ajax="table"]');
 		tables.forEach((element, key) => {
 			var tableOptions = {
+				parseResponse: function (response) {
+					const data = response.data;
+					const dataset = response.data.dataset;
+					const records = data.records;
+					const totalrecords = data.totalrecords;
+					return { data, dataset, records, totalrecords };
+				},
 				_tableCallback: {
 					functions: {}
 				}

@@ -16,26 +16,21 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 		document.head.append(style);
 	}
 
-	addStyle(`.marker-cluster-c14 { background-color: #36454F; }`);
-	addStyle(`.marker-cluster-boreholes { background-color: #C4A484; }`);
+	if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+		var layer = "dark";
+	} else {
+		var layer = "light";
+	}
+
+	addStyle(`.marker-cluster.marker-cluster-c14 { background-color: rgba(54, 69, 79, 0.6); }`);
+	addStyle(`.marker-cluster.marker-cluster-llg_nl { background-color: rgba(196, 164, 132, 0.6); }`);
+	addStyle(`.marker-cluster.marker-cluster-llg_it { background-color: rgba(196, 164, 132, 0.6); }`);
 
 	function layerOpacity(layer) {
 		console.log("layerOpacity");
 		if (map.getZoom() >= 10) {
 			layer.setOpacity(1.0)
 		}
-	}
-
-	function tabulateModal(data) {
-		console.log(data.collectionunits[0].datasets);
-		var url = "#";
-		Object.keys(data.collectionunits[0].datasets).forEach((key) => {
-			if(data.collectionunits[0].datasets[key].datasettype == "pollen") {
-				url = "https://data-dev.neotomadb.org/" + data.collectionunits[0].datasets[key].datasetid
-			}
-		})
-		window["ajaxTemplates"][0].element.querySelectorAll('[data-variable="url"')[0].href = url;
-		// window["ajaxTemplates"][0].element.querySelectorAll(".modal-body")[0].innerHTML = JSON.stringify(data);
 	}
 
 	window["ajaxMaps"] = [];
@@ -55,7 +50,7 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 					// maxZoom: parseInt(element.dataset.maxZoom, 10)
 				},
 				_baseMaps: {
-					layers: "dark"
+					layers: layer
 				},
 				_overlayMaps: {
 					AHN3: {
@@ -72,43 +67,41 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 						},
 						layerParams: {
 							addToMap: true,
-							url: "https://geodata.nationaalgeoregister.nl/ahn3/wms"
+							url: "https://geodata.nationaalgeoregister.nl/ahn3/wms",
+							minZoom: 7,
+							maxZoom: null
 						}
-					},
-					"BRO Geomorfologische Kaart": {
-						layerType: "tileLayer.WMS",
-						layerOptions: {
-							layers: "view_geomorphological_area",
-							format: "image/png",
-							version: "1.3.0",
-							request: "GetMap",
-							transparent: true,
-							opacity: 0.6,
-							crs: L.CRS.EPSG4326,
-							attribution: "BRO data &copy; <a href=\"https://www.pdok.nl/\">CC BY Kadaster</a>"
-						},
-						layerParams: {
-							addToMap: false,
-							url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0"
-						}
-					},
+					},				
 					Neotoma: {
 						layerType: "markerClusterGroup",
 						layerOptions: {
 							attribution: "Pollen data &copy; <a href=\"https://api.neotomadb.org/\">CC BY Neotoma DB</a>"
 						},
 						layerParams: {
-							//url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/sites",
 							url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/sites?limit=500&offset=0",
-							addToMap: true,
+							columns: "siteid,sitename,longitude,latitude",
+							addToMap: false,
 							cacheReturn: true,
 							limit: 1000,
 							disableClusteringAtZoom: 8,
 							maxClusterRadius: 40
 						},
 						parseResponse: function (response) {
-							const obj = response.data[0].sites;
-							return obj;
+							const type = response.type;
+							const data = response.data[0];
+							const dataset = response.data[0].sites;
+							let uid = 0;
+							let coords = {};
+							Object.keys(dataset).forEach((key) => {
+								uid = this.getUID(dataset[key]);
+								coords = this.getLatLng(dataset[key]);
+								dataset[key].uid = uid;
+								dataset[key].longitude = coords.lng;
+								dataset[key].latitude = coords.lat;
+							})
+							const records = response.data[0].sites.length;
+							const totalrecords = response.data[0].sites.length;
+							return { type, data, dataset, records, totalrecords };
 						},
 						getUID: function (value) {
 							return Object.entries(value)[0][1];
@@ -130,25 +123,41 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 									longitude = bounds.getCenter().lat;
 									break;
 							}
+
 							if (isNaN(latitude)) { latitude = 0 }
 							if (isNaN(longitude)) { longitude = 0 }
+
 							return { lat: latitude, lng: longitude };
 						},
+						// icons: {
+						// 	icon: {
+						// 		iconUrl: "../icons/p1_30.png",
+						// 		iconSize: [15, 15]
+						// 	},
+						// 	highlightIcon: {
+						// 		iconUrl: "../icons/p1_30.png",
+						// 		iconSize: [25, 25]
+						// 	},
+						// 	selectedIcon: {
+						// 		iconUrl: "../icons/p1y_0.png",
+						// 		iconSize: [25, 25]
+						// 	}
+						// }
 						icons: {
 							icon: {
-								iconUrl: "../../icons/p1_30.png",
-								iconSize: [15, 15]
+								iconUrl: "../icons/m1_30.png",
+								iconSize: [10, 10]
 							},
 							highlightIcon: {
-								iconUrl: "../../icons/p1_30.png",
-								iconSize: [25, 25]
+								iconUrl: "../icons/m1_30.png",
+								iconSize: [15, 15]
 							},
 							selectedIcon: {
-								iconUrl: "../../icons/p1y_0.png",
-								iconSize: [25, 25]
+								iconUrl: "../icons/m1y_0.png",
+								iconSize: [15, 15]
 							}
 						}
-					},
+					},			
 				},
 				_mapCallback: {
 					functions: {
@@ -159,9 +168,16 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 			window["ajaxMaps"][key] = new ajaxMap(element, key, mapOptions);
 		})
 
-		const tables = document.querySelectorAll('table[data-ajax]');
+		const tables = document.querySelectorAll('table[data-ajax="table"]');
 		tables.forEach((element, key) => {
 			var tableOptions = {
+				parseResponse: function (response) {
+					const data = response.data;
+					const dataset = response.data.dataset;
+					const records = data.records;
+					const totalrecords = data.totalrecords;
+					return { data, dataset, records, totalrecords };
+				},
 				_tableCallback: {
 					functions: {}
 				}
@@ -173,14 +189,17 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 		templates.forEach((element, key) => {
 			var templateOptions = {
 				parseResponse: function (response) {
-					const obj = response.data[0];
+					const data = response.data;
+					const obj = response.data.dataset;
+					const records = data["records"];
+					const totalrecords = data["totalrecords"];
+					delete data.records;
+					delete data.totalrecords;
 					return obj;
 				},
 				_templateCallback: {
-					functions: {
-						tabulateModal
-					}
-				},
+					functions: {}
+				}
 			}
 			window["ajaxTemplates"][key] = new ajaxTemplate(element, key, templateOptions);
 		})

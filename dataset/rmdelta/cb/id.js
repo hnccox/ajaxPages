@@ -71,11 +71,8 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 				parseResponse: function (response) {
 					const data = response.data;
 					const dataset = response.data.dataset[0];
-					const records = data["records"];
-					const totalrecords = data["totalrecords"];
-					delete data.dataset;
-					delete data.records;
-					delete data.totalrecords;
+					const records = data.records;
+					const totalrecords = data.totalrecords;
 					return { data, dataset, records, totalrecords };
 				},
 				_templateCallback: {

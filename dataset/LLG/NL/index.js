@@ -11,10 +11,14 @@ import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTa
         const tables = document.querySelectorAll('table[data-ajax]');
 		tables.forEach((element, key) => {
             var tableOptions = {
-                parseResponse: function (response) {
-                    const obj = response.data.dataset;
-                    return obj;
-                },
+				parseResponse: function (response) {
+					const type = response.type;
+					const data = response.data;
+					const dataset = response.data.dataset;
+					const records = data.records;
+					const totalrecords = data.totalrecords;
+					return { type, data, dataset, records, totalrecords };
+				},
                 _tableCallback: {
                     functions: {}
                 }

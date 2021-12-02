@@ -511,8 +511,11 @@ import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTa
 		tables.forEach((element, key) => {
             var tableOptions = {
                 parseResponse: function (response) {
-					const obj = response.data.dataset;
-					return obj;
+					const data = response.data;
+					const dataset = response.data.dataset;
+					const records = data.records;
+					const totalrecords = data.totalrecords;
+					return { data, dataset, records, totalrecords };
 				},
                 _tableCallback: {
                     functions: {

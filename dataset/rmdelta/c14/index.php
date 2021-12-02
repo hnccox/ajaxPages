@@ -10,7 +10,6 @@ require_once($_SERVER['DOCUMENT_ROOT']."/class2.php");
 e107::css(url, '/e107_plugins/ajaxTemplates/beta/css/ajaxTables.css');
 
 // --- [ SQL ] ------------------------------------
-// ------------------------------------------------
 $url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
 $db = "rmdelta";
 $table = "c14_cat";
@@ -26,7 +25,6 @@ $offset = $_GET['offset'] ?? (($page - 1) * $_GET['limit']);
 $query = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "order_by": { "0": { "identifier": "'.$order_by_0_identifier.'", "direction": "'.$order_by_0_direction.'" } } }, "2": { "limit": "'.$limit.'" }, "3": { "offset": "'.$offset.'" } }';
 
 // --- [ JSON ] -----------------------------------
-// ------------------------------------------------
 if($_GET['format'] === 'json') {
 
     $_GET['db'] = json_encode($db);
@@ -39,15 +37,12 @@ if($_GET['format'] === 'json') {
 
 require_once(HEADERF);
 
-// --- [ JAVASCRIPT ] -----------------------------
-// ------------------------------------------------
+// --- [ JS ] -------------------------------------
 $script = '
 <script src="./index.js" type="module">
 </script>
 ';
-
 // --- [ TABLE ] ----------------------------------
-// ------------------------------------------------
 $tableParams = [];
 $tableParams['caption'] = "C14 Catalog";
 $tableParams['columnNames'] = "labIDnr,Name,14C age,14C err,Marine curve,ChanAge,GWL,LDEM,MSL,VegHis,Landsub,Compaction";
@@ -77,7 +72,6 @@ $table = '
 </table>';
 
 // --- [ RENDER ] ---------------------------------
-// ------------------------------------------------
 $caption = '<h1>C14 Catalog</h1>';
 $description = '<p>The table below shows all 14C dates currently in our database (back to RMD:Introduction).</p>
 <p>The contents of this page is database-queried. Custom queries are found under RijnMaasDelta:UserQueries.</p>';

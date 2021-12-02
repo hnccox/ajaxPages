@@ -22,7 +22,7 @@ $order_by_0_identifier = "borehole";
 $order_by_0_direction = "ASC";
 $limit = 100;
 $offset = 0;
-$query = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "where": { "0": { "identifier": "'.$where_0_identifier.'", "value": "'.$where_0_value.'" } } }, "2": { "order_by": { "0": { "identifier": "'.$order_by_0_identifier.'", "direction": "'.$order_by_0_direction.'" } } }, "3": { "limit": "'.$limit.'" }, "4": { "offset": "'.$offset.'" } }';
+$query = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "where": { "0": { "identifier": "'.$where_0_identifier.'", "value": "'.$where_0_value.'" }, "1": { "identifier": "active", "value": "true" } } }, "2": { "order_by": { "0": { "identifier": "'.$order_by_0_identifier.'", "direction": "'.$order_by_0_direction.'" } } }, "3": { "limit": "'.$limit.'" }, "4": { "offset": "'.$offset.'" } }';
 // ------------------------------------------------
 
 if($_GET['format'] === 'json') {
@@ -83,7 +83,7 @@ $table = '
 ';
 // ------------------------------------------------
 $caption = "";
-$text = '<div class="row">
+$text = '<div class="row justify-content-md-center">
             <!-- <p>Click <a href="index.php">here</a> to return to index</p> -->
             <div class="col-md-10 col-md-offset-1">
                 '.$table.'

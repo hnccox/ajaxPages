@@ -20,7 +20,7 @@ $columns = "yeargroup,year,names,n_boreholes,minxco,maxxco,minyco,maxyco";
 // $where_0_value = $_GET[$where_0_identifier];
 $order_by_0_identifier = "year";
 $order_by_0_direction = "DESC";
-$limit = $_GET['limit'] ?? 20;
+$limit = $_GET['limit'] ?? "20";
 $offset = $_GET['offset'] ?? 0;
 $page = $_GET['page'] ?? 1;
 $offset = $_GET['offset'] ?? (($page - 1) * $_GET['limit']);
@@ -108,7 +108,7 @@ $table = '
 ';
 // ------------------------------------------------
 $caption = '';
-$text = '<div class="row">
+$text = '<div class="row justify-content-md-center">
             <div class="col-md-10 col-md-offset-1">
                 '.$table.'
             </div>

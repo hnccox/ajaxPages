@@ -66,29 +66,23 @@ $script = '
 require_once(HEADERF);
 
 // ------------------------------------------------
-
 $page = '
-<br>
+<div class="container-fluid">
 <div class="row">
 	<div class="col-md-4">
         <div class="square">
             <div class="leaflet map content"
                 data-type="parent"
                 data-ajax="map"
-                data-url=\''.$url.'\'
-                data-db=\''.$db.'\'
-                data-table=\''.$table.'\'
-                data-columns=\''.$columns.'\'
-                data-query=\''.$mapquery.'\'
-                data-options=\'{ "lat": 52.05, "lng": 5.45, "zoom": 7 }\'
-                data-lat="52.05"
-                data-lng="5.45"
+                data-lat="52.0907"
+                data-lng="5.1214"
                 data-zoom="7"
-                data-overlaymaps=\'{ "Boreholes": "boreholes" }\'
-                data-limit="1000"
-                data-offset=""
-                data-zoomlevel="12">
+                data-min-zoom="7"
+                data-max-zoom="12"
+                data-zoomlevel="13"
+                data-limit="500">
             </div>
+            <div class="d-none d-md-block"></div>
         </div>
 ';
 
@@ -156,7 +150,7 @@ $table = '
         </div>';
 
 // ------------------------------------------------        
-$page .= $table;
+//$page .= $table;
 
 $page .='
 	</div>
@@ -316,7 +310,7 @@ $template = '<div data-ajax="template"
 
 // ------------------------------------------------
 $sqlParams = [];
-$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/ajaxDBQuery.php";
+$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
 $sqlParams['db'] = "llg";
 $sqlParams['table'] = "llg_nl_boreholedata";
 $sqlParams['columns'] = "startdepth,depth,texture,organicmatter,plantremains,color,oxired,gravelcontent,median,calcium,ferro,groundwater,sample,soillayer,stratigraphy,remarks";
@@ -369,9 +363,10 @@ $table = '
         </div>';
 
 // ------------------------------------------------
-$page .= $template.$table;
+//$page .= $template.$table;
 $page .= '
 	</div>
+</div>
 </div>
 ';
 $text = $script.$page;
