@@ -25,6 +25,7 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 					lat: parseFloat(element.dataset.lat, 10),
 					lng: parseFloat(element.dataset.lng, 10),
 					zoom: parseInt(element.dataset.zoom, 10),
+					geolocation: true,
 					// minZoom: parseInt(element.dataset.minZoom, 10),
 					// maxZoom: parseInt(element.dataset.maxZoom, 10)
 				},
@@ -81,6 +82,10 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 												0: ":ymin",
 												1: ":ymax"
 											}
+										},
+										2: {
+											"identifier": "llg_nl_boreholeheader.active",
+											"value": "t"
 										}
 									}
 								},

@@ -105,8 +105,8 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							addToMap: false,
 							url: "https://www.wms.nrw.de/gd/bk050?"
 						}
-					},	
-					"BRO Bodemkaart": {
+					},
+					"Bodemkaart": {
 						layerType: "tileLayer.WMS",
 						layerOptions: {
 							layers: "view_soil_area",
@@ -121,8 +121,21 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 						layerParams: {
 							addToMap: false,
 							url: "https://geodata.nationaalgeoregister.nl/bzk/bro-bodemkaart/wms/v1_0"
+						},
+						legendOptions: {
+							service: "WMS",
+							layer: "view_soil_area",
+							format: "image/png",
+							version: "1.3.0",
+							request: "GetLegendGraphic",
+							sld_version: "1.1.0",
+							style: "bro-bodemkaart:bodemlegenda"
+						},
+						legendParams: {
+							addToLegend: false,
+							url: "https://geodata.nationaalgeoregister.nl/bzk/bro-bodemkaart/wms/v1_0"
 						}
-					},					
+					},
 					"BRO Geomorfologische Kaart": {
 						layerType: "tileLayer.WMS",
 						layerOptions: {
@@ -138,6 +151,18 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 						layerParams: {
 							addToMap: false,
 							url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0"
+						},
+						legendOptions: {
+							addToLegend: false,
+							layers: "view_geomorphological_area",
+							format: "image/png",
+							version: "1.3.0",
+							request: "GetLegendGraphics",
+							sld_version: "1.1.0",
+							style: "view_geomorphological_area"
+						},
+						legendParams: {
+							url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0"
 						}
 					},
 					Neotoma: {
@@ -147,8 +172,10 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 						},
 						layerParams: {
 							//url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/sites",
-							url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/sites?limit=500&offset=0",
-							columns: "siteid,sitename,longitude,latitude",
+							url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/datasets?limit=500&offset=0",
+							//url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/sites?limit=500&offset=0",
+							columns: "siteid,sitename,longitude,latitude,altitude",
+							columnnames: "siteid,sitename,longitude,latitude,altitude",
 							addToMap: false,
 							cacheReturn: true,
 							limit: 1000,
@@ -161,13 +188,35 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							const dataset = response.data[0].sites;
 							let uid = 0;
 							let coords = {};
+							let collectionunithandleArray = [];
+							let collectionunittypeArray = [];
+							let i = 0;
 							Object.keys(dataset).forEach((key) => {
+								i++;
+								console.log(dataset[key]);
 								uid = this.getUID(dataset[key]);
 								coords = this.getLatLng(dataset[key]);
+								// dataset[key].collectionunits.forEach((collectionunit) => {
+								// 	collectionunithandleArray = [];
+								// 	collectionunittypeArray = [];
+								// 	if (collectionunit?.handle) {
+								// 		if (!collectionunithandleArray.includes(collectionunit.handle)) {
+								// 			collectionunithandleArray.push(collectionunit.handle)
+								// 		}
+								// 	}
+								// 	if (collectionunit?.collectionunittype) {
+								// 		if (!collectionunittypeArray.includes(collectionunit.collectionunittype)) {
+								// 			collectionunittypeArray.push(collectionunit.collectionunittype)
+								// 		}
+								// 	}
+								// })
 								dataset[key].uid = uid;
 								dataset[key].longitude = coords.lng;
 								dataset[key].latitude = coords.lat;
+								// dataset[key].collectionunithandles = collectionunithandleArray.toString();
+								// dataset[key].collectionunittypes = collectionunittypeArray.toString();
 							})
+							console.log(i);
 							const records = response.data[0].sites.length;
 							const totalrecords = response.data[0].sites.length;
 							return { type, data, dataset, records, totalrecords };
@@ -177,7 +226,7 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 						},
 						getLatLng: function (value) {
 							let latitude, longitude;
-							switch(JSON.parse(value.geography).type) {
+							switch (JSON.parse(value.geography).type) {
 								case "Point":
 									latitude = JSON.parse(value.geography).coordinates[1];
 									longitude = JSON.parse(value.geography).coordinates[0];
@@ -219,11 +268,11 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							attribution: "Borehole data &copy; <a href=\"https://www.uu.nl/\">CC BY Geowetenschappen</a>"
 						},
 						layerParams: {
-							addToMap: true,
+							addToMap: false,
 							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
 							db: "llg",
 							table: "llg_nl_geom",
-							columns: "borehole,longitude,latitude,xco,yco,drilldepth,active",
+							columns: "borehole,longitude,latitude,xco,yco,drilldepth",
 							offset: 0,
 							limit: 500,
 							query: {
@@ -306,15 +355,15 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 						},
 						icons: {
 							icon: {
-								iconUrl: "../icons/m1_30.png",
+								iconUrl: "../_icons/markers/m1_30.png",
 								iconSize: [10, 10]
 							},
 							highlightIcon: {
-								iconUrl: "../icons/m1_30.png",
+								iconUrl: "../_icons/markers/m1_30.png",
 								iconSize: [15, 15]
 							},
 							selectedIcon: {
-								iconUrl: "../icons/m1y_0.png",
+								iconUrl: "../_icons/markers/m1y_0.png",
 								iconSize: [15, 15]
 							}
 						}
@@ -329,7 +378,7 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
 							db: "llg",
 							table: "llg_it_geom",
-							columns: "llg_it_geom.borehole,llg_it_geom.longitude,llg_it_geom.latitude,llg_it_geom.xy,llg_it_geom.geom,xco,yco,drilldepth",
+							columns: "borehole,longitude,latitude,xco,yco,drilldepth",
 							offset: 0,
 							limit: 500,
 							query: {
@@ -368,6 +417,10 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 												0: ":ymin",
 												1: ":ymax"
 											}
+										},
+										2: {
+											"identifier": "llg_it_boreholeheader.active",
+											"value": "t"
 										}
 									}
 								},
@@ -408,19 +461,19 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 						},
 						icons: {
 							icon: {
-								iconUrl: "../icons/m1_30.png",
+								iconUrl: "../_icons/markers/m1_30.png",
 								iconSize: [10, 10]
 							},
 							highlightIcon: {
-								iconUrl: "../icons/m1_30.png",
+								iconUrl: "../_icons/markers/m1_30.png",
 								iconSize: [15, 15]
 							},
 							selectedIcon: {
-								iconUrl: "../icons/m1y_0.png",
+								iconUrl: "../_icons/markers/m1y_0.png",
 								iconSize: [15, 15]
 							}
 						}
-					},					
+					},
 					C14: {
 						layerType: "markerClusterGroup",
 						layerOptions: {
@@ -470,6 +523,10 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 												0: ":ymin",
 												1: ":ymax"
 											}
+										},
+										2: {
+											"identifier": "c14_cat.active",
+											"value": "t"
 										}
 									}
 								},
@@ -510,15 +567,15 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 						},
 						icons: {
 							icon: {
-								iconUrl: "../icons/c14_0.png",
+								iconUrl: "../_icons/markers/c14_0.png",
 								iconSize: [10, 10]
 							},
 							highlightIcon: {
-								iconUrl: "../icons/c14_0.png",
+								iconUrl: "../_icons/markers/c14_0.png",
 								iconSize: [15, 15]
 							},
 							selectedIcon: {
-								iconUrl: "../icons/c14y_0.png",
+								iconUrl: "../_icons/markers/c14y_0.png",
 								iconSize: [15, 15]
 							}
 						}
