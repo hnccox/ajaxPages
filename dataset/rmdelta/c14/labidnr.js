@@ -6,7 +6,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 (function () {
 
 	function marineCurve2Bused() {
-		if (document.querySelectorAll('[data-variable="marinecurve2bused"]')[0].innerText == "true") {
+		if (document.querySelectorAll('[data-variable="marinecurve2bused"]')[0]?.innerText == "true") {
 			document.querySelectorAll('[data-variable="marinecurve2bused"]')[0].innerText = "~";
 			document.querySelectorAll('[data-variable="marinecurve2bused"]')[0].classList.remove("hidden");
 		}

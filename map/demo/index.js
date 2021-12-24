@@ -249,15 +249,15 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 						},
 						icons: {
 							icon: {
-								iconUrl: "../icons/p1_30.png",
+								iconUrl: "../_icons/markers/p1_30.png",
 								iconSize: [15, 15]
 							},
 							highlightIcon: {
-								iconUrl: "../icons/p1_30.png",
+								iconUrl: "../_icons/markers/p1_30.png",
 								iconSize: [25, 25]
 							},
 							selectedIcon: {
-								iconUrl: "../icons/p1y_0.png",
+								iconUrl: "../_icons/markers/p1y_0.png",
 								iconSize: [25, 25]
 							}
 						}
@@ -321,8 +321,9 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 								3: {
 									"order_by": {
 										0: {
-											"identifier": "llg_nl_geom.geom <-> 'SRID=4326;POINT(:lng :lat)'::geometry, llg_nl_geom.borehole",
-											"direction": "DESC"
+											/*"identifier": "llg_nl_geom.geom <-> 'SRID=4326;POINT(:lng :lat)'::geometry, llg_nl_geom.borehole",*/
+											"identifier": "llg_nl_geom.borehole",
+											"direction": "ASC"
 										}
 									}
 								},
@@ -427,8 +428,8 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 								3: {
 									"order_by": {
 										0: {
-											"identifier": "llg_it_geom.geom <-> 'SRID=4326;POINT(:lng :lat)'::geometry, llg_it_geom.borehole",
-											"direction": "DESC"
+											"identifier": "llg_it_geom.borehole",
+											"direction": "ASC"
 										}
 									}
 								},
