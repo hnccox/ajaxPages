@@ -59,8 +59,7 @@ if($_GET['format'] === 'json') {
     exit;
 }
 
-// ------------------------------------------------
-
+// --- [ HEADER ] ---------------------------------
 require_once(HEADERF);
 
 // ------------------------------------------------
@@ -101,25 +100,26 @@ if($_GET['action'] === 'edit') {
     }
 }
 
-// ------------------------------------------------
+// --- [ JAVASCRIPT ] -----------------------------
 $script = '
 <script src="./borehole.js" type="module">
 </script>
 ';
-// ------------------------------------------------
+// --- [ TEMPLATE ] -------------------------------
 $template = include('borehole.Template.php');
-// ------------------------------------------------
+// --- [ TABLE ] ----------------------------------
 $table = include('borehole.Table.php');
-// ------------------------------------------------
-$caption = "<h1>LLG Boreholedata</h1>";
+
+// --- [ RENDER ] ---------------------------------
+$caption = '<h1>LLG Boreholedata</h1>';
 $text = '<div id="borehole">'.$script.$template.$table.'</div>';
-$mode = "LLGboreholedate";
+$mode = 'LLGboreholedate';
 $return = false;
 $ns = e107::getRender();
 $ns->tablerender('', $text, $mode, $return);
-
 // ------------------------------------------------
-
 require_once(FOOTERF);
+exit;
+// ------------------------------------------------
 
 ?>

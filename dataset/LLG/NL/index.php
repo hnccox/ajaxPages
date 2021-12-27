@@ -24,24 +24,24 @@ $query = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "ta
 // --- [ JSON ] -----------------------------------
 if($_GET['format'] === 'json') {
 
+    header('Content-Type: application/json');
+    
     $_GET['db'] = json_encode($db);
     $_GET['query'] = $query;
     
-    header('Content-Type: application/json');
     require_once($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/server/API.php");
     exit;
 }
 
-// ------------------------------------------------
-
+// --- [ HEADER ] ---------------------------------
 require_once(HEADERF);
 
-// ------------------------------------------------
+// --- [ JAVASCRIPT ] -----------------------------
 $script = '
 <script src="./index.js" type="module">
 </script>
 ';
-// ------------------------------------------------
+// --- [ TABLE ] ----------------------------------
 $table = include('index.Table.php');
 // ------------------------------------------------
 $caption = '';
@@ -50,14 +50,14 @@ $text = '<div class="row justify-content-md-center">
                 '.$table.'
             </div>
         </div>';
-// ------------------------------------------------
+
+// --- [ RENDER ] ---------------------------------
 $mode = 'LLG';
 $return = false;
 $ns = e107::getRender();
 $ns->tablerender($caption, $text.$script, $mode, $return);
-
-// ------------------------------------------------
-
 require_once(FOOTERF);
+exit;
+// ------------------------------------------------
 
 ?>

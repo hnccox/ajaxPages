@@ -1,8 +1,8 @@
 'use strict'
 
-import { default as ajaxMap } from "../../../../e107_plugins/ajaxTemplates/beta/js/ajaxMaps.js";
-import { default as ajaxTable } from "../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
-import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
+import { default as ajaxMap } from "/e107_plugins/ajaxModules/components/Map/ajaxMaps.js";
+import { default as ajaxTable } from "/e107_plugins/ajaxModules/components/Table/ajaxTables.js";
+import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/components/Template/ajaxTemplates.js";
 
 (function () {
 
@@ -40,7 +40,7 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 						},
 						layerParams: {
 							addToMap: true,
-							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
+							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
 							db: "llg",
 							table: "llg_nl_geom",
 							columns: "borehole,xco,yco,drilldepth",

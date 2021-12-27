@@ -1,8 +1,8 @@
 'use strict'
 
-import { default as ajaxMap } from "/e107_plugins/ajaxModules/components/Map/ajaxMaps.js";
-import { default as ajaxTable } from "/e107_plugins/ajaxModules/components/Table/ajaxTables.js";
-import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/components/Template/ajaxTemplates.js";
+import { default as ajaxMap } from "/e107_plugins/ajaxModules/Components/Map/ajaxMaps.js";
+import { default as ajaxTable } from "/e107_plugins/ajaxModules/Components/Table/ajaxTables.js";
+import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Template/ajaxTemplates.js";
 
 (function () {
 
@@ -591,41 +591,41 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/components/Te
 			window["ajaxMaps"][key] = new ajaxMap(element, key, mapOptions);
 		})
 
-		const tables = document.querySelectorAll('table[data-ajax="table"]');
-		tables.forEach((element, key) => {
-			var tableOptions = {
-				parseResponse: function (response) {
-					const data = response.data;
-					const dataset = response.data.dataset;
-					const records = data.records;
-					const totalrecords = data.totalrecords;
-					return { data, dataset, records, totalrecords };
-				},
-				_tableCallback: {
-					functions: {}
-				}
-			}
-			window["ajaxTables"][key] = new ajaxTable(element, key, tableOptions);
-		})
+		// const tables = document.querySelectorAll('table[data-ajax="table"]');
+		// tables.forEach((element, key) => {
+		// 	var tableOptions = {
+		// 		parseResponse: function (response) {
+		// 			const data = response.data;
+		// 			const dataset = response.data.dataset;
+		// 			const records = data.records;
+		// 			const totalrecords = data.totalrecords;
+		// 			return { data, dataset, records, totalrecords };
+		// 		},
+		// 		_tableCallback: {
+		// 			functions: {}
+		// 		}
+		// 	}
+		// 	window["ajaxTables"][key] = new ajaxTable(element, key, tableOptions);
+		// })
 
-		const templates = document.querySelectorAll('div[data-ajax="template"]');
-		templates.forEach((element, key) => {
-			var templateOptions = {
-				parseResponse: function (response) {
-					const data = response.data;
-					const obj = response.data.dataset;
-					const records = data["records"];
-					const totalrecords = data["totalrecords"];
-					delete data.records;
-					delete data.totalrecords;
-					return obj;
-				},
-				_templateCallback: {
-					functions: {}
-				}
-			}
-			window["ajaxTemplates"][key] = new ajaxTemplate(element, key, templateOptions);
-		})
+		// const templates = document.querySelectorAll('div[data-ajax="template"]');
+		// templates.forEach((element, key) => {
+		// 	var templateOptions = {
+		// 		parseResponse: function (response) {
+		// 			const data = response.data;
+		// 			const obj = response.data.dataset;
+		// 			const records = data["records"];
+		// 			const totalrecords = data["totalrecords"];
+		// 			delete data.records;
+		// 			delete data.totalrecords;
+		// 			return obj;
+		// 		},
+		// 		_templateCallback: {
+		// 			functions: {}
+		// 		}
+		// 	}
+		// 	window["ajaxTemplates"][key] = new ajaxTemplate(element, key, templateOptions);
+		// })
 
 	});
 
