@@ -1,8 +1,8 @@
 'use strict'
 
-import { default as ajaxMap } from "/e107_plugins/ajaxTemplates/beta/js/ajaxMaps.js";
-import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
-import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
+import { default as ajaxMap } from "/e107_plugins/ajaxModules/Components/Map/ajaxMaps.js";
+import { default as ajaxTable } from "/e107_plugins/ajaxModules/Components/Table/ajaxTables.js";
+import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Template/ajaxTemplates.js";
 
 (function() {
 
@@ -50,7 +50,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/aja
 						},
 						layerParams: {
 							addToMap: true,
-							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
+							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
 							db: "rmdelta",
 							table: "c14_geom",
 							columns: "c14_geom.borehole,c14_geom.longitude,c14_geom.latitude,c14_geom.xy,c14_geom.geom,xco,yco",
@@ -133,15 +133,15 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/aja
 						},
 						icons: {
 							icon: {
-								iconUrl: "img/markers/m1_30.png",
+								iconUrl: "../../_icons/markers/m1_30.png",
 								iconSize: [10, 10]
 							},
 							highlightIcon: {
-								iconUrl: "img/markers/m1_30.png",
+								iconUrl: "../../_icons/markers/m1_30.png",
 								iconSize: [15, 15]
 							},
 							selectedIcon: {
-								iconUrl: "img/markers/m1y_0.png",
+								iconUrl: "../../_icons/markers/m1y_0.png",
 								iconSize: [15, 15]
 							}
 						}

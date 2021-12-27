@@ -6,14 +6,6 @@ error_reporting(E_ALL);
 
 require_once($_SERVER['DOCUMENT_ROOT']."/class2.php");
 
-e107::css(url, '/e107_plugins/ajaxTemplates/beta/css/ajaxMaps.css');
-e107::css(url, '/e107_plugins/ajaxTemplates/beta/css/ajaxTables.css');
-e107::css(url, '/e107_plugins/ajaxTemplates/beta/css/ajaxTemplates.css');
-
-e107::css(url, '/e107_plugins/ajaxTemplates/beta/css/ajaxMaps.css');
-e107::css(url, '/e107_plugins/ajaxTemplates/beta/css/ajaxTables.css');
-e107::css(url, '/e107_plugins/ajaxTemplates/beta/css/ajaxTemplates.css');
-
 e107::css(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css');
 e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js');
 

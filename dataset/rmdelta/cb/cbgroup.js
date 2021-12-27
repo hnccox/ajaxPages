@@ -1,6 +1,6 @@
 'use strict';
 
-(() => {
+(function () {
 
     document.addEventListener('DOMContentLoaded', () => {
         const queryString = window.location.search;

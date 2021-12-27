@@ -41,6 +41,8 @@ $tablequery = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": 
 // --- [ JSON ] -----------------------------------
 if($_GET['format'] === 'json') {
     
+    $included = true;
+    
     header('Content-Type: application/json');
     
     $_GET['db'] = json_encode($db);

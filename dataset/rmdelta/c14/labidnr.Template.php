@@ -23,17 +23,17 @@
         <div class="col-xs-12 col-sm-9">
             <div class="btn-group">
                 <a href="index.php" type="button" class="btn btn-primary" id="C14index">☰</a>
-                <a class="btn btn-primary" href="?labidnr=<?php $_GET["labidnr"] ?>&format=json">
+                <a class="btn btn-primary" href="?labidnr=<?php echo $_GET["labidnr"]; ?>&format=json">
                     <span class="badge badge-light" data-variable="labidnr">LABIDNR</span> <span data-variable="samplename">SAMPLENAME</span>
                 </a>
                 <button type="submit" class="btn btn-primary" form="C14labidnr"><span class="fa fa-edit"></span></button>
                 <button type="submit" class="btn btn-primary" form="formC14labidnr"><span class="fa fa-list-alt"></span></button>
                 <form id="C14labidnr" action="labidnr.php" method="GET" target="_self">
-                    <input type="hidden" name="labidnr" value="<?php $_GET["labidnr"] ?>" />
+                    <input type="hidden" name="labidnr" value="<?php echo $_GET["labidnr"]; ?>" />
                     <input type="hidden" name="action" value="edit" />
                 </form>
                 <form id="formC14labidnr" action="form.php" method="GET" target="_self">
-                    <input type="hidden" name="labidnr" value="<?php $_GET["labidnr"] ?>" />
+                    <input type="hidden" name="labidnr" value="<?php echo $_GET["labidnr"]; ?>" />
                     <input type="hidden" name="action" value="update" />
                 </form>
             </div>

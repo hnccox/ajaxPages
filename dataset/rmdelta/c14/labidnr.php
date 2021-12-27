@@ -24,12 +24,11 @@ $query = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "ta
 if($_GET['format'] === 'json') {
 
     header('Content-Type: application/json');
-
     $_GET['db'] = json_encode($db);
     $_GET['query'] = $query;
-    
     require($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/server/API.php");
     exit;
+
 }
 
 // ------------------------------------------------

@@ -4,12 +4,12 @@
 
 $template = '
 <div class="container" 
-data-ajax="template" 
-data-url=\''.$url.'\'
-data-db=\''.$db.'\'
-data-table=\''.$table.'\'
-data-columns=\''.$columns.'\'
-data-query=\''.$query.'\'>
+    data-ajax="template" 
+    data-url=\''.$url.'\'
+    data-db=\''.$db.'\'
+    data-table=\''.$table.'\'
+    data-columns=\''.$columns.'\'
+    data-query=\''.$query.'\'>
 
 <!-- Release candidate alerts -->
 <div class="row">
