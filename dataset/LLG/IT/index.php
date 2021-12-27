@@ -6,13 +6,8 @@ error_reporting(E_ALL);
 
 require_once($_SERVER['DOCUMENT_ROOT']."/class2.php");
 
-//e107::css(url, 'css/index.css');
-e107::css(url, '/e107_plugins/ajaxTemplates/beta/css/ajaxTables.css');
-//e107::js(url, 'js/index.js');
-//e107::js(url, 'js/ajaxTables.js');
-
-// --- [ SQL ] ------------------------------------
-$url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
+// --- [ API ] ------------------------------------
+$url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
 $db = "llg";
 $table = "llg_it_grouplist";
 $columns = "yeargroup,year,names,n_boreholes,minxco,maxxco,minyco,maxyco";
@@ -33,7 +28,7 @@ if($_GET['format'] === 'json') {
     $_GET['query'] = $query;
     
     header('Content-Type: application/json');
-    require_once($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/beta/API.php");
+    require_once($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/server/API.php");
     exit;
 }
 
@@ -47,32 +42,7 @@ $script = '
 </script>
 ';
 // ------------------------------------------------
-$tableParams = [];
-$tableParams['caption'] = "LLG IT";
-$tableParams['columnNames'] = "yeargroup,year,names,n_boreholes,minXco,maxXco,minYco,maxYco";
-$tableParams['preview'] = 3;
-$tableParams['expanded'] = true;
-$tableParams['href'] = true;
-$tableParams['add'] = false;
-if ($tableParams['expanded'] == true) { $tableParams['expanded'] = "aria-expanded"; }
-// ------------------------------------------------
-$table = '
-	<table style="font-size:12px;" class="table table-hover table-ajax hidden-xs" 
-		data-ajax="table" 
-        data-url=\''.$url.'\'
-        data-db=\''.$db.'\'
-        data-table=\''.$table.'\'
-        data-columns=\''.$columns.'\'
-        data-query=\''.$query.'\'
-		data-columnnames="'.$tableParams['columnNames'].'" 
-		data-columnsortable="'.$tableParams['columnSortable'].'"
-		data-preview="'.$tableParams['preview'].'" 
-		data-href="'.$tableParams['href'].'" 
-		data-totalrecords="'.$tableParams['totalrecords'].'" 
-		data-add="'.$tableParams['add'].'" '.$tableParams['expanded'].'>
-		<caption>'.$tableParams['caption'].'</caption>
-	</table>
-';
+$table = include('index.Table.php');
 // ------------------------------------------------
 $caption = "";
 $text = '<div class="row justify-content-md-center">

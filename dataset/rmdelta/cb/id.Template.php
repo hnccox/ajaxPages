@@ -1,5 +1,7 @@
 <?php
 
+// ------------------------------------------------
+
 $template = '
 <div class="container" 
 data-ajax="template" 
@@ -295,6 +297,14 @@ data-query=\''.$query.'\'>
 <!-- End of content -->
 </div>';
 
-echo $template;
+// ------------------------------------------------
+
+if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) {
+    echo $template;
+} else {
+    return $template;
+}
+
+// ------------------------------------------------
 
 ?>

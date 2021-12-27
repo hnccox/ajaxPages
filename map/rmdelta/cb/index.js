@@ -1,8 +1,8 @@
 'use strict'
 
-import { default as ajaxMap } from "../../../../e107_plugins/ajaxTemplates/beta/js/ajaxMaps.js";
-import { default as ajaxTable } from "../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
-import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
+import { default as ajaxMap } from "/e107_plugins/ajaxModules/components/Map/ajaxMaps.js";
+import { default as ajaxTable } from "/e107_plugins/ajaxModules/components/Table/ajaxTables.js";
+import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/components/Template/ajaxTemplates.js";
 
 (function () {
 
@@ -110,14 +110,14 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
 							db: "llg",
 							table: "llg_nl_geom",
-							columns: "llg_nl_geom.borehole,llg_nl_geom.longitude,llg_nl_geom.latitude,llg_nl_geom.xy,llg_nl_geom.geom,xco,yco,drilldepth",
+							columns: "borehole,longitude,latitude,xco,yco,drilldepth",
 							offset: 0,
-							limit: 1000,
+							limit: 500,
 							query: {
 								0: {
 									"select": {
 										"columns": {
-											0: "llg_nl_geom.borehole,llg_nl_geom.longitude,llg_nl_geom.latitude,llg_nl_geom.xy,llg_nl_geom.geom,xco,yco,drilldepth"
+											0: "llg_nl_geom.borehole,llg_nl_geom.longitude,llg_nl_geom.latitude,llg_nl_geom.xy,llg_nl_geom.geom,xco,yco,drilldepth,active"
 										},
 										"from": {
 											"table": "llg_nl_geom"
@@ -149,19 +149,24 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 												0: ":ymin",
 												1: ":ymax"
 											}
+										},
+										2: {
+											"identifier": "llg_nl_boreholeheader.active",
+											"value": "t"
 										}
 									}
 								},
 								3: {
 									"order_by": {
 										0: {
-											"identifier": "llg_nl_geom.geom <-> 'SRID=4326;POINT(:lng :lat)'::geometry, llg_nl_geom.borehole",
-											"direction": "DESC"
+											/*"identifier": "llg_nl_geom.geom <-> 'SRID=4326;POINT(:lng :lat)'::geometry, llg_nl_geom.borehole",*/
+											"identifier": "llg_nl_geom.borehole",
+											"direction": "ASC"
 										}
 									}
 								},
 								4: {
-									"limit": 1000
+									"limit": 500
 								},
 								5: {
 									"offset": 0
@@ -170,13 +175,12 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 							disableClusteringAtZoom: 14
 						},
 						parseResponse: function (response) {
+							const type = response.type;
 							const data = response.data;
-							const obj = response.data.dataset;
-							const records = data["records"];
-							const totalrecords = data["totalrecords"];
-							delete data.records;
-							delete data.totalrecords;
-							return obj;
+							const dataset = response.data.dataset;
+							const records = data.records;
+							const totalrecords = data.totalrecords;
+							return { type, data, dataset, records, totalrecords };
 						},
 						getUID: function (value) {
 							return Object.entries(value)[0][1];
@@ -190,15 +194,15 @@ import { default as ajaxTemplate } from "../../../../e107_plugins/ajaxTemplates/
 						},
 						icons: {
 							icon: {
-								iconUrl: "../icons/m1_30.png",
+								iconUrl: "../_icons/markers/m1_30.png",
 								iconSize: [10, 10]
 							},
 							highlightIcon: {
-								iconUrl: "../icons/m1_30.png",
+								iconUrl: "../_icons/markers/m1_30.png",
 								iconSize: [15, 15]
 							},
 							selectedIcon: {
-								iconUrl: "../icons/m1y_0.png",
+								iconUrl: "../_icons/markers/m1y_0.png",
 								iconSize: [15, 15]
 							}
 						}

@@ -1,14 +1,17 @@
 <?php
 
+// ------------------------------------------------
+
 $tableParams = [];
-$tableParams['slave'] = true;
-$tableParams['master'] = "Templates[0]";
+$tableParams['parent'] = "Templates[0]";
 $tableParams['columnNames'] = "Top,Depth,Texture,Org,Plr,Color,RedOx,Gravel,M50,Ca,Fe,GW,Sample,Paleosoil,Strat,Remarks";
 $tableParams['columnSortable'] = false;
 $tableParams['preview'] = false;
 $tableParams['expanded'] = true;
 $tableParams['href'] = false;
 $tableParams['add'] = false;
+
+// ------------------------------------------------
 
 $table = '
 <div class="table-scrollable" style="overflow-y: auto; overflow-x: hidden; height: 470px;">
@@ -30,10 +33,14 @@ $table = '
     </table>
 </div>';
 
+// ------------------------------------------------
+
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) {
     echo $table;
 } else {
     return $table;
 }
+
+// ------------------------------------------------
 
 ?>

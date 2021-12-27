@@ -1,7 +1,7 @@
 'use strict';
 
-import { default as ajaxMenu } from "/e107_plugins/ajaxTemplates/beta/js/ajaxMenus.js";
-import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
+import { default as ajaxMenu } from "/e107_plugins/ajaxModules/components/Menu/ajaxMenus.js";
+import { default as ajaxTable } from "/e107_plugins/ajaxModules/components/Table/ajaxTables.js";
 
 (function () {
 

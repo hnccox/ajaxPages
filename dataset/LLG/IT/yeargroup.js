@@ -1,6 +1,6 @@
 'use strict'
 
-import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/js/ajaxTables.js";
+import { default as ajaxTable } from "/e107_plugins/ajaxModules/components/Table/ajaxTables.js";
 
 (function () {
 

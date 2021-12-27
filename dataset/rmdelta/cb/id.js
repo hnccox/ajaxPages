@@ -1,9 +1,9 @@
 'use strict';
 
-import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
+import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/components/Template/ajaxTemplates.js";
 import { default as storageHandler } from "/e107_plugins/storageHandler/js/storageHandler.js";
 
-(() => {
+(function () {
 
 	function dataStorage(obj) {
 		console.log("dataStorage");

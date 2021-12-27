@@ -6,53 +6,55 @@ error_reporting(E_ALL);
 
 require_once($_SERVER['DOCUMENT_ROOT']."/class2.php");
 
-e107::css(url, '/e107_plugins/ajaxTemplates/beta/css/ajaxMaps.css');
-e107::css(url, '/e107_plugins/ajaxTemplates/beta/css/ajaxTables.css');
-e107::css(url, '/e107_plugins/ajaxTemplates/beta/css/ajaxTemplates.css');
-
 e107::css(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css');
-e107::css(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.0/MarkerCluster.css');
-//e107::css(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.0/MarkerCluster.Default.css');
-e107::css(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css');
 e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js');
-e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.0/leaflet.markercluster.js');
-e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js');
-e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js');
-//e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js');
 
+e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js');
+e107::css(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css');
+
+e107::css(url, 'https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css');
+e107::js(url, 'https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js');
+
+e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.0/leaflet.markercluster.js');
+e107::css(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.0/MarkerCluster.css');
+e107::css(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.0/MarkerCluster.Default.css');
+
+e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js');
+
+e107::js(url, 'https://wikiwfs.geo.uu.nl/e107_web/lib/leaflet/plugins/leaflet.addlayer/js/leaflet.addlayer.js');
+e107::js(url, 'https://wikiwfs.geo.uu.nl/e107_web/lib/leaflet/plugins/leaflet.wmslegend/js/leaflet.wmslegend.js');
+e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_web/lib/leaflet/plugins/leaflet.wmslegend/css/leaflet.wmslegend.css');
+
+e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js');
+
+// --- [ API ] ------------------------------------
+
+
+// --- [ HEADER ] ---------------------------------
 require_once(HEADERF);
 
-// ------------------------------------------------
+// --- [ JAVASCRIPT ] -----------------------------
 $script = '
-<script src="./index.js" type="module" defer>
+<script src="./index.js" type="module">
 </script>
 
 <script src="/e107_plugins/proj4js-2.7.2/dist/proj4.js">
 </script>
 ';
-// ------------------------------------------------
+
+// --- [ MAP ] ------------------------------------
+$map = include('index.Map.php');
+// --- [ TEMPLATE ] -------------------------------
+$template = include('index.Template.php');
+// --- [ TABLE ] ----------------------------------
+$table = include('index.Table.php');
+
 $page = '
 <br>
 <div class="row">
 	<div class="col-md-4">
         <div class="square">
-            <div class="map content"
-                data-ajax="map"
-                data-master="true"
-                data-lat="45.67"
-                data-lng="12.83" 
-                data-url="//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php"
-                data-db="llg"
-                data-table="llg_it_geom"
-                data-columns="llg_it_geom.borehole,llg_it_geom.longitude,llg_it_geom.latitude,llg_it_geom.xy,llg_it_geom.geom,xco,yco,drilldepth"
-                data-inner_join="llg_it_geom ON llg_it_boreholeheader.borehole = llg_it_geom.borehole"
-                data-where=""
-                data-order_by=""
-                data-direction=""
-                data-page=""
-                data-overlaymaps=\'{"Boreholes": "boreholes"}\'
-                data-limit="200">
-            </div>
+            '.$map.'
         </div>
         <div class="row" style="font-size:11px; background:rgba(255, 255, 255, 0.7);">
         </div>
@@ -63,9 +65,9 @@ $page = '
 // Need to be bound to a layer
 // sqlParams['table'] must match at least one of the data-table of the maplayers
 $sqlParams = [];
-$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
+$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
 $sqlParams['db'] = "llg";
-$sqlParams['table'] = "llg_it_boreholeheader";
+$sqlParams['table'] = "llg_nl_boreholeheader";
 $sqlParams['columns'] = "borehole,xco,yco,drilldepth";
 $sqlParams['inner_join'] = null;
 $sqlParams['where'] = null;
@@ -127,7 +129,7 @@ $page .='
 $sqlParams = [];
 $sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
 $sqlParams['db'] = "llg";
-$sqlParams['table'] = "llg_it_boreholeheader";
+$sqlParams['table'] = "llg_nl_boreholeheader";
 $sqlParams['columns'] = "borehole,name,drilldate,xco,yco,coordzone,elevation,drilldepth,geom,geol,soil,veget,groundwaterstep,extraremarks";
 $sqlParams['where'] = "borehole=''";
 $sqlParams['order_by'] = "";
@@ -318,14 +320,17 @@ $page .= '
 	</div>
 </div>
 ';
+
+// --- [ RENDER ] ---------------------------------
+$caption = '';
 $text = $script.$page;
-// ------------------------------------------------
-$mode = "Map";
+$mode = '';
 $return = false;
 $ns = e107::getRender();
 $ns->tablerender($caption, $text, $mode, $return);
 // ------------------------------------------------
 
 require_once(FOOTERF);
+exit;
 
 ?>

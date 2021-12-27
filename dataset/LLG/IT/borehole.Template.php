@@ -1,5 +1,10 @@
 <?php
 
+// ------------------------------------------------
+$templateParams = [];
+$templateParams['parent'] = "";
+
+// ------------------------------------------------
 $template = '
 <form id="LLGborehole" action="borehole.php" method="GET" target="_self">
     <input type="hidden" name="borehole" value="'.$_GET["borehole"].'" />
@@ -136,11 +141,15 @@ $template = '
     -->
 </div>';
 
+// ------------------------------------------------
+
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) {
     echo $template;
 }
 else {
     return $template;
 }
+
+// ------------------------------------------------
 
 ?>

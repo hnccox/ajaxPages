@@ -1,7 +1,7 @@
 'use strict'
 
-import { default as ajaxTable } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTables.js";
-import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/ajaxTemplates.js";
+import { default as ajaxTable } from "/e107_plugins/ajaxModules/components/Table/ajaxTables.js";
+import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/components/Template/ajaxTemplates.js";
 
 (function () {
 
@@ -16,7 +16,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxTemplates/beta/js/aja
                 parseResponse: function (response) {
 					const type = response.type;
 					const data = response.data;
-					const dataset = response.data.dataset;
+					const dataset = response.data.dataset[0];
 					const records = data.records;
 					const totalrecords = data.totalrecords;
 					return { type, data, dataset, records, totalrecords };
