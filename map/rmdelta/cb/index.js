@@ -1,8 +1,8 @@
 'use strict'
 
-import { default as ajaxMap } from "/e107_plugins/ajaxModules/components/Map/ajaxMaps.js";
-import { default as ajaxTable } from "/e107_plugins/ajaxModules/components/Table/ajaxTables.js";
-import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/components/Template/ajaxTemplates.js";
+import { default as ajaxMap } from "/e107_plugins/ajaxModules/Components/Map/ajaxMaps.js";
+import { default as ajaxTable } from "/e107_plugins/ajaxModules/Components/Table/ajaxTables.js";
+import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Template/ajaxTemplates.js";
 
 (function () {
 
@@ -106,7 +106,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/components/Te
 							attribution: "Borehole data &copy; <a href=\"https://www.uu.nl/\">CC BY Geowetenschappen</a>"
 						},
 						layerParams: {
-							addToMap: false,
+							addToMap: true,
 							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
 							db: "llg",
 							table: "llg_nl_geom",
@@ -194,15 +194,15 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/components/Te
 						},
 						icons: {
 							icon: {
-								iconUrl: "../_icons/markers/m1_30.png",
+								iconUrl: "../../_icons/markers/m1_30.png",
 								iconSize: [10, 10]
 							},
 							highlightIcon: {
-								iconUrl: "../_icons/markers/m1_30.png",
+								iconUrl: "../../_icons/markers/m1_30.png",
 								iconSize: [15, 15]
 							},
 							selectedIcon: {
-								iconUrl: "../_icons/markers/m1y_0.png",
+								iconUrl: "../../_icons/markers/m1y_0.png",
 								iconSize: [15, 15]
 							}
 						}

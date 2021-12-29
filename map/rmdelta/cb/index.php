@@ -27,18 +27,16 @@ e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_web/lib/leaflet/plugins/leaflet.w
 
 e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js');
 
-// --- [ API ] ------------------------------------
-
+e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Map/ajaxMaps.css');
+e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Table/ajaxTables.css');
+e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Template/ajaxTemplates.css');
 
 // --- [ HEADER ] ---------------------------------
 require_once(HEADERF);
 
 // --- [ JAVASCRIPT ] -----------------------------
 $script = '
-<script src="./index.js" type="module">
-</script>
-
-<script src="/e107_plugins/proj4js-2.7.2/dist/proj4.js">
+<script src="./index.js" type="module" defer>
 </script>
 ';
 

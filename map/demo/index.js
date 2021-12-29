@@ -6,6 +6,27 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 
 (function () {
 
+	// // create new link tag
+	// var link = document.createElement('link');
+
+	// // set properties of link tag
+	// link.href = '/e107_plugins/ajaxModules/Components/Map/ajaxMaps.css';
+	// link.rel = 'stylesheet';
+	// link.type = 'text/css';
+
+	// // Loaded successfully
+	// link.onload = function () {
+	// 	console.log('success');
+	// };
+
+	// // Loading failed
+	// link.onerror = function () {
+	// 	console.log('error');
+	// };
+
+	// // append link element to html
+	// document.body.appendChild(link);
+
 	/**
 	 * Utility function to add CSS in multiple passes.
 	 * @param {string} styleString
@@ -182,6 +203,9 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							disableClusteringAtZoom: 8,
 							maxClusterRadius: 40
 						},
+						templateParams: {
+							url: "https://data-dev.neotomadb.org/:uid"
+						},
 						parseResponse: function (response) {
 							const type = response.type;
 							const data = response.data[0];
@@ -193,7 +217,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							let i = 0;
 							Object.keys(dataset).forEach((key) => {
 								i++;
-								console.log(dataset[key]);
+								//console.log(dataset[key]);
 								uid = this.getUID(dataset[key]);
 								coords = this.getLatLng(dataset[key]);
 								// dataset[key].collectionunits.forEach((collectionunit) => {
@@ -216,7 +240,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 								// dataset[key].collectionunithandles = collectionunithandleArray.toString();
 								// dataset[key].collectionunittypes = collectionunittypeArray.toString();
 							})
-							console.log(i);
+							//console.log(i);
 							const records = response.data[0].sites.length;
 							const totalrecords = response.data[0].sites.length;
 							return { type, data, dataset, records, totalrecords };
@@ -336,6 +360,9 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							},
 							disableClusteringAtZoom: 14
 						},
+						templateParams: {
+							url: "https://wikiwfs.geo.uu.nl/beta/dataset/LLG/NL/borehole.php?borehole=:uid"
+						},
 						parseResponse: function (response) {
 							const type = response.type;
 							const data = response.data;
@@ -376,7 +403,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 						},
 						layerParams: {
 							addToMap: false,
-							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
+							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
 							db: "llg",
 							table: "llg_it_geom",
 							columns: "borehole,longitude,latitude,xco,yco,drilldepth",
@@ -441,6 +468,9 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 								}
 							},
 							disableClusteringAtZoom: 13
+						},
+						templateParams: {
+							url: "https://wikiwfs.geo.uu.nl/beta/dataset/LLG/IT/borehole.php?borehole=:uid"
 						},
 						parseResponse: function (response) {
 							const type = response.type;
@@ -547,6 +577,9 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 								}
 							},
 							disableClusteringAtZoom: 10
+						},
+						templateParams: {
+							url: "https://wikiwfs.geo.uu.nl/beta/dataset/rmdelta/c14/labidnr.php?labidnr=:uid"
 						},
 						parseResponse: function (response) {
 							const type = response.type;

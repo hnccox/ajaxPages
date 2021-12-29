@@ -27,12 +27,14 @@ e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_web/lib/leaflet/plugins/leaflet.w
 
 e107::js(url, 'https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js');
 
+e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Map/ajaxMaps.css');
+
 // --- [ HEADER ] ---------------------------------
 require_once(HEADERF);
 
 // --- [ JAVASCRIPT ] -----------------------------
 $script = '
-<script src="./index.js" type="module">
+<script src="./index.js" type="module" defer>
 </script>
 ';
 
