@@ -5,6 +5,55 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 
 (function () {
 
+	function typeOfReasoning() {
+		console.log('typeOfReasoning');
+
+		var reasoningcategory = document.querySelectorAll('[data-variable$="reasoningcategory"]');
+
+		reasoningcategory.forEach(category => {
+
+			// <a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">Dismissible popover</a>
+
+			switch (category.textContent) {
+				case "0":
+					category.textContent = 'Unknown';
+					break;
+				case "1":
+					category.textContent = 'Direct Historical';
+					break;
+				case "2":
+					category.textContent = 'Direct Multiple';
+					break;
+				case "3":
+					category.textContent = 'Direct Single';
+					break;
+				case "4":
+					category.textContent = 'Indirect UpStrm';
+					break;
+				case "5":
+					category.textContent = 'Indirect DnStrm';
+					break;
+				case "6":
+					category.textContent = 'Indirect Avulsion';
+					break;
+				case "7":
+					category.textContent = 'Indirect CrossCut';
+					break;
+				case "8":
+					//category.textContent = 'Reserved';
+					break;
+				case "9":
+					//category.textContent = 'Reserved';
+					break;
+				case "10":
+					category.textContent = 'Best Guess';
+					break;
+				default: 
+					break;
+			}
+		})
+	}
+
 	function dataStorage(obj) {
 		console.log("dataStorage");
 		Object.keys(obj).forEach((key) => {
@@ -35,7 +84,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 		myArray.forEach(function (elem) {
 			elem.innerHTML = elem.innerHTML.replace(regexCB, function ($1) {
 				var id = $1;
-				var url = "<a href='https://wikiwfs.geo.uu.nl/beta/RijnMaasDelta/CBcatalog/id.php?id=" + id.match(/\d+/g).map(Number) + "'>" + id.trim() + "</a>";
+				var url = "<a href='https://wikiwfs.geo.uu.nl/beta/dataset/rmdelta/cb/id.php?id=" + id.match(/\d+/g).map(Number) + "'>" + id.trim() + "</a>";
 				return url;
 			});
 
@@ -48,7 +97,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 				}
 
 				id = tmp.join("-");
-				var url = "<a href='https://wikiwfs.geo.uu.nl/beta/RijnMaasDelta/C14catalog/labidnr.php?labidnr=" + id.trim() + "'>(" + id.trim() + ")</a>";
+				var url = "<a href='https://wikiwfs.geo.uu.nl/beta/dataset/rmdelta/c14/labidnr.php?labidnr=" + id.trim() + "'>(" + id.trim() + ")</a>";
 				return url;
 			});
 		});
@@ -66,7 +115,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 			// 	case "":
 			// 		break;
 			// }
-			
+
 			var templateOptions = {
 				parseResponse: function (response) {
 					const data = response.data;
@@ -79,7 +128,8 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 					functions: {
 						dataStorage,
 						hasReleaseCandidate,
-						id__cross_ref
+						id__cross_ref,
+						typeOfReasoning
 					},
 				}
 			};

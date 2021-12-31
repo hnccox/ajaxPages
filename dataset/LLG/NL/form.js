@@ -13,13 +13,12 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 		});
 	}
 
-	window["ajaxForms"] = [];
+	window.Forms = [];
 
 	document.addEventListener('DOMContentLoaded', () => {
 
 		const forms = document.querySelectorAll('form[data-ajax="form"]');
 		forms.forEach((element, key) => {
-
 			// Check if we already have specific id in our localStorage...
 			// And if data in our localStorage is still valid...
 			// Else
@@ -32,8 +31,8 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 				}
 			}
 
-			window["ajaxForms"][key] = new ajaxForm(element, key, object);
-
+			window["Forms"][key] = new ajaxForm(element, key, object);
+			// ...and store data in our LocalStorage
 		})
 
 	});

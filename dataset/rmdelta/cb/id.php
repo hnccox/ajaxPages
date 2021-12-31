@@ -32,7 +32,13 @@ if($_GET['format'] === 'json') {
 }
 
 // --- [ HEADER ] ---------------------------------
-require_once(HEADERF);
+if(!$_SERVER['HTTP_REFERER']) {
+    require_once(HEADERF);
+} else {
+    e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Table/ajaxTables.css');
+    e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Template/ajaxTemplates.css');
+    e107::css(url, 'https://cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css');
+}
 
 if(!$_GET[$where_0_identifier]) {
 
@@ -48,27 +54,17 @@ if(!$_GET[$where_0_identifier]) {
     exit;
 }
 
-// --- [ JAVASCRIPT ] -----------------------------
-$script = '
-<script src="./id.js" type="module" defer>
-</script>
-';
-// --- [ TEMPLATE ] -------------------------------
-$template = include('id.Template.php');
-
 // ------------------------------------------------
+
 if($_GET['action'] === 'update') {
-    // ToDo: Check if there is a release candidate...
+    // TODO: Check if there is a release candidate...
     $edit = false;
     if (USER) {
         $userData = e107::user(USERID); // Example - currently logged in user.
         $userclassList = explode(",", $userData["user_class"]);
         $userclassID = 4;  // id from 'Wiki Editors' userclass
         if(!in_array($userclassID, $userclassList)) {
-            require_once(HEADERF);
-            $caption = "Error!";
-            $text = "You must be part of the 'Wiki Editor' userclass to edit this page";
-            $ns->tablerender($caption, $text);
+            $ns->tablerender("Error!", "You must be part of the 'Wiki Editor' userclass to edit this page");
             require_once(FOOTERF);
             exit;
         } else {
@@ -92,14 +88,19 @@ if($_GET['action'] === 'update') {
             ';
         }
     } else {
-        require_once(HEADERF);
-        $caption = "Error!";
-        $text = "You must login to edit this page";
-        $ns->tablerender($caption, $text);
+        $ns->tablerender("Error!", "You must login to edit this page");
         require_once(FOOTERF);
         exit;
     }
 }
+
+// --- [ JAVASCRIPT ] -----------------------------
+$script = '
+<script src="./id.js" type="module">
+</script>
+';
+// --- [ TEMPLATE ] -------------------------------
+$template = include('id.Template.php');
 
 // --- [ RENDER ] ---------------------------------
 $caption = '';
@@ -109,7 +110,9 @@ $return = false;
 $ns = e107::getRender();
 $ns->tablerender($caption, $text, $mode, $return);
 // ------------------------------------------------
-require_once(FOOTERF);
+if(!$_SERVER['HTTP_REFERER']) {
+    require_once(FOOTERF);
+}
 exit;
 // ------------------------------------------------
 

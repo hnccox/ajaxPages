@@ -5,128 +5,129 @@
 $templateParams = [];
 $templateParams['parent'] = "";
 
+$iframe = function() {
+    if(strpos(parse_url($_SERVER['HTTP_REFERER'])['path'], '/beta/map/') === 0) {
+        return true;
+    }
+};
+
 // ------------------------------------------------
 
 $template = '
-<form id="LLGborehole" action="borehole.php" method="GET" target="_self">
-    <input type="hidden" name="borehole" value="'.$_GET["borehole"].'" />
-    <input type="hidden" name="action" value="edit" />
-</form>
 <div data-ajax="template"
     data-url=\''.$url.'\'
     data-db=\''.$db.'\'
     data-table=\''.$table.'\'
     data-columns=\''.$columns.'\'
     data-query=\''.$templatequery.'\'>
-    <div class="panel panel-default">
-        <div class="panel-heading" style="color:rgb(0,0,0);background-color:rgb(255,205,0);">
-            <strong><span>Borehole: </span><span data-variable="borehole" contenteditable="false">borehole</span></strong>
-            <button type="submit" class="btn btn-sm btn-primary pull-right" form="LLGborehole">
-                <span class="glyphicon glyphicon-edit"></span>
-            </button>
-            <span class="pull-right">
-                <span>
-                    <strong>Logged by: </strong>
-                </span>
-                <span data-variable="name" contenteditable="false">name</span>
-                <span>
-                    <strong> on </strong>
-                </span>
-                <span data-variable="drilldate" contenteditable="false">drilldate</span>
-            </span>
-        </div>
-        <div class="panel-body">
-            <!--
-            <div class="row">
-                <div class="col-md-4 table-responsive" style="padding-top:14px">
-                    <table class="table table-condensed">
-                        <tbody>
-                            <tr>
-                                <td style="border:none">Name</td>
-                                <td style="border:none;font-weight: bold"><span data-variable="name" contenteditable="false">name</span></td>
-                                <td style="border:none">Date</td>
-                                <td style="border:none;font-weight: bold"><input type="date" data-variable="drilldate" value="" disabled></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            -->
-            <div class="row">
-                <div class="col-md-6">
-                    <strong>Coordinates</strong>
-                    <div class="table-responsive">
-                        <table class="table table-condensed mb-0">
-                            <tbody>
-                                <tr>
-                                    <td style="border:none">UTM Zone</td>
-                                    <td style="border:none;font-weight: bold">
-                                        <input list="coordzones" name="coordzone" data-variable="coordzone" value="coordzone" disabled>
-                                        <datalist id="coordzones">
-                                            <option value="Internet Explorer">
-                                            <option value="Firefox">
-                                            <option value="Chrome">
-                                            <option value="Opera">
-                                            <option value="Safari">
-                                        </datalist>
-                                    </td>                                                
-                                </tr>
-                                <tr>
-                                    <td style="border:none">X</td>
-                                    <td style="border:none;font-weight: bold"><input type="text" data-variable="xco" value="xco" disabled></td>
-                                    <td style="border:none">Y</td>
-                                    <td style="border:none;font-weight: bold"><input type="text" data-variable="yco" value="yco" disabled></td>
-                                </tr>
-                                <tr>
-                                    <td style="border:none">Elevation (m)</td>
-                                   <td style="border:none;font-weight: bold"><input type="text" data-variable="elevation" value="elevation" disabled></td>
-                                    <td style="border:none">Depth (cm)</td>
-                                    <td style="border:none;font-weight: bold"><input type="text" data-variable="drilldepth" value="drilldepth" disabled></td>
-                                </tr>                                                
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <strong>Classification</strong>
-                    <div class="table-responsive">
-                        <table class="table table-condensed mb-0">
-                            <tbody>
-                                <tr>
-                                    <td style="border:none">Geom</td>
-                                    <td style="border:none;font-weight: bold"><input type="text" data-variable="geom" value="geom" disabled></td>
-                                    <td style="border:none">Geol</td>
-                                    <td style="border:none;font-weight: bold"><input type="text" data-variable="geol" value="geol" disabled></td>
-                                </tr>
-                                <tr>
-                                    <td style="border:none">Soil</td>
-                                    <td style="border:none;font-weight: bold"><input type="text" data-variable="soil" value="soil" disabled></td>
-                                    <td style="border:none">Veget</td>
-                                    <td style="border:none;font-weight: bold"><input type="text" data-variable="veget" value="veget" disabled></td>
-                                </tr>
-                                <tr>
-                                    <td style="border:none">GWT</td>
-                                    <td style="border:none;font-weight: bold"><input type="text" data-variable="groundwaterstep" value="groundwaterstep" disabled></td>                                               
-                                </tr>                                                
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="panel-footer">
-            <textarea style="width:100%" data-variable="extraremarks" disabled>extraremarks</textarea>
-        </div>
-    </div>
-    <!--
+
     <div class="card">
-        <div class="card-header"></div>
+        <div class="card-header" style="color:rgb(0,0,0);background-color:rgb(255,205,0);">
+            <div class="container-fluid p-0">
+                <div class="pull-left">
+                    <strong><span>Borehole: </span><span data-variable="borehole" contenteditable="false">borehole</span></strong>
+                    <br>
+                    <span>
+                        <strong>Logged by: </strong>
+                    </span>
+                    <span data-variable="name" contenteditable="false">name</span>
+                    <span>
+                        <strong> on </strong>
+                    </span>
+                    <span data-variable="drilldate" contenteditable="false">drilldate</span>
+                </div>';
+
+if(!$iframe()) {
+$template .= '
+                <div class="btn-group btn-group-sm position-absolute top-0 end-0" role="group" aria-label="">
+                    <a href="index.php" type="button" class="btn btn-primary" id="returnIndex">☰</a>
+                    <a class="btn btn-primary" href="borehole.php?borehole='.$_GET["borehole"].'&amp;format=json">
+                        <span>{...}</span>
+                    </a>
+                    <form id="LLGborehole" action="borehole.php" method="GET" target="_self">
+                        <input type="hidden" name="borehole" value="'.$_GET["borehole"].'" />
+                        <input type="hidden" name="action" value="edit" />
+                    </form>
+                    <button type="submit" class="btn btn-primary" form="LLGborehole"><span class="fa fa-edit"></span></button>
+                    <form id="formLLGborehole" action="form.php" method="GET" target="_self">
+                        <input type="hidden" name="borehole" value="'.$_GET["borehole"].'" />
+                        <input type="hidden" name="action" value="edit" />
+                    </form>
+                    <button type="submit" class="btn btn-primary" form="formLLGborehole"><span class="fa fa-list-alt"></span></button>
+                </div>';
+}
+
+$template .= '
+                <br>
+                <div class="pull-right me-5">
+                    <label for="coordzone"><b>UTM Zone:</b></label>
+                    <input list="coordzones" name="coordzone" data-variable="coordzone" value="coordzone" contenteditable="false" disabled>
+                    <datalist id="coordzones">
+                        <option value="RD">
+                        <option value="option2">
+                        <option value="option3">
+                    </datalist>
+                </div>   
+            </div>
+        </div>
+        
         <div class="card-body">
-            <h5 class="card-title"></h5>
-            <p class="card-text"></p>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="card-title pull-left">Coordinates</h5>
+                    <div class="clearfix"></div>
+
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr>
+                                    <td>X</td>
+                                    <td style="font-weight: bold"><input type="text" data-variable="xco" value="xco" disabled></td>
+                                    <td>Y</td>
+                                    <td style="font-weight: bold"><input type="text" data-variable="yco" value="yco" disabled></td>
+                                </tr>
+                                <tr>
+                                    <td>Elevation (m)</td>
+                                    <td style="font-weight: bold"><input type="text" data-variable="elevation" value="elevation" disabled></td>
+                                    <td>Depth (cm)</td>
+                                    <td style="font-weight: bold"><input type="text" data-variable="drilldepth" value="drilldepth" disabled></td>
+                                </tr>                                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="card-title">Classification</h5>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr>
+                                    <td>Geom</td>
+                                    <td style="font-weight: bold"><input type="text" data-variable="geom" value="geom" disabled></td>
+                                    <td>Geol</td>
+                                    <td style="font-weight: bold"><input type="text" data-variable="geol" value="geol" disabled></td>
+                                </tr>
+                                <tr>
+                                    <td>Soil</td>
+                                    <td style="font-weight: bold"><input type="text" data-variable="soil" value="soil" disabled></td>
+                                    <td>Veget</td>
+                                    <td style="font-weight: bold"><input type="text" data-variable="veget" value="veget" disabled></td>
+                                </tr>
+                                <tr>
+                                    <td>GWT</td>
+                                    <td style="font-weight: bold"><input type="text" data-variable="groundwaterstep" value="groundwaterstep" disabled></td>                                               
+                                </tr>                                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-footer">
+            <textarea style="width:100%" data-variable="extraremarks" contenteditable="false" disabled>extraremarks</textarea>
         </div>
     </div>
-    -->
     
     <!--
     <span data-variable="xco" contenteditable="false">xco</span>

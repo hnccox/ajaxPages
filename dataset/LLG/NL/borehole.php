@@ -60,7 +60,19 @@ if($_GET['format'] === 'json') {
 }
 
 // --- [ HEADER ] ---------------------------------
-require_once(HEADERF);
+$iframe = function() {
+    if(strpos(parse_url($_SERVER['HTTP_REFERER'])['path'], '/beta/map/') === 0) {
+        return true;
+    }
+};
+
+if(!$iframe()) {
+    require_once(HEADERF);  
+} else {
+    e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Table/ajaxTables.css');
+    e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Template/ajaxTemplates.css');
+    e107::css(url, 'https://cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css');  
+}
 
 // ------------------------------------------------
 
@@ -69,7 +81,7 @@ if(!$_GET['borehole']) {
     $caption = "Something went wrong";
     $text = "Click <a href='index.php'>here</a> to return to the index";
 
-    $mode = "LLGboreholedata";
+    $mode = "LLGborehole";
     $return = false;
     $ns = e107::getRender();
     $ns->tablerender($caption, $text, $mode, $return);
@@ -79,6 +91,7 @@ if(!$_GET['borehole']) {
 }
 
 // ------------------------------------------------
+
 if($_GET['action'] === 'edit') {
     // ToDo: Check if there is a release candidate...
     $edit = false;
@@ -92,6 +105,27 @@ if($_GET['action'] === 'edit') {
             exit;
         } else {
             $edit = true;
+            $footerscript .= '
+            <script type="text/javascript">
+            (function() {
+                window.addEventListener("load", function(){
+                    const Template = document.querySelectorAll("[data-page]");
+                    const elementList = document.querySelectorAll("[contenteditable=\'false\']");
+                    elementList.forEach((element) => {
+                        element.contentEditable = "true";
+                        element.parentElement.style.border = "1px solid red";
+                        element.parentElement.style.margin = "-1px";
+                        element.parentElement.style.minWidth = "1em";
+                        element.parentElement.style.minHeight = "1em";
+                        if (element.hasAttribute("disabled")) {
+                            element.removeAttribute("disabled");
+                        }
+                        
+                    });
+                });
+            })()
+            </script>
+            ';
         }
     } else {
         $ns->tablerender("Error!", "You must login to edit this page");
@@ -111,14 +145,16 @@ $template = include('borehole.Template.php');
 $table = include('borehole.Table.php');
 
 // --- [ RENDER ] ---------------------------------
-$caption = '<h1>LLG Boreholedata</h1>';
-$text = '<div id="borehole">'.$script.$template.$table.'</div>';
+$caption = '';
+$text = '<div class="row justify-content-md-center p-0 m-0" id="borehole">'.$script.$template.$table.$footerscript.'</div>';
 $mode = 'LLGboreholedate';
 $return = false;
 $ns = e107::getRender();
-$ns->tablerender('', $text, $mode, $return);
+$ns->tablerender($caption, $text, $mode, $return);
 // ------------------------------------------------
-require_once(FOOTERF);
+if(!$iframe()) {
+    require_once(FOOTERF);
+}
 exit;
 // ------------------------------------------------
 

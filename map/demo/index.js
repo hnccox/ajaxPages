@@ -74,226 +74,14 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 					layers: layer
 				},
 				_overlayMaps: {
-					AHN3: {
-						layerType: "tileLayer.WMS",
-						layerOptions: {
-							layers: "ahn3_5m_dsm",
-							format: "image/png",
-							version: "1.3.0",
-							request: "GetMap",
-							transparent: true,
-							opacity: 0.6,
-							crs: L.CRS.EPSG4326,
-							attribution: "LiDAR data &copy; <a href=\"https://www.pdok.nl/\">CC BY Kadaster</a>"
-						},
-						layerParams: {
-							addToMap: false,
-							url: "https://geodata.nationaalgeoregister.nl/ahn3/wms",
-							minZoom: 7,
-							maxZoom: null
-						}
-					},
-					"EMODnet Bathymetry WMS": {
-						layerType: "tileLayer.WMS",
-						layerOptions: {
-							layers: "mean_atlas_land",
-							format: "image/png",
-							version: "1.3.0",
-							request: "GetMap",
-							transparent: true,
-							opacity: 0.6,
-							crs: L.CRS.EPSG4326,
-							attribution: "EMODnet data &copy; <a href=\"https://ows.emodnet-bathymetry.eu/\">CC BY EMODnet</a>"
-						},
-						layerParams: {
-							addToMap: false,
-							url: "https://ows.emodnet-bathymetry.eu/wms?"
-						}
-					},
-					"IS BK50 Bodenkarte von NRWS": {
-						layerType: "tileLayer.WMS",
-						layerOptions: {
-							layers: "bodentyp",
-							format: "image/png",
-							version: "1.3.0",
-							request: "GetMap",
-							transparent: true,
-							opacity: 0.6,
-							crs: L.CRS.EPSG4326,
-							attribution: "NRWS data &copy; <a href=\"https://www.wms.nrw.de/\">CC BY NRWS</a>"
-						},
-						layerParams: {
-							addToMap: false,
-							url: "https://www.wms.nrw.de/gd/bk050?"
-						}
-					},
-					"Bodemkaart": {
-						layerType: "tileLayer.WMS",
-						layerOptions: {
-							layers: "view_soil_area",
-							format: "image/png",
-							version: "1.3.0",
-							request: "GetMap",
-							transparent: true,
-							opacity: 0.6,
-							crs: L.CRS.EPSG4326,
-							attribution: "BRO data &copy; <a href=\"https://www.pdok.nl/\">CC BY Kadaster</a>"
-						},
-						layerParams: {
-							addToMap: false,
-							url: "https://geodata.nationaalgeoregister.nl/bzk/bro-bodemkaart/wms/v1_0"
-						},
-						legendOptions: {
-							service: "WMS",
-							layer: "view_soil_area",
-							format: "image/png",
-							version: "1.3.0",
-							request: "GetLegendGraphic",
-							sld_version: "1.1.0",
-							style: "bro-bodemkaart:bodemlegenda"
-						},
-						legendParams: {
-							addToLegend: false,
-							url: "https://geodata.nationaalgeoregister.nl/bzk/bro-bodemkaart/wms/v1_0"
-						}
-					},
-					"BRO Geomorfologische Kaart": {
-						layerType: "tileLayer.WMS",
-						layerOptions: {
-							layers: "view_geomorphological_area",
-							format: "image/png",
-							version: "1.3.0",
-							request: "GetMap",
-							transparent: true,
-							opacity: 0.6,
-							crs: L.CRS.EPSG4326,
-							attribution: "BRO data &copy; <a href=\"https://www.pdok.nl/\">CC BY Kadaster</a>"
-						},
-						layerParams: {
-							addToMap: false,
-							url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0"
-						},
-						legendOptions: {
-							addToLegend: false,
-							layers: "view_geomorphological_area",
-							format: "image/png",
-							version: "1.3.0",
-							request: "GetLegendGraphics",
-							sld_version: "1.1.0",
-							style: "view_geomorphological_area"
-						},
-						legendParams: {
-							url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0"
-						}
-					},
-					Neotoma: {
+					"UU LLG_NL": {
 						layerType: "markerClusterGroup",
 						layerOptions: {
-							attribution: "Pollen data &copy; <a href=\"https://api.neotomadb.org/\">CC BY Neotoma DB</a>"
-						},
-						layerParams: {
-							//url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/sites",
-							url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/datasets?limit=500&offset=0",
-							//url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/sites?limit=500&offset=0",
-							columns: "siteid,sitename,longitude,latitude,altitude",
-							columnnames: "siteid,sitename,longitude,latitude,altitude",
-							addToMap: false,
-							cacheReturn: true,
-							limit: 1000,
-							disableClusteringAtZoom: 8,
-							maxClusterRadius: 40
-						},
-						templateParams: {
-							url: "https://data-dev.neotomadb.org/:uid"
-						},
-						parseResponse: function (response) {
-							const type = response.type;
-							const data = response.data[0];
-							const dataset = response.data[0].sites;
-							let uid = 0;
-							let coords = {};
-							let collectionunithandleArray = [];
-							let collectionunittypeArray = [];
-							let i = 0;
-							Object.keys(dataset).forEach((key) => {
-								i++;
-								//console.log(dataset[key]);
-								uid = this.getUID(dataset[key]);
-								coords = this.getLatLng(dataset[key]);
-								// dataset[key].collectionunits.forEach((collectionunit) => {
-								// 	collectionunithandleArray = [];
-								// 	collectionunittypeArray = [];
-								// 	if (collectionunit?.handle) {
-								// 		if (!collectionunithandleArray.includes(collectionunit.handle)) {
-								// 			collectionunithandleArray.push(collectionunit.handle)
-								// 		}
-								// 	}
-								// 	if (collectionunit?.collectionunittype) {
-								// 		if (!collectionunittypeArray.includes(collectionunit.collectionunittype)) {
-								// 			collectionunittypeArray.push(collectionunit.collectionunittype)
-								// 		}
-								// 	}
-								// })
-								dataset[key].uid = uid;
-								dataset[key].longitude = coords.lng;
-								dataset[key].latitude = coords.lat;
-								// dataset[key].collectionunithandles = collectionunithandleArray.toString();
-								// dataset[key].collectionunittypes = collectionunittypeArray.toString();
-							})
-							//console.log(i);
-							const records = response.data[0].sites.length;
-							const totalrecords = response.data[0].sites.length;
-							return { type, data, dataset, records, totalrecords };
-						},
-						getUID: function (value) {
-							return Object.entries(value)[0][1];
-						},
-						getLatLng: function (value) {
-							let latitude, longitude;
-							switch (JSON.parse(value.geography).type) {
-								case "Point":
-									latitude = JSON.parse(value.geography).coordinates[1];
-									longitude = JSON.parse(value.geography).coordinates[0];
-									break;
-								case "Polygon":
-									let coords = JSON.parse(value.geography).coordinates[0];
-									let bounds = L.latLngBounds();
-									coords.forEach((item) => {
-										bounds.extend(item);
-									})
-									latitude = bounds.getCenter().lng;
-									longitude = bounds.getCenter().lat;
-									break;
-							}
-
-							if (isNaN(latitude)) { latitude = 0 }
-							if (isNaN(longitude)) { longitude = 0 }
-
-							return { lat: latitude, lng: longitude };
-						},
-						icons: {
-							icon: {
-								iconUrl: "../_icons/markers/p1_30.png",
-								iconSize: [15, 15]
-							},
-							highlightIcon: {
-								iconUrl: "../_icons/markers/p1_30.png",
-								iconSize: [25, 25]
-							},
-							selectedIcon: {
-								iconUrl: "../_icons/markers/p1y_0.png",
-								iconSize: [25, 25]
-							}
-						}
-					},
-					LLG_NL: {
-						layerType: "markerClusterGroup",
-						layerOptions: {
-							attribution: "Borehole data &copy; <a href=\"https://www.uu.nl/\">CC BY Geowetenschappen</a>"
+							attribution: "Borehole data &copy; <a href=\"https://wikiwfs.geo.uu.nl/\">CC BY Geowetenschappen</a>"
 						},
 						layerParams: {
 							addToMap: false,
-							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
+							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
 							db: "llg",
 							table: "llg_nl_geom",
 							columns: "borehole,longitude,latitude,xco,yco,drilldepth",
@@ -396,7 +184,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							}
 						}
 					},
-					LLG_IT: {
+					"UU LLG_IT": {
 						layerType: "markerClusterGroup",
 						layerOptions: {
 							attribution: "Borehole data &copy; <a href=\"https://www.uu.nl/\">CC BY Geowetenschappen</a>"
@@ -505,14 +293,14 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							}
 						}
 					},
-					C14: {
+					"UU C14": {
 						layerType: "markerClusterGroup",
 						layerOptions: {
 							attribution: "C14 data &copy; <a href=\"https://www.uu.nl/\">CC BY Geowetenschappen</a>"
 						},
 						layerParams: {
 							addToMap: false,
-							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
+							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
 							db: "rmdelta",
 							table: "c14_geom",
 							columns: "labidnr,samplename,c14age,c14err,xco,yco,latitude,longitude",
@@ -613,7 +401,220 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 								iconSize: [15, 15]
 							}
 						}
-					}
+					},
+					"Neotoma Pollen": {
+						layerType: "markerClusterGroup",
+						layerOptions: {
+							attribution: "Pollen data &copy; <a href=\"https://api.neotomadb.org/\">CC BY Neotoma DB</a>"
+						},
+						layerParams: {
+							//url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/sites",
+							url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/datasets?limit=500&offset=0",
+							//url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/sites?limit=500&offset=0",
+							columns: "siteid,sitename,longitude,latitude,altitude",
+							columnnames: "siteid,sitename,longitude,latitude,altitude",
+							addToMap: false,
+							cacheReturn: true,
+							limit: 1000,
+							disableClusteringAtZoom: 8,
+							maxClusterRadius: 40
+						},
+						templateParams: {
+							url: "https://data-dev.neotomadb.org/:uid"
+						},
+						parseResponse: function (response) {
+							const type = response.type;
+							const data = response.data[0];
+							const dataset = response.data[0].sites;
+							let uid = 0;
+							let coords = {};
+							let collectionunithandleArray = [];
+							let collectionunittypeArray = [];
+							let i = 0;
+							Object.keys(dataset).forEach((key) => {
+								i++;
+								//console.log(dataset[key]);
+								uid = this.getUID(dataset[key]);
+								coords = this.getLatLng(dataset[key]);
+								// dataset[key].collectionunits.forEach((collectionunit) => {
+								// 	collectionunithandleArray = [];
+								// 	collectionunittypeArray = [];
+								// 	if (collectionunit?.handle) {
+								// 		if (!collectionunithandleArray.includes(collectionunit.handle)) {
+								// 			collectionunithandleArray.push(collectionunit.handle)
+								// 		}
+								// 	}
+								// 	if (collectionunit?.collectionunittype) {
+								// 		if (!collectionunittypeArray.includes(collectionunit.collectionunittype)) {
+								// 			collectionunittypeArray.push(collectionunit.collectionunittype)
+								// 		}
+								// 	}
+								// })
+								dataset[key].uid = uid;
+								dataset[key].longitude = coords.lng;
+								dataset[key].latitude = coords.lat;
+								// dataset[key].collectionunithandles = collectionunithandleArray.toString();
+								// dataset[key].collectionunittypes = collectionunittypeArray.toString();
+							})
+							//console.log(i);
+							const records = response.data[0].sites.length;
+							const totalrecords = response.data[0].sites.length;
+							return { type, data, dataset, records, totalrecords };
+						},
+						getUID: function (value) {
+							return Object.entries(value)[0][1];
+						},
+						getLatLng: function (value) {
+							let latitude, longitude;
+							switch (JSON.parse(value.geography).type) {
+								case "Point":
+									latitude = JSON.parse(value.geography).coordinates[1];
+									longitude = JSON.parse(value.geography).coordinates[0];
+									break;
+								case "Polygon":
+									let coords = JSON.parse(value.geography).coordinates[0];
+									let bounds = L.latLngBounds();
+									coords.forEach((item) => {
+										bounds.extend(item);
+									})
+									latitude = bounds.getCenter().lng;
+									longitude = bounds.getCenter().lat;
+									break;
+							}
+
+							if (isNaN(latitude)) { latitude = 0 }
+							if (isNaN(longitude)) { longitude = 0 }
+
+							return { lat: latitude, lng: longitude };
+						},
+						icons: {
+							icon: {
+								iconUrl: "../_icons/markers/p1_30.png",
+								iconSize: [15, 15]
+							},
+							highlightIcon: {
+								iconUrl: "../_icons/markers/p1_30.png",
+								iconSize: [25, 25]
+							},
+							selectedIcon: {
+								iconUrl: "../_icons/markers/p1y_0.png",
+								iconSize: [25, 25]
+							}
+						}
+					},
+					"PDOK AHN3": {
+						layerType: "tileLayer.WMS",
+						layerOptions: {
+							layers: "ahn3_5m_dsm",
+							format: "image/png",
+							version: "1.3.0",
+							request: "GetMap",
+							transparent: true,
+							opacity: 0.6,
+							crs: L.CRS.EPSG4326,
+							attribution: "LiDAR data &copy; <a href=\"https://www.pdok.nl/\">CC BY Kadaster</a>"
+						},
+						layerParams: {
+							addToMap: false,
+							url: "https://geodata.nationaalgeoregister.nl/ahn3/wms",
+							minZoom: 7,
+							maxZoom: null
+						}
+					},
+					"PDOK/BRO Bodemkaart": {
+						layerType: "tileLayer.WMS",
+						layerOptions: {
+							layers: "view_soil_area",
+							format: "image/png",
+							version: "1.3.0",
+							request: "GetMap",
+							transparent: true,
+							opacity: 0.6,
+							crs: L.CRS.EPSG4326,
+							attribution: "BRO data &copy; <a href=\"https://www.pdok.nl/\">CC BY Kadaster</a>"
+						},
+						layerParams: {
+							addToMap: false,
+							url: "https://geodata.nationaalgeoregister.nl/bzk/bro-bodemkaart/wms/v1_0"
+						},
+						legendOptions: {
+							service: "WMS",
+							layer: "view_soil_area",
+							format: "image/png",
+							version: "1.3.0",
+							request: "GetLegendGraphic",
+							sld_version: "1.1.0",
+							style: "bro-bodemkaart:bodemlegenda"
+						},
+						legendParams: {
+							addToLegend: false,
+							url: "https://geodata.nationaalgeoregister.nl/bzk/bro-bodemkaart/wms/v1_0"
+						}
+					},
+					"PDOK/BRO Geom. Kaart": {
+						layerType: "tileLayer.WMS",
+						layerOptions: {
+							layers: "view_geomorphological_area",
+							format: "image/png",
+							version: "1.3.0",
+							request: "GetMap",
+							transparent: true,
+							opacity: 0.6,
+							crs: L.CRS.EPSG4326,
+							attribution: "BRO data &copy; <a href=\"https://www.pdok.nl/\">CC BY Kadaster</a>"
+						},
+						layerParams: {
+							addToMap: false,
+							url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0"
+						},
+						legendOptions: {
+							addToLegend: false,
+							layers: "view_geomorphological_area",
+							format: "image/png",
+							version: "1.3.0",
+							request: "GetLegendGraphics",
+							sld_version: "1.1.0",
+							style: "view_geomorphological_area"
+						},
+						legendParams: {
+							url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0",
+							href: ""
+						}
+					},
+					"NRWS Bodenkarte BK50": {
+						layerType: "tileLayer.WMS",
+						layerOptions: {
+							layers: "bodentyp",
+							format: "image/png",
+							version: "1.3.0",
+							request: "GetMap",
+							transparent: true,
+							opacity: 0.6,
+							crs: L.CRS.EPSG4326,
+							attribution: "NRWS data &copy; <a href=\"https://www.wms.nrw.de/\">CC BY NRWS</a>"
+						},
+						layerParams: {
+							addToMap: false,
+							url: "https://www.wms.nrw.de/gd/bk050?"
+						}
+					},
+					"EMODnet Bathymetry": {
+						layerType: "tileLayer.WMS",
+						layerOptions: {
+							layers: "mean_atlas_land",
+							format: "image/png",
+							version: "1.3.0",
+							request: "GetMap",
+							transparent: true,
+							opacity: 0.6,
+							crs: L.CRS.EPSG4326,
+							attribution: "EMODnet data &copy; <a href=\"https://ows.emodnet-bathymetry.eu/\">CC BY EMODnet</a>"
+						},
+						layerParams: {
+							addToMap: false,
+							url: "https://ows.emodnet-bathymetry.eu/wms?"
+						}
+					},
 				},
 				_mapCallback: {
 					functions: {

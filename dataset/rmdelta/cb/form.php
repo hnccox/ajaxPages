@@ -94,7 +94,7 @@ $script .= '
 ';
 // ------------------------------------------------
 $method = "GET";
-$url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
+$url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
 $db = "rmdelta";
 $table = "cb_cat";
 $columns = "*";
@@ -111,8 +111,7 @@ $form = '
     data-db="'.$db.'" 
     data-table="'.$table.'" 
     data-columns="'.$columns.'" 
-    data-query=\'{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "where": { "0": { "identifier": "'.array_keys($_GET)[0].'", "value": "'.$_GET['id'].'" } } } }\'
->
+    data-query=\'{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "where": { "0": { "identifier": "'.array_keys($_GET)[0].'", "value": "'.$_GET['id'].'" } } } }\'>
     <input type="hidden" name="_method" value="'.$method.'">
     <input type="submit" value="submit">
 </form>

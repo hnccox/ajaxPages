@@ -1,5 +1,4 @@
-<div class="container" 
-    data-ajax="template" 
+<div class="container" data-ajax="template" 
     data-url="<?php echo $url ?>"
     data-db="<?php echo $db ?>"
     data-table="<?php echo $table ?>"
@@ -26,16 +25,16 @@
                 <a class="btn btn-primary" href="?labidnr=<?php echo $_GET["labidnr"]; ?>&format=json">
                     <span class="badge badge-light" data-variable="labidnr">LABIDNR</span> <span data-variable="samplename">SAMPLENAME</span>
                 </a>
-                <button type="submit" class="btn btn-primary" form="C14labidnr"><span class="fa fa-edit"></span></button>
-                <button type="submit" class="btn btn-primary" form="formC14labidnr"><span class="fa fa-list-alt"></span></button>
                 <form id="C14labidnr" action="labidnr.php" method="GET" target="_self">
                     <input type="hidden" name="labidnr" value="<?php echo $_GET["labidnr"]; ?>" />
                     <input type="hidden" name="action" value="edit" />
                 </form>
+                <button type="submit" class="btn btn-primary" form="C14labidnr"><span class="fa fa-edit"></span></button>
                 <form id="formC14labidnr" action="form.php" method="GET" target="_self">
                     <input type="hidden" name="labidnr" value="<?php echo $_GET["labidnr"]; ?>" />
                     <input type="hidden" name="action" value="update" />
                 </form>
+                <button type="submit" class="btn btn-primary" form="formC14labidnr"><span class="fa fa-list-alt"></span></button>
             </div>
         </div>
         <div class="col-xs-12 col-sm-3 text-right">
@@ -371,15 +370,16 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div id="map" style="width: auto; height: 350px; background-color: #eeeeee; overflow: hidden;"></div>
-                    <script src="/e107_plugins/leaflet/js/leaflet-bing-layer.js"></script>
+                    <!-- <script src="/e107_plugins/leaflet/js/leaflet-bing-layer.js"></script> -->
+                    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
                     <script>
                         (function() {
                             document.addEventListener("DOMContentLoaded", () => {
                                 setTimeout(function () {
-                                    var BING_KEY = "AnJ32Lw8DOlL-Ji7EhfLuc8plPJDZKYW1XY2-1Uia43MwMC2gxNYfMA7c1FyaWPX";
+                                    // var BING_KEY = "AnJ32Lw8DOlL-Ji7EhfLuc8plPJDZKYW1XY2-1Uia43MwMC2gxNYfMA7c1FyaWPX";
                                     var coordinates = [document.getElementById("lat").innerText, document.getElementById("long").innerText];
                                     var map = L.map("map").setView(coordinates, 13);
-                                    var bingLayer = L.tileLayer.bing(BING_KEY).addTo(map);
+                                    // var bingLayer = L.tileLayer.bing(BING_KEY).addTo(map);
                         
                                     var marker = L.marker(coordinates).addTo(map);
                         

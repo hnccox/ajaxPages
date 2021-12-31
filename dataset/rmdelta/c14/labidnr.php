@@ -31,9 +31,23 @@ if($_GET['format'] === 'json') {
 
 }
 
-// ------------------------------------------------
+// --- [ HEADER ] ---------------------------------
+$iframe = function() {
+    if(strpos(parse_url($_SERVER['HTTP_REFERER'])['path'], '/beta/map/') === 0) {
+        return true;
+    }
+};
 
-require_once(HEADERF);
+if(!$iframe()) {
+    require_once(HEADERF);  
+} else {
+    e107::css(url, 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css');
+    e107::js(url, 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js');
+    e107::js(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/leaflet/js/leaflet-bing-layer.js');
+    e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Table/ajaxTables.css');
+    e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Template/ajaxTemplates.css');
+    e107::css(url, 'https://cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css');  
+}
 
 if(!$_GET[$where_0_identifier]) {
 
@@ -99,13 +113,15 @@ $template = require_once('labidnr.Template.php');
 
 // --- [ RENDER ] ---------------------------------
 $caption = '';
-$text = $script.$template;
+$text = '<div class="row justify-content-md-center p-0 m-0" id="labidnr">'.$script.$template.$footerscript.'</div>';
 $mode = 'c14labidnr';
 $return = false;
 $ns = e107::getRender();
-$ns->tablerender('', $text, $mode, $return);
+$ns->tablerender($caption, $text, $mode, $return);
 // ------------------------------------------------
-require_once(FOOTERF);
+if(!$iframe()) {
+    require_once(FOOTERF);
+}
 exit;
 // ------------------------------------------------
 

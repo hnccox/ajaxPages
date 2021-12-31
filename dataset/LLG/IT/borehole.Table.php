@@ -14,7 +14,7 @@ $tableParams['add'] = false;
 // ------------------------------------------------
 
 $table = '
-<div class="table-scrollable" style="overflow-y: auto; overflow-x: hidden; height: 470px;">
+<div class="container table-scrollable" style="overflow-y: auto; overflow-x: hidden; height: 470px;">
     <table style="font-size:12px;" class="table table-hover table-ajax" 
         data-ajax="table"
         data-type="relational" 
