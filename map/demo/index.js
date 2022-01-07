@@ -154,7 +154,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 						},
 						templateParams: {
 							addToTemplate: false,
-							url: "https://wikiwfs.geo.uu.nl/beta/dataset/LLG/NL/borehole.php?borehole=:uid"
+							url: "https://wikiwfs.geo.uu.nl/views/dataset/LLG/NL/borehole.php?borehole=:uid"
 						},
 						parseResponse: function (response) {
 							const type = response.type;
@@ -263,7 +263,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 							disableClusteringAtZoom: 13
 						},
 						templateParams: {
-							url: "https://wikiwfs.geo.uu.nl/beta/dataset/LLG/IT/borehole.php?borehole=:uid"
+							url: "https://wikiwfs.geo.uu.nl/views/dataset/LLG/IT/borehole.php?borehole=:uid"
 						},
 						parseResponse: function (response) {
 							const type = response.type;
@@ -372,7 +372,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 							disableClusteringAtZoom: 10
 						},
 						templateParams: {
-							url: "https://wikiwfs.geo.uu.nl/beta/dataset/rmdelta/c14/labidnr.php?labidnr=:uid"
+							url: "https://wikiwfs.geo.uu.nl/views/dataset/rmdelta/c14/labidnr.php?labidnr=:uid"
 						},
 						parseResponse: function (response) {
 							const type = response.type;
