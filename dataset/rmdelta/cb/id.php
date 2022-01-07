@@ -32,12 +32,20 @@ if($_GET['format'] === 'json') {
 }
 
 // --- [ HEADER ] ---------------------------------
-if(!$_SERVER['HTTP_REFERER']) {
-    require_once(HEADERF);
+$iframe = function() {
+    if(strpos(parse_url($_SERVER['HTTP_REFERER'])['path'], '/beta/map/') === 0) {
+        return true;
+    }
+};
+
+if(!$iframe()) {
+    require_once(HEADERF);  
 } else {
+    e107::css(url, 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css');
+    e107::js(url, 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js');
     e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Table/ajaxTables.css');
     e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Template/ajaxTemplates.css');
-    e107::css(url, 'https://cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css');
+    e107::css(url, 'https://cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css');  
 }
 
 if(!$_GET[$where_0_identifier]) {
@@ -104,7 +112,7 @@ $template = include('id.Template.php');
 
 // --- [ RENDER ] ---------------------------------
 $caption = '';
-$text = '<div id="id">'.$script.$template.'<div>';
+$text = '<div class="row justify-content-md-center" id="id">'.$script.$template.'<div>';
 $mode = "CBid";
 $return = false;
 $ns = e107::getRender();

@@ -15,11 +15,11 @@ $iframe = function() {
 
 $template = '
 <div data-ajax="template"
-    data-url=\''.$url.'\'
-    data-db=\''.$db.'\'
-    data-table=\''.$table.'\'
-    data-columns=\''.$columns.'\'
-    data-query=\''.$templatequery.'\'>
+    data-url=\''.$template_url.'\'
+    data-db=\''.$template_db.'\'
+    data-table=\''.$template_table.'\'
+    data-columns=\''.$template_columns.'\'
+    data-query=\''.$template_query.'\'>
 
     <div class="card">
         <div class="card-header" style="color:rgb(0,0,0);background-color:rgb(255,205,0);">

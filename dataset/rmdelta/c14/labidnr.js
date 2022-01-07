@@ -28,11 +28,11 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 	function boreholeURI() {
 		const elementList = document.querySelectorAll("[data-variable=\"boreholedb\"]");
 		elementList.forEach((element) => {
-			if(element.innerHTML == "UU") {
+			if (element.innerHTML == "UU") {
 				element.parentElement.style.pointerEvents = "auto";
 				var boreholeId = element.parentElement.firstElementChild.innerText;
 				element.parentElement.addEventListener('click', () => {
-					window.open('https://wikiwfs.geo.uu.nl/LLG/NL/borehole.php?borehole='+boreholeId.replace(/\D/g,''), '_blank').focus();
+					window.open('https://wikiwfs.geo.uu.nl/LLG/NL/borehole.php?borehole=' + boreholeId.replace(/\D/g, ''), '_blank').focus();
 				})
 			}
 		})
@@ -50,7 +50,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 	document.addEventListener('DOMContentLoaded', () => {
 
 		const templates = document.querySelectorAll('div[data-ajax="template"]');
-		templates.forEach((element, key) => {
+		templates.forEach((template, key) => {
 			// Check if we already have specific id in our localStorage...
 			// And if data in our localStorage is still valid...
 			// Else
@@ -76,7 +76,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 				}
 			}
 
-			window["ajaxTemplates"][key] = new ajaxTemplate(element, key, templateOptions);
+			window["ajaxTemplates"][key] = new ajaxTemplate(template, key, templateOptions);
 			// ...and store data in our LocalStorage
 
 		})

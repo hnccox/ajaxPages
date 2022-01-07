@@ -48,17 +48,10 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 				case "10":
 					category.textContent = 'Best Guess';
 					break;
-				default: 
+				default:
 					break;
 			}
 		})
-	}
-
-	function dataStorage(obj) {
-		console.log("dataStorage");
-		Object.keys(obj).forEach((key) => {
-			storageHandler.storage.local.set("dataStorage", obj[key])
-		});
 	}
 
 	function hasReleaseCandidate(obj) {
@@ -100,6 +93,13 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 				var url = "<a href='https://wikiwfs.geo.uu.nl/beta/dataset/rmdelta/c14/labidnr.php?labidnr=" + id.trim() + "'>(" + id.trim() + ")</a>";
 				return url;
 			});
+		});
+	}
+
+	function dataStorage(obj) {
+		console.log("dataStorage");
+		Object.keys(obj).forEach((key) => {
+			storageHandler.storage.local.set("dataStorage", obj[key])
 		});
 	}
 

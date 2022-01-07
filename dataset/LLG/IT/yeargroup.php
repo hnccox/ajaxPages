@@ -7,17 +7,17 @@ error_reporting(E_ALL);
 require_once($_SERVER['DOCUMENT_ROOT']."/class2.php");
 
 // --- [ API ] ------------------------------------
-$url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
-$db = "llg";
-$table = "llg_it_boreholeheader";
-$columns = "borehole,name,drilldate,xco,yco";
-$where_0_identifier = "yeargroup";
-$where_0_value = $_GET[$where_0_identifier];
-$order_by_0_identifier = "borehole";
-$order_by_0_direction = "ASC";
-$limit = 100;
-$offset = 0;
-$query = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "where": { "0": { "identifier": "'.$where_0_identifier.'", "value": "'.$where_0_value.'" }, "1": { "identifier": "active", "value": "true" } } }, "2": { "order_by": { "0": { "identifier": "'.$order_by_0_identifier.'", "direction": "'.$order_by_0_direction.'" } } }, "3": { "limit": "'.$limit.'" }, "4": { "offset": "'.$offset.'" } }';
+$table_url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
+$table_db = "llg";
+$table_table = "llg_it_boreholeheader";
+$table_columns = "borehole,name,drilldate,xco,yco";
+$table_where_0_identifier = "yeargroup";
+$table_where_0_value = $_GET[$table_where_0_identifier];
+$table_order_by_0_identifier = "borehole";
+$table_order_by_0_direction = "ASC";
+$table_limit = 100;
+$table_offset = 0;
+$table_query = '{ "0": { "select": { "columns": { "0": "'.$table_columns.'" }, "from": { "table": "'.$table_table.'" } } }, "1": { "where": { "0": { "identifier": "'.$table_where_0_identifier.'", "value": "'.$table_where_0_value.'" }, "1": { "identifier": "active", "value": "true" } } }, "2": { "order_by": { "0": { "identifier": "'.$table_order_by_0_identifier.'", "direction": "'.$table_order_by_0_direction.'" } } }, "3": { "limit": "'.$table_limit.'" }, "4": { "offset": "'.$table_offset.'" } }';
 
 // --- [ JSON ] -----------------------------------
 if($_GET['format'] === 'json') {

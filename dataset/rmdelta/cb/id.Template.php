@@ -2,9 +2,19 @@
 
 // ------------------------------------------------
 
+$templateParams = [];
+$templateParams['parent'] = "";
+
+$iframe = function() {
+    if(strpos(parse_url($_SERVER['HTTP_REFERER'])['path'], '/beta/map/') === 0) {
+        return true;
+    }
+};
+
+// ------------------------------------------------
+
 $template = '
-<div class="container" 
-    data-ajax="template" 
+<div data-ajax="template"
     data-url=\''.$url.'\'
     data-db=\''.$db.'\'
     data-table=\''.$table.'\'
@@ -301,7 +311,8 @@ $template = '
 
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) {
     echo $template;
-} else {
+}
+else {
     return $template;
 }
 

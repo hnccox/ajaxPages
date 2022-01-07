@@ -43,7 +43,6 @@ if(!$iframe()) {
 } else {
     e107::css(url, 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css');
     e107::js(url, 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js');
-    e107::js(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/leaflet/js/leaflet-bing-layer.js');
     e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Table/ajaxTables.css');
     e107::css(url, 'https://wikiwfs.geo.uu.nl/e107_plugins/ajaxModules/Components/Template/ajaxTemplates.css');
     e107::css(url, 'https://cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css');  
@@ -113,7 +112,7 @@ $template = require_once('labidnr.Template.php');
 
 // --- [ RENDER ] ---------------------------------
 $caption = '';
-$text = '<div class="row justify-content-md-center p-0 m-0" id="labidnr">'.$script.$template.$footerscript.'</div>';
+$text = '<div class="row justify-content-md-center" id="labidnr">'.$script.$template.'</div>';
 $mode = 'c14labidnr';
 $return = false;
 $ns = e107::getRender();

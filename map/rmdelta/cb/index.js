@@ -107,7 +107,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 						},
 						layerParams: {
 							addToMap: true,
-							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
+							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
 							db: "llg",
 							table: "llg_nl_geom",
 							columns: "borehole,longitude,latitude,xco,yco,drilldepth",
@@ -217,34 +217,34 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 			window["ajaxMaps"][key] = new ajaxMap(element, key, mapOptions);
 		})
 
-		const tables = document.querySelectorAll('table[data-ajax]');
-		tables.forEach((element, key) => {
-			var tableOptions = {
-				_tableCallback: {
-					functions: {}
-				}
-			}
-			window["ajaxTables"][key] = new ajaxTable(element, key, tableOptions);
-		})
+		// const tables = document.querySelectorAll('table[data-ajax]');
+		// tables.forEach((element, key) => {
+		// 	var tableOptions = {
+		// 		_tableCallback: {
+		// 			functions: {}
+		// 		}
+		// 	}
+		// 	window["ajaxTables"][key] = new ajaxTable(element, key, tableOptions);
+		// })
 
-		const templates = document.querySelectorAll('div[data-ajax="template"]');
-		templates.forEach((element, key) => {
-			var templateOptions = {
-				parseResponse: function (response) {
-					const data = response.data;
-					const obj = response.data.dataset;
-					const records = data["records"];
-					const totalrecords = data["totalrecords"];
-					delete data.records;
-					delete data.totalrecords;
-					return obj;
-				},
-				_templateCallback: {
-					functions: {}
-				}
-			}
-			window["ajaxTemplates"][key] = new ajaxTemplate(element, key, templateOptions);
-		})
+		// const templates = document.querySelectorAll('div[data-ajax="template"]');
+		// templates.forEach((element, key) => {
+		// 	var templateOptions = {
+		// 		parseResponse: function (response) {
+		// 			const data = response.data;
+		// 			const obj = response.data.dataset;
+		// 			const records = data["records"];
+		// 			const totalrecords = data["totalrecords"];
+		// 			delete data.records;
+		// 			delete data.totalrecords;
+		// 			return obj;
+		// 		},
+		// 		_templateCallback: {
+		// 			functions: {}
+		// 		}
+		// 	}
+		// 	window["ajaxTemplates"][key] = new ajaxTemplate(element, key, templateOptions);
+		// })
 
 	});
 

@@ -3,7 +3,7 @@
 // ------------------------------------------------
 
 $sqlParams = [];
-$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
+$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
 $sqlParams['db'] = "llg";
 $sqlParams['table'] = "llg_nl_boreholeheader";
 $sqlParams['columns'] = "borehole,name,drilldate,xco,yco,coordzone,elevation,drilldepth,geom,geol,soil,veget,groundwaterstep,extraremarks";

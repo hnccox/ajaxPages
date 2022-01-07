@@ -3,6 +3,7 @@
 import { default as ajaxMap } from "/e107_plugins/ajaxModules/Components/Map/ajaxMaps.js";
 import { default as ajaxTable } from "/e107_plugins/ajaxModules/Components/Table/ajaxTables.js";
 import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Template/ajaxTemplates.js";
+import { default as storageHandler } from "/e107_plugins/storageHandler/js/storageHandler.js";
 
 (function () {
 
@@ -86,7 +87,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							table: "llg_nl_geom",
 							columns: "borehole,longitude,latitude,xco,yco,drilldepth",
 							offset: 0,
-							limit: 500,
+							limit: 1000,
 							query: {
 								0: {
 									"select": {
@@ -133,14 +134,14 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 								3: {
 									"order_by": {
 										0: {
-											/*"identifier": "llg_nl_geom.geom <-> 'SRID=4326;POINT(:lng :lat)'::geometry, llg_nl_geom.borehole",*/
-											"identifier": "llg_nl_geom.borehole",
+											"identifier": "llg_nl_geom.geom <-> 'SRID=4326;POINT(:lng :lat)'::geometry, llg_nl_geom.borehole",
+											// "identifier": "llg_nl_geom.borehole",
 											"direction": "ASC"
 										}
 									}
 								},
 								4: {
-									"limit": 500
+									"limit": 1000
 								},
 								5: {
 									"offset": 0
@@ -148,7 +149,11 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							},
 							disableClusteringAtZoom: 14
 						},
+						tableParams: {
+							addToTable: false,
+						},
 						templateParams: {
+							addToTemplate: false,
 							url: "https://wikiwfs.geo.uu.nl/beta/dataset/LLG/NL/borehole.php?borehole=:uid"
 						},
 						parseResponse: function (response) {
@@ -196,7 +201,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							table: "llg_it_geom",
 							columns: "borehole,longitude,latitude,xco,yco,drilldepth",
 							offset: 0,
-							limit: 500,
+							limit: 1000,
 							query: {
 								0: {
 									"select": {
@@ -249,7 +254,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 									}
 								},
 								4: {
-									"limit": 500
+									"limit": 1000
 								},
 								5: {
 									"offset": 0

@@ -48,8 +48,6 @@ $table = include('index.Table.php');
 
 // --- [ RENDER ] ---------------------------------
 $caption = '<h1>C14 Catalog</h1>';
-$description = '<p>The table below shows all 14C dates currently in our database (back to RMD:Introduction).</p>
-<p>The contents of this page is database-queried. Custom queries are found under RijnMaasDelta:UserQueries.</p>';
 $text = $script.'<div class="row justify-content-md-center">
 			<div class="col-md-10 col-md-offset-1">
 				'.$table.'

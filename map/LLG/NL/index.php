@@ -70,7 +70,10 @@ $script = '
 
 // --- [ MAP ] ------------------------------------
 $map = include('index.Map.php');
-
+// --- [ TABLE ] ----------------------------------
+$table = include('index.Table.php');
+// --- [ TEMPLATE ] -------------------------------
+$template = include('index.Template.php');
 // --- [ RENDER ] ---------------------------------
 $page = '
 <div class="container-fluid">
@@ -87,7 +90,7 @@ $page = '
 // Need to be bound to a layer
 // sqlParams['table'] must match at least one of the data-table of the maplayers
 $sqlParams = [];
-$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
+$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
 $sqlParams['db'] = "llg";
 $sqlParams['table'] = "llg_nl_boreholeheader";
 $sqlParams['columns'] = "borehole,xco,yco,drilldepth";
@@ -145,18 +148,14 @@ $table = '
             </div>
         </div>';
 
-// --- [ TEMPLATE ] -------------------------------
-$template = include('index.Template.php');
-
 $page .='
 	</div>
-	<div class="col-md-8" id="templateContainer">';
-// --- [ TEMPLATE ] -------------------------------
-$template = include('index.Template.php');
+	<div class="col-md-8" id="templateContainer">'.$template.'</div>';
+
 
 // ------------------------------------------------
 $sqlParams = [];
-$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php";
+$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
 $sqlParams['db'] = "llg";
 $sqlParams['table'] = "llg_nl_boreholedata";
 $sqlParams['columns'] = "startdepth,depth,texture,organicmatter,plantremains,color,oxired,gravelcontent,median,calcium,ferro,groundwater,sample,soillayer,stratigraphy,remarks";
