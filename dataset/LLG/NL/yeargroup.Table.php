@@ -11,9 +11,9 @@ $sqlParams['url'] = $url;
 $sqlParams['db'] = $db;
 $sqlParams['table'] = $table;
 $sqlParams['columns'] = $columns;
-$sqlParams['query'] = $query;
 $sqlParams['limit'] = $limit;
 $sqlParams['offset'] = $offset;
+$sqlParams['query'] = $query;
 
 // ------------------------------------------------
 

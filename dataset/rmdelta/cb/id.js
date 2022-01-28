@@ -77,7 +77,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 		myArray.forEach(function (elem) {
 			elem.innerHTML = elem.innerHTML.replace(regexCB, function ($1) {
 				var id = $1;
-				var url = "<a href='https://wikiwfs.geo.uu.nl/beta/dataset/rmdelta/cb/id.php?id=" + id.match(/\d+/g).map(Number) + "'>" + id.trim() + "</a>";
+				var url = " <a href='https://wikiwfs.geo.uu.nl/beta/dataset/rmdelta/cb/id.php?id=" + id.match(/\d+/g).map(Number) + "'>" + id.trim() + "</a>";
 				return url;
 			});
 
@@ -90,7 +90,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 				}
 
 				id = tmp.join("-");
-				var url = "<a href='https://wikiwfs.geo.uu.nl/beta/dataset/rmdelta/c14/labidnr.php?labidnr=" + id.trim() + "'>(" + id.trim() + ")</a>";
+				var url = " <a href='https://wikiwfs.geo.uu.nl/beta/dataset/rmdelta/c14/labidnr.php?labidnr=" + id.trim() + "'>(" + id.trim() + ")</a>";
 				return url;
 			});
 		});

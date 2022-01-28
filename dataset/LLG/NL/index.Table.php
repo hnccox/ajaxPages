@@ -29,7 +29,7 @@ $tableParams['add'] = false;
 
 $tableProps = [];
 $tableProps['class'] = "table table-hover";
-$tableProps['style'] = "font-size: 12px";
+$tableProps['style'] = "font-size: 12px;";
 
 // ------------------------------------------------
 

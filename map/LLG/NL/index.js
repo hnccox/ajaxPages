@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import { default as ajaxMap } from "/e107_plugins/ajaxModules/Components/Map/ajaxMaps.js";
 import { default as ajaxTable } from "/e107_plugins/ajaxModules/Components/Table/ajaxTables.js";
@@ -33,24 +33,24 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 					layers: layer
 				},
 				_overlayMaps: {
-					LLG_NL: {
+					"UU LLG_NL": {
 						layerType: "markerClusterGroup",
 						layerOptions: {
-							attribution: "Borehole data &copy; <a href=\"https://www.uu.nl/\">CC BY Geowetenschappen</a>"
+							attribution: "Borehole data &copy; <a href=\"https://wikiwfs.geo.uu.nl/\">CC BY Geowetenschappen</a>"
 						},
 						layerParams: {
 							addToMap: true,
 							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
 							db: "llg",
 							table: "llg_nl_geom",
-							columns: "borehole,xco,yco,drilldepth",
+							columns: "borehole,longitude,latitude,xco,yco,drilldepth",
 							offset: 0,
 							limit: 1000,
 							query: {
 								0: {
 									"select": {
 										"columns": {
-											0: "llg_nl_geom.borehole,llg_nl_geom.longitude,llg_nl_geom.latitude,llg_nl_geom.xy,llg_nl_geom.geom,xco,yco,drilldepth"
+											0: "llg_nl_geom.borehole,llg_nl_geom.longitude,llg_nl_geom.latitude,llg_nl_geom.xy,llg_nl_geom.geom,xco,yco,drilldepth,active"
 										},
 										"from": {
 											"table": "llg_nl_geom"
@@ -93,7 +93,8 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 									"order_by": {
 										0: {
 											"identifier": "llg_nl_geom.geom <-> 'SRID=4326;POINT(:lng :lat)'::geometry, llg_nl_geom.borehole",
-											"direction": "DESC"
+											// "identifier": "llg_nl_geom.borehole",
+											"direction": "ASC"
 										}
 									}
 								},
@@ -105,6 +106,13 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 								}
 							},
 							disableClusteringAtZoom: 14
+						},
+						tableParams: {
+							addToTable: "true",
+						},
+						templateParams: {
+							addToTemplate: "false",
+							url: "https://wikiwfs.geo.uu.nl/views/dataset/LLG/NL/borehole.php?borehole=:uid"
 						},
 						parseResponse: function (response) {
 							const type = response.type;
@@ -126,18 +134,23 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 						},
 						icons: {
 							icon: {
-								iconUrl: "/beta/map/markers/m1_30.png",
+								iconUrl: "../../_icons/markers/m1_30.png",
 								iconSize: [10, 10]
 							},
 							highlightIcon: {
-								iconUrl: "/beta/map/markers/m1_30.png",
+								iconUrl: "../../_icons/markers/m1_30.png",
 								iconSize: [15, 15]
 							},
 							selectedIcon: {
-								iconUrl: "/beta/map/markers/m1y_0.png",
+								iconUrl: "../../_icons/markers/m1y_0.png",
 								iconSize: [15, 15]
 							}
 						}
+					},
+				},
+				_controls: {
+					exportData: (map) => {
+						return L.control.exportdata({ position: 'topright', maxWidth: 50 }).addTo(map)
 					},
 				},
 				_mapCallback: {
@@ -147,7 +160,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 			window["ajaxMaps"][key] = new ajaxMap(element, key, mapOptions);
 		})
 
-		const tables = document.querySelectorAll('table[data-ajax]');
+		const tables = document.querySelectorAll('table[data-ajax]:not([id])');
 		tables.forEach((element, key) => {
 			var tableOptions = {
 				parseResponse: function (response) {
@@ -165,9 +178,17 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 			window["ajaxTables"][key] = new ajaxTable(element, key, tableOptions);
 		})
 
-		const templates = document.querySelectorAll('div[data-ajax="template"]');
+		const templates = document.querySelectorAll('div[data-ajax="template"]:not([id])');
 		templates.forEach((element, key) => {
 			var templateOptions = {
+				parseResponse: function (response) {
+					const type = response.type;
+					const data = response.data;
+					const dataset = response.data.dataset[0];
+					const records = data.records;
+					const totalrecords = data.totalrecords;
+					return { type, data, dataset, records, totalrecords };
+				},
 				_templateCallback: {
 					functions: {}
 				}

@@ -79,7 +79,7 @@ $columns = "*";
 $inner_join = "";
 $where = "id='{$_GET['id']}'";
 $limit = 1;
-$offset = 1;
+$offset = 0;
 $form = '
 <form method="'.$method.'" class="container" data-ajax="form" data-url="'.$url.'" data-db="'.$db.'" data-table="'.$table.'" data-columns="'.$columns.'" data-inner_join="'.$inner_join.'" data-where="'.$where.'" data-order_by="'.$order_by.'" data-direction="'.$direction.'" data-paging="'.$paging.'" data-limit="'.$limit.'" data-offset="'.$offset.'">
 

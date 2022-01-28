@@ -24,7 +24,6 @@ $tableParams['preview'] = 20;
 $tableParams['expanded'] = false;
 $tableParams['href'] = true;
 $tableParams['add'] = false;
-if ($tableParams['expanded'] == true) { $tableParams['expanded'] = "aria-expanded"; }
 
 // ------------------------------------------------
 

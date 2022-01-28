@@ -45,18 +45,18 @@ $mapquery = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { 
 
 // --- [ JSON ] -----------------------------------
 if($_GET['format'] === 'json') {
-    
-    $included = true;
+	
+	$included = true;
 
-    header('Content-Type: application/json');
-    
-    $_GET['db'] = json_encode($db);
-    $_GET['query'] = $mapquery;
-    require($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/server/API.php");
-    $jsonArray[] = $query->response;
+	header('Content-Type: application/json');
+	
+	$_GET['db'] = json_encode($db);
+	$_GET['query'] = $mapquery;
+	require($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/server/API.php");
+	$jsonArray[] = $query->response;
 
-    echo json_encode($jsonArray, true);
-    exit;
+	echo json_encode($jsonArray, true);
+	exit;
 }
 
 // --- [ HEADER ] ---------------------------------
@@ -70,150 +70,29 @@ $script = '
 
 // --- [ MAP ] ------------------------------------
 $map = include('index.Map.php');
-// --- [ TABLE ] ----------------------------------
-$table = include('index.Table.php');
 // --- [ TEMPLATE ] -------------------------------
 $template = include('index.Template.php');
+// --- [ TEMPLATETABLE ] --------------------------
+$table = include('index.templateTable.php');
 // --- [ RENDER ] ---------------------------------
 $page = '
-<div class="container-fluid">
-<div class="row">
-	<div class="col-md-4">
-        <div class="square">
-        '.$map.'
-        <div class="tab-content bg-white" id="nav-tabContent"></div>
-        </div>
-';
-
-// ------------------------------------------------
-// SLAVE TABLE
-// Need to be bound to a layer
-// sqlParams['table'] must match at least one of the data-table of the maplayers
-$sqlParams = [];
-$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
-$sqlParams['db'] = "llg";
-$sqlParams['table'] = "llg_nl_boreholeheader";
-$sqlParams['columns'] = "borehole,xco,yco,drilldepth";
-$sqlParams['inner_join'] = null;
-$sqlParams['where'] = null;
-$sqlParams['order_by'] = null;
-$sqlParams['direction'] = null;
-$sqlParams['limit'] = null;
-$sqlParams['offset'] = null;
-$tableParams = [];
-$tableParams['caption'] = "";
-$tableParams['slave'] = true;
-$tableParams['master'] = "Maps[0]";
-$tableParams['columnNames'] = "borehole,xco,yco,drilldepth";
-$tableParams['columnSortable'] = false;
-$tableParams['href'] = false;
-$tableParams['events'] = "mouseover,mouseout,mousedown,mouseup,click";
-$tableParams['preview'] = false;
-$tableParams['expanded'] = true;
-$tableParams['totalrecords'] = false;
-$tableParams['add'] = false;
-
-$table = '
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="table-scrollable" style="overflow-y: auto; max-height: 320px;">
-                    <div class="mapinfo" style="height:200px;text-align:center;">
-                        <br>
-                        <p><strong>Zoom to area of interest to show boreholes</strong></p>
-                    </div>
-                    <table style="display:none;font-size:12px;" class="table table-hover table-ajax hidden-xs" 
-                        data-ajax="table" 
-                        data-type="slave"
-                        data-slave="'.$tableParams['slave'].'" 
-                        data-master="'.$tableParams['master'].'" 
-                        data-url="'.$sqlParams['url'].'" 
-                        data-db="'.$sqlParams['db'].'" 
-                        data-table="'.$sqlParams['table'].'" 
-                        data-columns="'.$sqlParams['columns'].'" 
-                        data-inner_join="'.$sqlParams['inner_join'].'" 
-                        data-where="'.$sqlParams['where'].'" 
-                        data-order_by="'.$sqlParams['order_by'].'" 
-                        data-direction="'.$sqlParams['direction'].'" 
-                        data-limit="'.$sqlParams['limit'].'" 
-                        data-offset="'.$sqlParams['offset'].'" 
-                        data-columnnames="'.$tableParams['columnNames'].'" 
-                        data-columnsortable="'.$tableParams['columnSortable'].'"
-                        data-href="'.$tableParams['href'].'"
-                        data-events="'.$tableParams['events'].'"
-                        data-preview="'.$tableParams['preview'].'" 
-                        data-totalrecords="'.$tableParams['totalrecords'].'" 
-                        data-add="'.$tableParams['add'].'" '.$aria_expanded.'>
-                    </table>
-                </div>
-            </div>
-        </div>';
-
-$page .='
+<div class="container-fluid" style="position: relative;">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="square" style="height: calc(100vh - 56px);">
+				'.$map.'
+				<nav style="display:none;"><ul class="nav nav-tabs" id="nav-tab"></ul></nav>
+				<div class="tab-content bg-white" id="nav-tabContent"></div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="container-ajaxTemplate" style="height: calc(100vh - 56px);">
+				'.$template.$table.'
+			</div>
+		</div>
 	</div>
-	<div class="col-md-8" id="templateContainer">'.$template.'</div>';
-
-
+</div>';
 // ------------------------------------------------
-$sqlParams = [];
-$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
-$sqlParams['db'] = "llg";
-$sqlParams['table'] = "llg_nl_boreholedata";
-$sqlParams['columns'] = "startdepth,depth,texture,organicmatter,plantremains,color,oxired,gravelcontent,median,calcium,ferro,groundwater,sample,soillayer,stratigraphy,remarks";
-$sqlParams['where'] = "borehole=''";
-$sqlParams['order_by'] = "startdepth";
-$sqlParams['direction'] = "ASC";
-$sqlParams['limit'] = null;
-$sqlParams['offset'] = null;
-$tableParams = [];
-$tableParams['slave'] = true;
-$tableParams['master'] = "Templates[0]";
-$tableParams['columnNames'] = "Top,Depth,Texture,Org,Plr,Color,RedOx,Gravel,M50,Ca,Fe,GW,Sample,Paleosoil,Strat,Remarks";
-$tableParams['columnSortable'] = false;
-$tableParams['preview'] = false;
-$tableParams['expanded'] = true;
-$tableParams['href'] = false;
-$tableParams['events'] = ["mouseover", "mouseout", "mousedown", "mouseup", "click"];
-$rowParams = [];
-$rowParams['href'] = false;
-$rowParams['mouseover'] = true;
-$rowParams['mouseout'] = true;
-$rowParams['click'] = true;
-$rowParams['add'] = false;
-$cellParams = [];
-
-$table = '
-        <div class="table-scrollable" style="overflow-y: auto; overflow-x: hidden; height: 408px;">
-            <table style="font-size:12px;" class="table table-hover table-ajax" 
-                data-ajax="table"
-                data-type="relational"
-                data-slave="'.$tableParams['slave'].'" 
-                data-master="'.$tableParams['master'].'" 
-                data-url="'.$sqlParams['url'].'" 
-                data-db="'.$sqlParams['db'].'" 
-                data-table="'.$sqlParams['table'].'" 
-                data-columns="'.$sqlParams['columns'].'" 
-                data-inner_join="'.$sqlParams['inner_join'].'" 
-                data-where="'.$sqlParams['where'].'" 
-                data-order_by="'.$sqlParams['order_by'].'" 
-                data-direction="'.$sqlParams['direction'].'" 
-                data-limit="'.$sqlParams['limit'].'" 
-                data-offset="'.$sqlParams['offset'].'" 
-                data-columnnames="'.$tableParams['columnNames'].'" 
-                data-columnsortable="'.$tableParams['columnSortable'].'"
-                data-preview="'.$tableParams['preview'].'" 
-                data-href="'.$tableParams['href'].'" 
-                data-events="'.$tableParams['events'].'"
-                data-add="'.$tableParams['add'].'" '.$aria_expanded.'>
-            </table>
-        </div>';
-
-// ------------------------------------------------
-//$page .= $template.$table;
-$page .= '
-	</div>
-</div>
-</div>
-';
 $text = $script.$page;
 // ------------------------------------------------
 $mode = "ajaxMap";

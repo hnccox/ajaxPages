@@ -60,10 +60,8 @@ import { default as ajaxTable } from "/e107_plugins/ajaxModules/Components/Table
                         //     longitude = bounds.getCenter().lat;
                         //     break;
                     }
-
                     if (isNaN(latitude)) { latitude = 0 }
                     if (isNaN(longitude)) { longitude = 0 }
-
                     return { lat: latitude, lng: longitude };
                 },
                 _tableCallback: {

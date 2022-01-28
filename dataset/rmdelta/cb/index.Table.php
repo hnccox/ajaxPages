@@ -28,6 +28,11 @@ $tableParams['expanded'] = true;
 
 // ------------------------------------------------
 
+$tableProps['type'] = 'table-scrollable';
+$tableProps['height'] = '500px';
+
+// ------------------------------------------------
+
 return ajaxTable($sqlParams, $tableParams);
 
 // ------------------------------------------------

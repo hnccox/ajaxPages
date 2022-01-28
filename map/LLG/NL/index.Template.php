@@ -2,39 +2,57 @@
 
 // ------------------------------------------------
 
+$template_parent = "ajaxMaps[0]";
+$template_url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
+$template_db = "llg";
+$template_table = "llg_nl_boreholeheader";
+$template_columns = "borehole,name,drilldate,xco,yco,coordzone,elevation,drilldepth,geom,geol,soil,veget,groundwaterstep,extraremarks";
+$template_where_0_identifier = "borehole";
+$template_where_0_value = ":uid";
+$template_order_by_0_identifier = "borehole";
+$template_order_by_0_direction = "DESC";
+$template_query = '{ "0": { "select": { "columns": { "0": "'.$template_columns.'" }, "from": { "table": "'.$template_table.'" } } }, "1": { "where": { "0": { "identifier": "'.$template_where_0_identifier.'", "value": "'.$template_where_0_value.'" } } }, "2": { "order_by": { "0": { "identifier": "'.$template_order_by_0_identifier.'", "direction": "'.$template_order_by_0_direction.'" } } } }';
+$template_limit = 1;
+$template_offset = 0;
+
+// ------------------------------------------------
+
 $sqlParams = [];
-$sqlParams['url'] = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
-$sqlParams['db'] = "llg";
-$sqlParams['table'] = "llg_nl_boreholeheader";
-$sqlParams['columns'] = "borehole,name,drilldate,xco,yco,coordzone,elevation,drilldepth,geom,geol,soil,veget,groundwaterstep,extraremarks";
-$sqlParams['inner_join'] = "";
-$sqlParams['where'] = "borehole=':uid'";
-$sqlParams['order_by'] = "";
-$sqlParams['direction'] = "";
-$sqlParams['limit'] = null;
-$sqlParams['offset'] = null;
+$sqlParams['parent'] = $template_parent;
+$sqlParams['url'] = $template_url;
+$sqlParams['db'] = $template_db;
+$sqlParams['table'] = $template_table;
+$sqlParams['columns'] = $template_columns;
+$sqlParams['query'] = $template_query;
+$sqlParams['limit'] = $template_limit;
+$sqlParams['offset'] = $template_offset;
 
 // ------------------------------------------------
 
 $templateParams = [];
-$templateParams['parent'] = "";
 
 // ------------------------------------------------
 
 $template = '
-<div data-ajax="template"
-	data-slave="1"
-	data-master="Maps[0]"
-	data-url="'.$sqlParams['url'].'" 
-	data-db="'.$sqlParams['db'].'" 
-	data-table="'.$sqlParams['table'].'" 
-	data-columns="'.$sqlParams['columns'].'" 
-    data-inner_join="'.$sqlParams['inner_join'].'" 
-	data-where="'.$sqlParams['where'].'" 
-	data-order_by="'.$sqlParams['order_by'].'" 
-	data-direction="'.$sqlParams['direction'].'" 
-	data-limit="'.$sqlParams['limit'].'"
-    data-offset="'.$sqlParams['offset'].'">
+<div class="'.$templateProps['class'].'" style="'.$templateProps['style'].'"
+    data-ajax="template" 
+    data-parent=\''.$sqlParams['parent'].'\'
+    data-key=\'UU LLG_NL\'
+    data-url=\''.$sqlParams['url'].'\' 
+    data-db=\''.$sqlParams['db'].'\' 
+    data-table=\''.$sqlParams['table'].'\'
+    data-columns=\''.$sqlParams['columns'].'\'
+    data-query=\''.$sqlParams['query'].'\'
+    data-limit=\''.$sqlParams['limit'].'\'
+    data-page=\''.$sqlParams['offset'].'\'
+    data-caption=\''.$templateParams['caption'].'\'
+    data-columnnames=\''.$templateParams['columnNames'].'\'
+    data-columnsortable=\''.$templateParams['columnSortable'].'\'
+    data-preview=\''.$templateParams['preview'].'\'
+    data-href=\''.$templateParams['href'].'\'
+    data-totalrecords=\''.$templateParams['totalrecords'].'\'
+    data-add=\''.$templateParams['add'].'\'
+    '.$templateParams['expanded'].'>
     <div class="panel panel-default">
         <div class="panel-heading" style="color:rgb(0,0,0);background-color:rgb(255,205,0);">
                 <strong>
@@ -53,22 +71,6 @@ $template = '
             </span>
         </div>
         <div class="panel-body">
-            <!--
-            <div class="row">
-                <div class="col-md-4 table-responsive" style="padding-top:14px">
-                    <table class="table table-condensed">
-                        <tbody>
-                            <tr>
-                                <td style="border:none">Name</td>
-                                <td style="border:none;font-weight: bold"><span data-variable="name" contenteditable="false">name</span></td>
-                                <td style="border:none">Date</td>
-                                <td style="border:none;font-weight: bold"><input type="date" data-variable="drilldate" value="" disabled></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            -->
             <div class="row">
                 <div class="col-md-6">
                     <strong>Coordinates</strong>
@@ -135,29 +137,6 @@ $template = '
             <textarea style="width:100%" data-variable="extraremarks" disabled>extraremarks</textarea>
         </div>
     </div>
-    <!--
-    <div class="card">
-        <div class="card-header"></div>
-        <div class="card-body">
-            <h5 class="card-title"></h5>
-            <p class="card-text"></p>
-        </div>
-    </div>
-    -->
-    
-    <!--
-    <span data-variable="xco" contenteditable="false">xco</span>
-    <span data-variable="yco" contenteditable="false">yco</span>
-    <span data-variable="coordzone" contenteditable="false">coordzone</span>
-    <span data-variable="elevation" contenteditable="false">elevation</span>
-    <span data-variable="drilldepth" contenteditable="false">drilldepth</span>
-    <span data-variable="geom" contenteditable="false">geom</span>
-    <span data-variable="geol" contenteditable="false">geol</span>
-    <span data-variable="soil" contenteditable="false">soil</span>
-    <span data-variable="veget" contenteditable="false">veget</span>
-    <span data-variable="groundwaterstep" contenteditable="false">groundwaterstep</span>
-    <span data-variable="extraremarks" contenteditable="false">extraremarks</span>
-    -->
 </div>';
 
 // ------------------------------------------------

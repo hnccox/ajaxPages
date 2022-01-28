@@ -13,7 +13,7 @@ $table = "llg_nl_grouplist";
 $columns = "yeargroup,year,names,n_boreholes,minxco,maxxco,minyco,maxyco";
 // $where_0_identifier = "";
 // $where_0_value = $_GET[$where_0_identifier];
-$order_by_0_identifier = "year";
+$order_by_0_identifier = "yeargroup";
 $order_by_0_direction = "DESC";
 $limit = $_GET['limit'] ?? "20";
 $offset = $_GET['offset'] ?? 0;
@@ -42,14 +42,18 @@ $script = '
 </script>
 ';
 // --- [ TABLE ] ----------------------------------
+//$table = '<table data-ajax="true"></table>'
 $table = include('index.Table.php');
 // ------------------------------------------------
 $caption = '';
-$text = '<div class="row justify-content-md-center">
-            <div class="col-md-10 col-md-offset-1">
-                '.$table.'
-            </div>
-        </div>';
+$text = '
+<div class="container-fluid">
+    <div class="row justify-content-md-center">
+        <div class="col-md-10 col-md-offset-1">
+            '.$table.'
+        </div>
+    </div>
+</div>';
 
 // --- [ RENDER ] ---------------------------------
 $mode = 'LLG';

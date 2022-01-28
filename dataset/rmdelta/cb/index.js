@@ -416,6 +416,9 @@ import { default as ajaxTable } from "/e107_plugins/ajaxModules/Components/Table
                 case "K":
                     columns[columns.length - 1].innerHTML = "<a href='cbgroup.php?cbgroup=Krimpen_(Rhine)'>" + riversystemgrp + "</a>";
                     break;
+				// case "L":
+				// 	columns[columns.length - 1].innerHTML = "<a href='cbgroup.php?cbgroup=L_(Rhine)'>" + riversystemgrp + "</a>";
+				// 	break;					
                 case "Ls":
                     columns[columns.length - 1].innerHTML = "<a href='cbgroup.php?cbgroup=Liemers_(Rhine)'>" + riversystemgrp + "</a>";
                     break;

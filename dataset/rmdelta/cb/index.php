@@ -37,17 +37,20 @@ $table = include('index.Table.php');
 
 // --- [ RENDER ] ---------------------------------
 $caption = '<h1>CB Catalog</h1>';
-$text = '<div class="row justify-content-md-center"">
-            <div class="col-md-3 offset-md-1">
-                <br>
-                <br>
-                <br>
-                '.$menu.'
-            </div>
-            <div class="col-md-7">
-                '.$table.'
-            </div>
-        </div>';
+$text = '
+<div class="container-fluid">
+    <div class="row justify-content-md-center"">
+        <div class="col-md-3 offset-md-1">
+            <br>
+            <br>
+            <br>
+            '.$menu.'
+        </div>
+        <div class="col-md-7">
+            '.$table.'
+        </div>
+    </div>
+</div>';
 $mode = 'CBcatalog';
 $return = false;
 $ns = e107::getRender();

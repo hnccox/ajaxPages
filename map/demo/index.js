@@ -71,6 +71,11 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 					// minZoom: parseInt(element.dataset.minZoom, 10),
 					// maxZoom: parseInt(element.dataset.maxZoom, 10)
 				},
+				_controls: {
+					exportData: (map) => {
+						return L.control.exportdata({ position: 'topright', maxWidth: 50 }).addTo(map)
+					},
+				},
 				_baseMaps: {
 					layers: layer
 				},
@@ -81,7 +86,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 							attribution: "Borehole data &copy; <a href=\"https://wikiwfs.geo.uu.nl/\">CC BY Geowetenschappen</a>"
 						},
 						layerParams: {
-							addToMap: false,
+							addToMap: true,
 							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
 							db: "llg",
 							table: "llg_nl_geom",
@@ -371,7 +376,11 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 							},
 							disableClusteringAtZoom: 10
 						},
+						tableParams: {
+							addToTable: "true"
+						},
 						templateParams: {
+							addToTemplate: "true",
 							url: "https://wikiwfs.geo.uu.nl/views/dataset/rmdelta/c14/labidnr.php?labidnr=:uid"
 						},
 						parseResponse: function (response) {
@@ -433,35 +442,13 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 							const dataset = response.data[0].sites;
 							let uid = 0;
 							let coords = {};
-							let collectionunithandleArray = [];
-							let collectionunittypeArray = [];
-							let i = 0;
 							Object.keys(dataset).forEach((key) => {
-								i++;
-								//console.log(dataset[key]);
 								uid = this.getUID(dataset[key]);
 								coords = this.getLatLng(dataset[key]);
-								// dataset[key].collectionunits.forEach((collectionunit) => {
-								// 	collectionunithandleArray = [];
-								// 	collectionunittypeArray = [];
-								// 	if (collectionunit?.handle) {
-								// 		if (!collectionunithandleArray.includes(collectionunit.handle)) {
-								// 			collectionunithandleArray.push(collectionunit.handle)
-								// 		}
-								// 	}
-								// 	if (collectionunit?.collectionunittype) {
-								// 		if (!collectionunittypeArray.includes(collectionunit.collectionunittype)) {
-								// 			collectionunittypeArray.push(collectionunit.collectionunittype)
-								// 		}
-								// 	}
-								// })
 								dataset[key].uid = uid;
 								dataset[key].longitude = coords.lng;
 								dataset[key].latitude = coords.lat;
-								// dataset[key].collectionunithandles = collectionunithandleArray.toString();
-								// dataset[key].collectionunittypes = collectionunittypeArray.toString();
 							})
-							//console.log(i);
 							const records = response.data[0].sites.length;
 							const totalrecords = response.data[0].sites.length;
 							return { type, data, dataset, records, totalrecords };
@@ -486,10 +473,8 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 									longitude = bounds.getCenter().lat;
 									break;
 							}
-
 							if (isNaN(latitude)) { latitude = 0 }
 							if (isNaN(longitude)) { longitude = 0 }
-
 							return { lat: latitude, lng: longitude };
 						},
 						icons: {
@@ -547,7 +532,7 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 							layer: "view_soil_area",
 							format: "image/png",
 							version: "1.3.0",
-							request: "GetLegendGraphic",
+							request: "GetLegendGraphics",
 							sld_version: "1.1.0",
 							style: "bro-bodemkaart:bodemlegenda"
 						},
@@ -573,7 +558,6 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 							url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0"
 						},
 						legendOptions: {
-							addToLegend: false,
 							layers: "view_geomorphological_area",
 							format: "image/png",
 							version: "1.3.0",
@@ -582,8 +566,8 @@ import { default as storageHandler } from "/e107_plugins/storageHandler/js/stora
 							style: "view_geomorphological_area"
 						},
 						legendParams: {
-							url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0",
-							href: ""
+							addToLegend: false,
+							url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0"
 						}
 					},
 					"NRWS Bodenkarte BK50": {

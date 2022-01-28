@@ -49,6 +49,17 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 					// minZoom: parseInt(element.dataset.minZoom, 10),
 					// maxZoom: parseInt(element.dataset.maxZoom, 10)
 				},
+				_controls: {
+					// modalWelcome: (map) => {
+					// 	return L.control.modal({ position: 'topright', maxWidth: 50, modalElement: 'welcomeModalCenteredScrollable', modalTitle: 'Welcome', modalIcon: 'fa fa-close' }).addTo(map)
+					// },
+					modalInfo: (map) => {
+						return L.control.modal({ position: 'topright', maxWidth: 50, modalElement: 'infoModalCenteredScrollable' }).addTo(map)
+					},
+					wmsLegend: (map) => {
+						return L.control.wmsLegend({ maxWidth: 50 }).addTo(map)
+					},
+				},
 				_baseMaps: {
 					layers: layer
 				},
@@ -90,7 +101,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 						},
 						legendOptions: {
 							service: "WMS",
-							layers: "view_soil_area",
+							layer: "view_soil_area",
 							format: "image/png",
 							version: "1.3.0",
 							request: "GetLegendGraphic",
@@ -118,19 +129,19 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							addToMap: false,
 							url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0"
 						},
-						legendOptions: {
-							service: "WMS",
-							layers: "view_geomorphological_area",
-							format: "image/png",
-							version: "1.3.0",
-							request: "GetLegendGraphic",
-							sld_version: "1.1.0",
-							style: "view_geomorphological_area"
-						},
-						legendParams: {
-							addToLegend: false,
-							url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0"
-						}
+						// legendOptions: {
+						// 	service: "WMS",
+						// 	layer: "view_geomorphological_area",
+						// 	format: "image/png",
+						// 	version: "1.3.0",
+						// 	request: "GetLegendGraphic",
+						// 	sld_version: "1.1.0",
+						// 	style: "view_geomorphological_area"
+						// },
+						// legendParams: {
+						// 	addToLegend: false,
+						// 	url: "https://service.pdok.nl/bzk/bro-geomorfologischekaart/wms/v1_0"
+						// }
 					},
 					"Pollen": {
 						layerReference: { id: "pollen", name: "Pollen", description: "Dutch pollen data" },
@@ -142,8 +153,8 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							addToMap: true,
 							//url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/sites?limit=5&offset=0",
 							url: "//api.neotomadb.org/v2.0/data/geopoliticalunits/3180/datasets?limit=500&offset=0",
-							columns: "sitename,collectionunithandles,collectionunittypes,longitude,latitude,altitude",
-							columnnames: "Sitename,Handle,Collection type,Longitude,Latitude,Altitude",
+							columns: "sitename,collectionunittypes,longitude,latitude,altitude",
+							columnnames: "Sitename,Collection type,Longitude,Latitude,Altitude",
 							cacheReturn: true,
 							limit: 1000,
 							disableClusteringAtZoom: 8,
@@ -331,7 +342,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 						},
 						layerParams: {
 							addToMap: false,
-							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/beta/API.php",
+							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
 							db: "rmdelta",
 							table: "c14_geom",
 							columns: "labidnr,samplename,c14age,c14err,xco,yco,latitude,longitude",
@@ -420,15 +431,15 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 						},
 						icons: {
 							icon: {
-								iconUrl: "../_icons/markers/c14_0.png",
+								iconUrl: "../../_icons/markers/c14_0.png",
 								iconSize: [10, 10]
 							},
 							highlightIcon: {
-								iconUrl: "../_icons/markers/c14_0.png",
+								iconUrl: "../../_icons/markers/c14_0.png",
 								iconSize: [15, 15]
 							},
 							selectedIcon: {
-								iconUrl: "../_icons/markers/c14y_0.png",
+								iconUrl: "../../_icons/markers/c14y_0.png",
 								iconSize: [15, 15]
 							}
 						}

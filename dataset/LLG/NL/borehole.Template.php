@@ -35,7 +35,7 @@ $template = '
                     <span>
                         <strong> on </strong>
                     </span>
-                    <span data-variable="drilldate" contenteditable="false">drilldate</span>
+                    <span data-variable="drilldate" v-dateformat="yyyy-mm-dd" contenteditable="false">drilldate</span>
                 </div>';
 
 if(!$iframe()) {

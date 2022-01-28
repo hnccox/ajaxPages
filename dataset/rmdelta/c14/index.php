@@ -47,7 +47,7 @@ $script = '
 $table = include('index.Table.php');
 
 // --- [ RENDER ] ---------------------------------
-$caption = '<h1>C14 Catalog</h1>';
+$caption = '';
 $text = $script.'<div class="row justify-content-md-center">
 			<div class="col-md-10 col-md-offset-1">
 				'.$table.'
@@ -56,7 +56,7 @@ $text = $script.'<div class="row justify-content-md-center">
 $mode = 'C14catalog';
 $return = false;
 $ns = e107::getRender();
-$ns->tablerender('', $text, $mode, $return);
+$ns->tablerender($caption, $text, $mode, $return);
 // ------------------------------------------------
 require_once(FOOTERF);
 exit;
