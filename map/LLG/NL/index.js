@@ -4,6 +4,9 @@ import { default as ajaxMap } from "/e107_plugins/ajaxModules/Components/Map/aja
 import { default as ajaxTable } from "/e107_plugins/ajaxModules/Components/Table/ajaxTables.js";
 import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Template/ajaxTemplates.js";
 
+import { exportDataAsXML } from "../js/LLG.js";
+
+
 (function () {
 
 	window["ajaxMaps"] = [];
@@ -148,9 +151,27 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 						}
 					},
 				},
+				constructor() { },
+				destructor() { },
+				methods: {
+					exportData: {
+
+					}
+				},
 				_controls: {
 					exportData: (map) => {
-						return L.control.exportdata({ position: 'topright', maxWidth: 50 }).addTo(map)
+						return L.control.exportdata({
+							position: 'topright',
+							maxWidth: 50,
+							formats: [
+								{
+									type: "XML",
+									icon: "bi bi-code-slash",
+									text: "",
+									layer: "",
+									method: (data) => { return exportDataAsXML(data) }
+								}],
+						}).addTo(map)
 					},
 				},
 				_mapCallback: {

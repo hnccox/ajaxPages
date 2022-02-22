@@ -20,14 +20,20 @@ $sqlParams['query'] = '{ "0": { "select": { "columns": { "0": "'.$sqlParams['col
 $tableParams = [];
 //$tableParams['caption'] = '';
 //$tableParams['columnNames'] = '';
-//$tableParams['preview'] = 3;
+$tableParams['preview'] = 20;
 //$tableParams['expanded'] = false;
 //$tableParams['href'] = true;
 //$tableParams['add'] = false;
 
 // ------------------------------------------------
 
-return ajaxTable($sqlParams, $tableParams);
+$tableProps = [];
+$tableProps['class'] = 'table table-hover';
+$tableProps['style'] = '';
+
+// ------------------------------------------------
+
+return ajaxTable($sqlParams, $tableParams, $tableProps);
 
 // ------------------------------------------------
 

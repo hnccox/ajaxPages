@@ -161,7 +161,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							maxClusterRadius: 40
 						},
 						templateParams: {
-							url: "https://data-dev.neotomadb.org/:uid"
+							url: "https://data.neotomadb.org/:uid"
 						},
 						parseResponse: function (response) {
 							const type = response.type;
@@ -199,6 +199,19 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							return { type, data, dataset, records, totalrecords };
 						},
 						getUID: function (value) {
+							//console.log('getting UID');
+							// console.log(Object.entries(value)[0][1]);
+							// let uid;
+							// let i = 0;
+							// for(i = 0; i < Object.entries(value)[5][1].length; i++) {
+							// 	if(Object.entries(value)[5][1][i]?.collectionunitid) {
+							// 		//console.log(Object.entries(value)[5][1][i].collectionunitid)
+							// 		uid = Object.entries(value)[5][1][i].collectionunitid;
+							// 		break;
+							// 	}
+							// }
+							// return uid;
+							//console.log(Object.entries(value)[5][1][0]?.collectionunitid)
 							return Object.entries(value)[0][1];
 						},
 						getLatLng: function (value) {
@@ -342,7 +355,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 						},
 						layerParams: {
 							addToMap: false,
-							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
+							url: "//pollen.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
 							db: "rmdelta",
 							table: "c14_geom",
 							columns: "labidnr,samplename,c14age,c14err,xco,yco,latitude,longitude",
@@ -409,7 +422,7 @@ import { default as ajaxTemplate } from "/e107_plugins/ajaxModules/Components/Te
 							disableClusteringAtZoom: 10
 						},
 						templateParams: {
-							url: "https://wikiwfs.geo.uu.nl/beta/dataset/rmdelta/c14/labidnr.php?labidnr=:uid"
+							url: "https://pollen.geo.uu.nl/beta/dataset/rmdelta/c14/labidnr.php?labidnr=:uid"
 						},
 						parseResponse: function (response) {
 							const type = response.type;

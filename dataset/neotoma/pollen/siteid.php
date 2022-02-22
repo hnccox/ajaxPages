@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 require_once($_SERVER['DOCUMENT_ROOT']."/class2.php");
 
 // --- [ API ] ------------------------------------
-$url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
+$url = "//pollen.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
 
 // --- [ JSON ] -----------------------------------
 if($_GET['format'] === 'json') {
