@@ -78,14 +78,14 @@ $table = include('index.templateTable.php');
 $page = '
 <div class="container-fluid" style="position: relative;">
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-4 px-0">
 			<div class="square" style="height: calc(100vh - 56px);">
 				'.$map.'
 				<nav style="display:none;"><ul class="nav nav-tabs" id="nav-tab"></ul></nav>
 				<div class="tab-content bg-white" id="nav-tabContent"></div>
 			</div>
 		</div>
-		<div class="col-md-8">
+		<div class="col-md-8 px-0">
 			<div class="container-ajaxTemplate" style="height: calc(100vh - 56px);">
 				'.$template.$table.'
 			</div>

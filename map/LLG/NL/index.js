@@ -46,14 +46,14 @@ import { exportDataAsXML } from "../js/LLG.js";
 							url: "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
 							db: "llg",
 							table: "llg_nl_geom",
-							columns: "borehole,longitude,latitude,xco,yco,drilldepth",
+							columns: "borehole,xco,yco,drilldepth",
 							offset: 0,
 							limit: 1000,
 							query: {
 								0: {
 									"select": {
 										"columns": {
-											0: "llg_nl_geom.borehole,llg_nl_geom.longitude,llg_nl_geom.latitude,llg_nl_geom.xy,llg_nl_geom.geom,xco,yco,drilldepth,active"
+											0: "llg_nl_geom.borehole,llg_nl_geom.longitude,llg_nl_geom.latitude,llg_nl_geom.xy,llg_nl_geom.geom,llg_nl_boreholeheader.name,llg_nl_boreholeheader.drilldate,llg_nl_boreholeheader.xco,llg_nl_boreholeheader.yco,llg_nl_boreholeheader.coordzone,llg_nl_boreholeheader.elevation,llg_nl_boreholeheader.drilldepth,llg_nl_boreholeheader.geom,llg_nl_boreholeheader.geol,llg_nl_boreholeheader.soil,llg_nl_boreholeheader.veget,llg_nl_boreholeheader.groundwaterstep,llg_nl_boreholeheader.extraremarks,llg_nl_boreholeheader.active"
 										},
 										"from": {
 											"table": "llg_nl_geom"
@@ -63,7 +63,7 @@ import { exportDataAsXML } from "../js/LLG.js";
 								1: {
 									"inner_join": {
 										"table": "llg_nl_boreholeheader",
-										//"as": "",
+										// "as": "h",
 										"on": {
 											"identifier": "llg_nl_geom.borehole",
 											"value": "llg_nl_boreholeheader.borehole"

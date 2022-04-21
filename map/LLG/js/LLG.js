@@ -1,5 +1,31 @@
+import { default as ajax } from "/e107_plugins/ajaxDBQuery/client/js/ajaxDBQuery.js";
+import { default as jsonSQL } from "/e107_plugins/jsonSQL/js/jsonSQL.js";
+
 export function exportDataAsXML(response) {
-    console.log("exportDataAsXML");
+
+    switch(response.data.table) {
+        case "llg_nl_geom":
+            var table = "llg_nl_boreholedata"
+            var llgtype = 0
+            break
+        case "llg_it_geom":
+            var table = "llg_it_boreholedata"
+            var llgtype = 2
+            break
+        default: var table = "llg_nl_boreholedata"
+                 var llgtype = 0
+    }
+
+    function parseResponse(response) {
+        const type = response.type;
+        const data = response.data;
+        const dataset = response.data.dataset;
+        const records = data.records;
+        const totalrecords = data.totalrecords;
+        return { type, data, dataset, records, totalrecords };
+    }
+
+    response = parseResponse(response)
 
     const obj = response;
     //const obj = self._overlayMaps[layer].parseResponse?.(response) || response;
@@ -11,23 +37,23 @@ export function exportDataAsXML(response) {
 
     let dataObj = new Object();
 
-    var el = {};
-    el.dataset = {};
+    // var el = {};
+    // el.dataset = {};
 
-    el.dataset.url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
-    el.dataset.db = "llg";
-    el.dataset.table = "llg_nl_boreholedata"; // TODO: This should be a variable..
-    el.dataset.columns = "startdepth,depth,texture,organicmatter,plantremains,color,oxired,gravelcontent,median,calcium,ferro,groundwater,sample,soillayer,stratigraphy,remarks";
-    el.dataset.where = "borehole=':uid'";
-    el.dataset.order_by = "startdepth";
-    el.dataset.direction = "ASC";
+    // el.dataset.url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
+    // el.dataset.db = "llg";
+    // el.dataset.table = "llg_nl_boreholedata"; // TODO: This should be a variable..
+    // el.dataset.columns = "startdepth,depth,texture,organicmatter,plantremains,color,oxired,gravelcontent,median,calcium,ferro,groundwater,sample,soillayer,stratigraphy,remarks";
+    // el.dataset.where = "borehole=':uid'";
+    // el.dataset.order_by = "startdepth";
+    // el.dataset.direction = "ASC";
 
     function asyncAJAX(prop) {
 
         return new Promise((resolve, reject) => {
             //let [k, v] = Object.entries(obj)[prop];
-            var k = Object.keys(obj)[prop];
-            var v = obj[Object.keys(obj)[prop]];
+            var k = Object.keys(dataset)[prop];
+            var v = dataset[Object.keys(dataset)[prop]];
             var index = v[Object.keys(v)[0]];
 
             dataObj[k] = {};
@@ -36,20 +62,59 @@ export function exportDataAsXML(response) {
 
             dataObj[k].boreholeheader = v;
 
-            el.dataset.where = "borehole='" + index + "'";
+            // el.dataset.where = "borehole='" + index + "'";
 
             let method = "GET";
+            // let sql = {
+            //     "url": self._overlayMaps[layer]?.layerParams.url || null,
+            //     "db": self._overlayMaps[layer]?.layerParams.db || null,
+            //     "query": self._overlayMaps[layer]?.layerParams.query
+            //     //"query": jsonSQL.query.replace(self._overlayMaps[layer]?.layerParams.query, [":xmin", ":xmax", ":ymin", ":ymax", ":lat", ":lng"], [xmin, xmax, ymin, ymax, lat, lng])
+            // }
             let sql = {
-                "url": self._overlayMaps[layer]?.layerParams.url || null,
-                "db": self._overlayMaps[layer]?.layerParams.db || null,
-                "query": self._overlayMaps[layer]?.layerParams.query
-                //"query": jsonSQL.query.replace(self._overlayMaps[layer]?.layerParams.query, [":xmin", ":xmax", ":ymin", ":ymax", ":lat", ":lng"], [xmin, xmax, ymin, ymax, lat, lng])
+                "url": "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php",
+                "db": "llg",
+                "query": {
+                    0: {
+                        "select": {
+                            "columns": {
+                                0: "startdepth,depth,texture,organicmatter,plantremains,color,oxired,gravelcontent,median,calcium,ferro,groundwater,sample,soillayer,stratigraphy,remarks"
+                            },
+                            "from": {
+                                "table": `${table}`
+                            }
+                        }
+                    },
+                    1: {
+                        "where": {
+                            0: {
+                                "identifier": "borehole",
+                                "value": index
+                            }
+                        }
+                    },
+                    2: {
+                        "order_by": {
+                            0: {
+                                "identifier": "startdepth",
+                                "direction": "ASC"
+                            }
+                        }
+                    }
+                }
             }
-            ajax(method, sql, (data) => {
-                let obj = JSON.parse(data);
-                if (obj.totalrecords == 0) { reject(); return; }
-                delete obj.totalrecords;
-                dataObj[k].boreholedata = obj;
+            ajax(method, sql, (response) => {
+
+                const obj = response;
+                //const obj = self._overlayMaps[layer].parseResponse?.(response) || response;
+                //const obj = this.parseResponse?.(response) || response;
+                const data = obj.data;
+                const dataset = data.dataset;
+                const records = data?.records || 0;
+                const totalrecords = data?.totalrecords || 0;
+
+                if (totalrecords == 0) { reject(); return; }
+                dataObj[k].boreholedata = dataset;
                 resolve(dataObj[k]);
             });
         })
@@ -155,6 +220,8 @@ export function exportDataAsXML(response) {
             Object.keys(obj).forEach(key => {
                 LLG2012Dataset.appendChild(XMLDocument.createTextNode("\n"))
                 var BoreholeHeader = XMLDocument.createElement("BoreholeHeader")
+                // console.log('BOREHOLEHEADER')
+                // console.log(obj[key].boreholeheader)
                 if (obj[key].boreholeheader.borehole) {
                     BoreholeHeader.appendChild(XMLDocument.createTextNode("\n\t"))
                     BoreholeHeader.appendChild(Borehole.cloneNode(true))
@@ -227,6 +294,8 @@ export function exportDataAsXML(response) {
                 }
 
                 Object.values(obj[key].boreholedata).forEach(value => {
+                    // console.log('BOREHOLEDATA')
+                    // console.log(value)
                     BoreholeHeader.appendChild(XMLDocument.createTextNode("\n\t"));
                     var BoreholeData = XMLDocument.createElement("BoreholeData")
                     if (obj[key].boreholeheader.borehole) {
@@ -260,6 +329,9 @@ export function exportDataAsXML(response) {
                         BoreholeData.lastElementChild.appendChild(XMLDocument.createTextNode(value.oxired))
                     }
                     if (value.gravelcontent) {
+                        if (value.gravelcontent === 0) {
+                            value.gravelcontent = ""
+                        }
                         BoreholeData.appendChild(GravelContent.cloneNode(true))
                         BoreholeData.lastElementChild.appendChild(XMLDocument.createTextNode(value.gravelcontent))
                     }
@@ -288,6 +360,9 @@ export function exportDataAsXML(response) {
                         BoreholeData.lastElementChild.appendChild(XMLDocument.createTextNode(value.soillayer))
                     }
                     if (value.stratigraphy) {
+                        if (value.stratigraphy === "XX") {
+                            value.stratigraphy = ""
+                        }
                         BoreholeData.appendChild(Stratigraphy.cloneNode(true))
                         BoreholeData.lastElementChild.appendChild(XMLDocument.createTextNode(value.stratigraphy))
                     }
@@ -304,16 +379,6 @@ export function exportDataAsXML(response) {
 
             });
 
-            var llgtype = 0;
-            // switch (ajaxTables[1].element.dataset.table) {
-            //     case "llg_nl_boreholedata":
-            //         llgtype = "0";
-            //         break;
-            //     case "llg_it_boreholedata":
-            //         llgtype = "2";
-            //         break;
-            //     default: llgtype = "0";
-            // }
             GroupIdentity.appendChild(XMLDocument.createTextNode("\n\t"))
             GroupIdentity.appendChild(Year)
             GroupIdentity.lastElementChild.appendChild(XMLDocument.createTextNode("9999"))

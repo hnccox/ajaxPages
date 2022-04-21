@@ -52,6 +52,8 @@ $tableParams['columnSortable'] = false;
 $tableParams['preview'] = false;
 $tableParams['expanded'] = true;
 $tableParams['href'] = false;
+$tableParams['totalrecords'] = false;
+$tableParams['add'] = false;
 $tableParams['events'] = ["mouseover", "mouseout", "mousedown", "mouseup", "click"];
 
 // $tableParams = [];
