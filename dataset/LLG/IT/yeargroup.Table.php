@@ -18,6 +18,7 @@ $sqlParams['offset'] = $table_offset;
 // ------------------------------------------------
 
 $tableParams = [];
+$tableParams['caption'] = "Yeargroup: ".filter_var($_GET['yeargroup'], FILTER_SANITIZE_NUMBER_INT);
 $tableParams['columnNames'] = "borehole,name,drilldate,xco,yco";
 $tableParams['columnSortable'] = true;
 $tableParams['preview'] = false;

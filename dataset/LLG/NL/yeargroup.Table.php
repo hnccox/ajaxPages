@@ -18,7 +18,7 @@ $sqlParams['query'] = $query;
 // ------------------------------------------------
 
 $tableParams = [];
-$tableParams['caption'] = "Yeargroup: {$_GET['yeargroup']}";
+$tableParams['caption'] = "Yeargroup: ".filter_var($_GET['yeargroup'], FILTER_SANITIZE_NUMBER_INT);
 $tableParams['columnNames'] = "borehole,name,drilldate,xco,yco";
 $tableParams['preview'] = null;
 $tableParams['expanded'] = true;

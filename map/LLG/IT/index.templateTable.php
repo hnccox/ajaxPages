@@ -15,10 +15,10 @@ $table_where_0_identifier = "borehole";
 $table_where_0_value = ":uid";
 $table_order_by_0_identifier = "startdepth";
 $table_order_by_0_direction = "ASC";
-$limit = $_GET['limit'] ?? null;
-$offset = $_GET['offset'] ?? null;
-$page = $_GET['page'] ?? 1;
-$offset = $_GET['offset'] ?? (($page - 1) * $_GET['limit']);
+$limit = filter_var($_GET['limit'], FILTER_SANITIZE_NUMBER_INT) ?? null;
+$offset = filter_var($_GET['offset'], FILTER_SANITIZE_NUMBER_INT) ?? null;
+$page = filter_var($_GET['page'], FILTER_SANITIZE_NUMBER_INT) ?? 1;
+$offset = filter_var($_GET['offset'], FILTER_SANITIZE_NUMBER_INT) ?? (($page - 1) * filter_var($_GET['limit'], FILTER_SANITIZE_NUMBER_INT));
 $table_query = '{ "0": { "select": { "columns": { "0": "'.$table_columns.'" }, "from": { "table": "'.$table_table.'" } } }, "1": { "where": { "0": { "identifier": "'.$table_where_0_identifier.'", "value": "'.$table_where_0_value.'" } } }, "2": { "order_by": { "0": { "identifier": "'.$table_order_by_0_identifier.'", "direction": "'.$table_order_by_0_direction.'" } } } }';
 
 // $sqlParams = [];
