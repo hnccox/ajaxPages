@@ -15,13 +15,13 @@ $template_db = "llg";
 $template_table = "llg_it_boreholeheader";
 $template_columns = "borehole,name,drilldate,xco,yco,coordzone,elevation,drilldepth,geom,geol,soil,veget,groundwaterstep,extraremarks";
 $template_where_0_identifier = "borehole";
-$template_where_0_value = filter_var($_GET[$template_where_0_identifier], FILTER_SANITIZE_NUMBER_INT);
+$template_where_0_value =  filter_var($_GET[$template_where_0_identifier], FILTER_SANITIZE_NUMBER_INT);
 $template_order_by_0_identifier = "borehole";
 $template_order_by_0_direction = "DESC";
-// $limit = $_GET['limit'] ?? 20;
-// $offset = $_GET['offset'] ?? 0;
-// $page = $_GET['page'] ?? 1;
-// $offset = $_GET['offset'] ?? (($page - 1) * $_GET['limit']);
+// $template_limit = $_GET['limit'] ?? 20;
+// $template_offset = $_GET['offset'] ?? 0;
+// $template_page = $_GET['page'] ?? 1;
+// $template_offset = $_GET['offset'] ?? (($page - 1) * $_GET['limit']);
 $template_query = '{ "0": { "select": { "columns": { "0": "'.$template_columns.'" }, "from": { "table": "'.$template_table.'" } } }, "1": { "where": { "0": { "identifier": "'.$template_where_0_identifier.'", "value": "'.$template_where_0_value.'" } } }, "2": { "order_by": { "0": { "identifier": "'.$template_order_by_0_identifier.'", "direction": "'.$template_order_by_0_direction.'" } } } }';
 // ------------------------------------------------
 $table_url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
@@ -30,6 +30,7 @@ $table_table = "llg_it_boreholedata";
 $table_columns = "startdepth,depth,texture,organicmatter,plantremains,color,oxired,gravelcontent,median,calcium,ferro,groundwater,sample,soillayer,stratigraphy,remarks";
 $table_where_0_identifier = "borehole";
 $table_where_0_value = filter_var($_GET[$table_where_0_identifier], FILTER_SANITIZE_NUMBER_INT);
+// $table_where_0_value = $_GET[$table_where_0_identifier];
 $table_order_by_0_identifier = "startdepth";
 $table_order_by_0_direction = "ASC";
 // $limit = $_GET['limit'] ?? null;
@@ -42,16 +43,16 @@ $table_query = '{ "0": { "select": { "columns": { "0": "'.$table_columns.'" }, "
 if($_GET['format'] === 'json') {
     
     $included = true;
-    
+
     header('Content-Type: application/json');
     
-    $_GET['db'] = json_encode($db);
-    $_GET['query'] = $templatequery;
+    $_GET['db'] = json_encode($template_db);
+    $_GET['query'] = $template_query;
     require($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/server/API.php");
     $jsonArray[] = $query->response;
     
-    $_GET['db'] = json_encode($db);
-    $_GET['query'] = $tablequery;
+    $_GET['db'] = json_encode($table_db);
+    $_GET['query'] = $table_query;
     require($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/server/API.php");
     $jsonArray[] = $query->response;
 
@@ -81,7 +82,7 @@ if(!$_GET['borehole']) {
     $caption = "Something went wrong";
     $text = "Click <a href='index.php'>here</a> to return to the index";
 
-    $mode = "LLGboreholedata";
+    $mode = "LLGborehole";
     $return = false;
     $ns = e107::getRender();
     $ns->tablerender($caption, $text, $mode, $return);
@@ -146,7 +147,7 @@ $table = include('borehole.Table.php');
 
 // --- [ RENDER ] ---------------------------------
 $caption = '';
-$text = '<div class="row justify-content-md-center p-0 m-0" id="borehole">'.$script.$template.$table.'</div>';
+$text = '<div class="row justify-content-md-center p-0 m-0" id="borehole">'.$script.$template.$table.$footerscript.'</div>';
 $mode = 'LLGboreholedate';
 $return = false;
 $ns = e107::getRender();

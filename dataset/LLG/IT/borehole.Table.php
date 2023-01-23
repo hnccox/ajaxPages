@@ -18,7 +18,7 @@ $sqlParams['offset'] = $table_offset;
 // ------------------------------------------------
 
 $tableParams = [];
-$tableParams['parent'] = "Templates[0]";
+$tableParams['parent'] = "";
 $tableParams['columnNames'] = "Top,Depth,Texture,Org,Plr,Color,RedOx,Gravel,M50,Ca,Fe,GW,Sample,Paleosoil,Strat,Remarks";
 $tableParams['columnSortable'] = false;
 $tableParams['preview'] = false;
@@ -28,7 +28,13 @@ $tableParams['add'] = false;
 
 // ------------------------------------------------
 
-return ajaxTable($sqlParams, $tableParams);
+$tableProps = [];
+$tableProps['type'] = 'table-scrollable';
+$tableProps['height'] = '560px';
+
+// ------------------------------------------------
+
+return ajaxTable($sqlParams, $tableParams, $tableProps);
 
 // ------------------------------------------------
 

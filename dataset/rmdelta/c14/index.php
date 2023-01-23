@@ -12,7 +12,7 @@ $db = "rmdelta";
 $table = "c14_cat";
 $columns = "labidnr,samplename,c14age,c14err,marinecurve2bused,inuseforchannelage,inuseforgwtinterpol,inuseforldem,inuseformslrise,inuseforvegetationhistory,inuseforlandsubsidence,inuseforcompactquant";
 $where_0_identifier = "labidnr";
-$where_0_value = $_GET[$where_0_identifier];
+$where_0_value =  filter_var($_GET[$where_0_identifier], FILTER_SANITIZE_NUMBER_INT);
 $order_by_0_identifier = $where_0_identifier;
 $order_by_0_direction = "ASC";
 $limit = $_GET['limit'] ?? 100;
@@ -28,9 +28,9 @@ if($_GET['format'] === 'json') {
 
     $_GET['db'] = json_encode($db);
     $_GET['query'] = $query;
-    require($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/server/API.php");
+    
+    require_once($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/server/API.php");
     $jsonArray[] = $query->response;
-
     echo json_encode($jsonArray, true);
     exit;
 }

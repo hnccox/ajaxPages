@@ -77,7 +77,9 @@ $db = "rmdelta";
 $table = "cb_cat_clone";
 $columns = "*";
 $inner_join = "";
-$where = "id='{$_GET['id']}'";
+$where_identifier = "id";
+$where_value = filter_var($_GET[$where_identifier], FILTER_SANITIZE_STRING);
+$where = "id='{$where_value}'";
 $limit = 1;
 $offset = 0;
 $form = '

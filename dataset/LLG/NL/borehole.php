@@ -15,7 +15,7 @@ $template_db = "llg";
 $template_table = "llg_nl_boreholeheader";
 $template_columns = "borehole,name,drilldate,xco,yco,coordzone,elevation,drilldepth,geom,geol,soil,veget,groundwaterstep,extraremarks";
 $template_where_0_identifier = "borehole";
-$template_where_0_value = filter_var($_GET[$template_where_0_identifier], FILTER_SANITIZE_NUMBER_INT);
+$template_where_0_value =  filter_var($_GET[$template_where_0_identifier], FILTER_SANITIZE_NUMBER_INT);
 $template_order_by_0_identifier = "borehole";
 $template_order_by_0_direction = "DESC";
 // $template_limit = $_GET['limit'] ?? 20;
@@ -59,6 +59,7 @@ if($_GET['format'] === 'json') {
     echo json_encode($jsonArray, true);
     exit;
 }
+
 
 // --- [ HEADER ] ---------------------------------
 $iframe = function() {

@@ -10,23 +10,25 @@ e107::css(url, 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css');
 e107::js(url, 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js');
 
 // --- [ API ] ------------------------------------
-$url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
-$db = "rmdelta";
-($_GET['releasecandidate'] == "true") ? $table = "c14_cat_rc" : $table = "c14_cat";
-$columns = "*";
-$where_0_identifier = "labidnr";
-$where_0_value = $_GET[$where_0_identifier];
-$limit = 1;
-$offset = 0;
-$query = '{ "0": { "select": { "columns": { "0": "'.$columns.'" }, "from": { "table": "'.$table.'" } } }, "1": { "where": { "0": { "identifier": "'.$where_0_identifier.'", "value": "'.$where_0_value.'" } } }, "2": { "limit": "'.$limit.'" }, "3": { "offset": "'.$offset.'" } }';
+$template_url = "//wikiwfs.geo.uu.nl/e107_plugins/ajaxDBQuery/server/API.php";
+$template_db = "rmdelta";
+($_GET['releasecandidate'] == "true") ? $template_table = "c14_cat_rc" : $template_table = "c14_cat";
+$template_columns = "*";
+$template_where_0_identifier = "labidnr";
+$template_where_0_value = filter_var($_GET[$template_where_0_identifier], FILTER_SANITIZE_STRING);
+$template_limit = 1;
+$template_offset = 0;
+$template_query = '{ "0": { "select": { "columns": { "0": "'.$template_columns.'" }, "from": { "table": "'.$template_table.'" } } }, "1": { "where": { "0": { "identifier": "'.$template_where_0_identifier.'", "value": "'.$template_where_0_value.'" } } }, "2": { "limit": "'.$template_limit.'" }, "3": { "offset": "'.$template_offset.'" } }';
 
 // --- [ JSON ] -----------------------------------
 if($_GET['format'] === 'json') {
 
     header('Content-Type: application/json');
-    $_GET['db'] = json_encode($db);
-    $_GET['query'] = $query;
+    $_GET['db'] = json_encode($template_db);
+    $_GET['query'] = $template_query;
     require($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/server/API.php");
+    $jsonArray[] = $query->response;
+    echo $jsonArray;    
     exit;
 
 }
@@ -48,7 +50,7 @@ if(!$iframe()) {
     e107::css(url, 'https://cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css');  
 }
 
-if(!$_GET[$where_0_identifier]) {
+if(!$_GET[$template_where_0_identifier]) {
 
     $caption = "Something went wrong";
     $text = "Click <a href='index.php'>here</a> to return to the index";

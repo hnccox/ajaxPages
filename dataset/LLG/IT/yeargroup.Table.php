@@ -7,21 +7,20 @@ require_once($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxModules/Components/Tab
 // ------------------------------------------------
 
 $sqlParams = [];
-$sqlParams['url'] = $table_url;
-$sqlParams['db'] = $table_db;
-$sqlParams['table'] = $table_table;
-$sqlParams['columns'] = $table_columns;
-$sqlParams['query'] = $table_query;
-$sqlParams['limit'] = $table_limit;
-$sqlParams['offset'] = $table_offset;
+$sqlParams['url'] = $url;
+$sqlParams['db'] = $db;
+$sqlParams['table'] = $table;
+$sqlParams['columns'] = $columns;
+$sqlParams['limit'] = $limit;
+$sqlParams['offset'] = $offset;
+$sqlParams['query'] = $query;
 
 // ------------------------------------------------
 
 $tableParams = [];
 $tableParams['caption'] = "Yeargroup: ".filter_var($_GET['yeargroup'], FILTER_SANITIZE_NUMBER_INT);
 $tableParams['columnNames'] = "borehole,name,drilldate,xco,yco";
-$tableParams['columnSortable'] = true;
-$tableParams['preview'] = false;
+$tableParams['preview'] = null;
 $tableParams['expanded'] = true;
 $tableParams['href'] = true;
 $tableParams['add'] = false;

@@ -42,16 +42,16 @@ if(!$iframe()) {
 $template .= '
                 <div class="btn-group btn-group-sm position-absolute top-0 end-0" role="group" aria-label="">
                     <a href="index.php" type="button" class="btn btn-primary" id="returnIndex">☰</a>
-                    <a class="btn btn-primary" href="borehole.php?borehole='.$_GET["borehole"].'&amp;format=json">
+                    <a class="btn btn-primary" href="borehole.php?borehole='.$template_where_0_value.'&amp;format=json">
                         <span>{...}</span>
                     </a>
                     <form id="LLGborehole" action="borehole.php" method="GET" target="_self">
-                        <input type="hidden" name="borehole" value="'.$_GET["borehole"].'" />
+                        <input type="hidden" name="borehole" value="'.$template_where_0_value.'" />
                         <input type="hidden" name="action" value="edit" />
                     </form>
                     <button type="submit" class="btn btn-primary" form="LLGborehole"><span class="fa fa-edit"></span></button>
                     <form id="formLLGborehole" action="form.php" method="GET" target="_self">
-                        <input type="hidden" name="borehole" value="'.$_GET["borehole"].'" />
+                        <input type="hidden" name="borehole" value="'.$template_where_0_value.'" />
                         <input type="hidden" name="action" value="edit" />
                     </form>
                     <button type="submit" class="btn btn-primary" form="formLLGborehole"><span class="fa fa-list-alt"></span></button>

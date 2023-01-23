@@ -12,14 +12,15 @@ $iframe = function() {
 };
 
 // ------------------------------------------------
-
+            
 $template = '
-<div data-ajax="template"
-    data-url=\''.$url.'\'
-    data-db=\''.$db.'\'
-    data-table=\''.$table.'\'
-    data-columns=\''.$columns.'\'
-    data-query=\''.$query.'\'>
+<div 
+    data-ajax="template"
+    data-url=\''.$template_url.'\'
+    data-db=\''.$template_db.'\'
+    data-table=\''.$template_table.'\'
+    data-columns=\''.$template_columns.'\'
+    data-query=\''.$template_query.'\'>
 
 <!-- Release candidate alerts -->
 <div class="row">
@@ -40,17 +41,17 @@ $template = '
         <div class="row">
             <div class="btn-group" role="group" aria-label="">
                 <a href="index.php" type="button" class="btn btn-primary" id="CBindex">☰</a>
-                <a class="btn btn-primary" href="id.php?id='.$_GET["id"].'&format=json">
+                <a class="btn btn-primary" href="id.php?id='.$template_where_0_value.'&amp;format=json">
                     <span class="badge badge-light" data-variable="id">ID</span> <span data-variable="name">NAME</span>
                 </a>
                 <button type="submit" class="btn btn-primary" form="CBid"><span class="fa fa-edit"></span></button>
                 <button type="submit" class="btn btn-primary" form="formCBid"><span class="fa fa-list-alt"></span></button>
                 <form id="CBid" action="id.php" method="GET" target="_self">
-                    <input type="hidden" name="id" value="'.$_GET["id"].'" />
+                    <input type="hidden" name="id" value="'.$template_where_0_value.'" />
                     <input type="hidden" name="action" value="update" />
                 </form>
                 <form id="formCBid" action="form.php" method="GET" target="_self">
-                    <input type="hidden" name="id" value="'.$_GET["id"].'" />
+                    <input type="hidden" name="id" value="'.$template_where_0_value.'" />
                     <input type="hidden" name="action" value="update" />
                 </form>
             </div>

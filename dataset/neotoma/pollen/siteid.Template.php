@@ -8,7 +8,7 @@ $templateParams['parent'] = "";
 // ------------------------------------------------
 
 $template = '
-<iframe src="https://data-dev.neotomadb.org/'.$_GET["siteid"].'" width="100%" height="100%" title="siteid"></iframe>
+<iframe src="https://data-dev.neotomadb.org/'.filter_var($_GET["siteid"], FILTER_SANITIZE_NUMBER_INT).'" width="100%" height="100%" title="siteid"></iframe>
 ';
 
 // ------------------------------------------------

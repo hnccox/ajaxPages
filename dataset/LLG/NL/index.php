@@ -30,6 +30,8 @@ if($_GET['format'] === 'json') {
     $_GET['query'] = $query;
     
     require_once($_SERVER['DOCUMENT_ROOT']."/e107_plugins/ajaxDBQuery/server/API.php");
+    $jsonArray[] = $query->response;
+    echo json_encode($jsonArray);
     exit;
 }
 
